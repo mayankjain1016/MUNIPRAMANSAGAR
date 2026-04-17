@@ -1,8 +1,19 @@
+import backgroundImg from "../assets/backgroundimg1.jpeg";
+
 export default function BookBanner() {
   return (
     <div className="book-banner">
       <div className="book-banner-cover">
-        <span style={{color:"#f5c842",fontSize:"20px"}}>📖</span>
+        <img 
+          src={backgroundImg} 
+          alt="bhavna yog" 
+          style={{
+            width:"100%",
+            height:"100%",
+            objectFit:"cover",
+            borderRadius:"6px"
+          }}
+        />
       </div>
       <div className="book-banner-text">
         <p className="book-title">भावना योग -<br/>फील टू हील</p>

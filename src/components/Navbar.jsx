@@ -1,15 +1,22 @@
 import { useState } from "react";
+import logo from "../assets/Page.jpeg";
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <nav className="navbar">
       <div className="navbar-inner">
-        <div className="navbar-logo">
-          <div style={{width:40,height:40,borderRadius:"50%",background:"#5a3008",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-            <span style={{color:"white",fontSize:"14px"}}>🕉</span>
-          </div>
-          <span className="navbar-title">मुनि श्री प्रमाण सागर जी</span>
-        </div>
+        <img 
+          src={logo} 
+          alt="logo" 
+          style={{
+            width:280,
+            height:280,
+            objectFit:"contain",
+            flexShrink:0,
+            margin:"0 8px 0 0"
+          }}
+        />
         <button className="navbar-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
           <span/><span/><span/>
         </button>

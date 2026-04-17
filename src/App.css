@@ -39,7 +39,7 @@ body { font-family: 'Noto Sans Devanagari', sans-serif; background: #e8e0d5; }
   .shanka-body { padding: 16px 20px 20px; }
   .shanka-input { font-size: 15px; }
   
-  .hero-slider { margin: 12px 20px 20px; min-height: 350px; }
+  .hero-slider { margin: 12px 20px 20px; }
   .slide-card { padding: 28px; min-height: 320px; }
   .slide-event-name { font-size: 42px; }
   .slide-purple-jain { font-size: 36px; }
@@ -79,7 +79,7 @@ body { font-family: 'Noto Sans Devanagari', sans-serif; background: #e8e0d5; }
   .shanka-suggestions { font-size: 14px; gap: 12px; }
   .shanka-tag { font-size: 14px; }
   
-  .hero-slider { margin: 16px 24px 24px; min-height: 400px; }
+  .hero-slider { margin: 16px 24px 24px; }
   .slide-card { padding: 32px; min-height: 360px; }
   .slide-event-name { font-size: 48px; }
   .slide-event-title { font-size: 26px; }
@@ -92,7 +92,7 @@ body { font-family: 'Noto Sans Devanagari', sans-serif; background: #e8e0d5; }
   
   .quicklinks-divider { padding: 16px 0; }
   .quicklinks-star { width: 50px; height: 50px; font-size: 20px; }
-  .quicklinks-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 24px 24px; }
+  .quicklinks-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 0 24px 24px; }
   .quicklink-card { padding: 32px 20px; border-radius: 16px; }
   .quicklink-label { font-size: 17px; }
   
@@ -167,7 +167,7 @@ body { font-family: 'Noto Sans Devanagari', sans-serif; background: #e8e0d5; }
 .shanka-tag { background: none; border: none; color: var(--brown-dark); font-weight: 600; cursor: pointer; font-size: 13px; font-family: 'Noto Sans Devanagari', sans-serif; text-decoration: underline; }
 
 /* HERO SLIDER */
-.hero-slider { position: relative; margin: 8px 16px 16px; border-radius: 12px; overflow: hidden; min-height: 300px; }
+.hero-slider { position: relative; margin: 8px 16px 16px; border-radius: 12px; overflow: hidden; }
 .slide-card { padding: 20px; min-height: 280px; border-radius: 12px; }
 .slide-maroon { background: linear-gradient(160deg, #7a0a28 0%, #4a0818 60%, #2a0510 100%); color: white; }
 .slide-mangal { color: var(--gold-light); font-size: 13px; }
