@@ -12,20 +12,15 @@ const slides = [
 export default function HeroSlider() {
   const [cur, setCur] = useState(0);
   return (
-    <div className="hero-slider">
-      <img 
-        src={slides[cur].image} 
-        alt={`slider ${cur + 1}`}
-        style={{
-          width: "100%",
-          display: "block"
-        }}
-      />
-      <button className="slider-btn slider-btn-left" onClick={() => setCur((cur-1+slides.length)%slides.length)}>‹</button>
-      <button className="slider-btn slider-btn-right" onClick={() => setCur((cur+1)%slides.length)}>›</button>
-      <div className="slider-dots">
-        {slides.map((_,i) => <span key={i} className={`slider-dot${i===cur?" active":""}`} onClick={() => setCur(i)}/>)}
+    <section className="hero-section">
+      <div className="hero-slider">
+        <img src={slides[cur].image} alt={`Slide ${cur + 1}`} className="hero-img"/>
+        <button className="hero-btn hero-btn-left" onClick={() => setCur((cur-1+slides.length)%slides.length)} aria-label="Previous">‹</button>
+        <button className="hero-btn hero-btn-right" onClick={() => setCur((cur+1)%slides.length)} aria-label="Next">›</button>
+        <div className="hero-dots">
+          {slides.map((_,i) => <span key={i} className={`hero-dot${i===cur?" active":""}`} onClick={() => setCur(i)}/>)}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
