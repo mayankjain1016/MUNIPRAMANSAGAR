@@ -1,23 +1,167 @@
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+
+import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+
 const shankas = [
-  "क्रोध से मुक्ति कैसे पाएँ?","निर्णय कैसे लें?",
+  "क्रोध से मुक्ति कैसे पाएँ?",
+  "निर्णय कैसे लें?",
   "युवा वर्ग ब्रांडेड सामान को पाने की दौड़ और चकाचौंध से कैसे बचें?",
   "मानसिक अशांति कैसे दूर करें?",
   "क्या निराशा और लाचारी में किया गया परिवर्तन स्थायी होता है?",
   "संयम कैसे रखें?",
 ];
+
 export default function ShankaSamadhan() {
   return (
-    <div className="shanka-samadhan-section">
-      <button className="section-header-btn brown-btn">चुनिन्दा शंका समाधान</button>
-      {shankas.map(q => (
-        <div key={q} className="shanka-item">
-          <p className="shanka-question">{q}</p>
-          <button className="read-more-btn">READ MORE</button>
-        </div>
-      ))}
-      <div style={{textAlign:"right",paddingTop:8}}>
-        <button className="view-more-btn">शंका समाधान केटेगरी से देखें...</button>
-      </div>
-    </div>
+    <Box component="section" sx={{ width: "100%", py: { xs: 6, md: 8 }, backgroundColor: "#FAFAFA" }}>
+      
+      {/* 1. Elegant Spiritual Divider */}
+      <Box sx={{ mb: 4, px: 2 }}>
+        <Divider sx={{ "&::before, &::after": { borderColor: "rgba(230, 81, 0, 0.2)" } }}>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", color: "#E65100", opacity: 0.7 }}>
+            <Brightness7Icon sx={{ fontSize: "24px" }} />
+          </Box>
+        </Divider>
+      </Box>
+
+      {/* 2. Section Header Container */}
+      <Box sx={{ maxWidth: "800px", mx: "auto", px: { xs: 2, sm: 4 }, mb: 5, textAlign: "center" }}>
+        <Box 
+          sx={{ 
+            display: "inline-flex",
+            alignItems: "center",
+            backgroundColor: "#FFF3E0", 
+            borderRadius: "50px", 
+            px: 3,
+            py: 1.5,
+            mb: 2,
+            border: "1px solid rgba(230, 81, 0, 0.15)",
+            boxShadow: "0 4px 12px rgba(230, 81, 0, 0.05)"
+          }}
+        >
+          <ForumOutlinedIcon sx={{ color: "#E65100", mr: 1.5 }} />
+          <Typography 
+            variant="h5" 
+            component="h2" 
+            sx={{ 
+              fontWeight: 700, 
+              color: "#E65100", // Saffron spiritual accent
+              fontFamily: "system-ui, -apple-system, sans-serif",
+            }}
+          >
+            चुनिन्दा शंका समाधान
+          </Typography>
+        </Box>
+        <Typography variant="body1" sx={{ color: "#757575" }}>
+          जीवन की उलझनों और आध्यात्मिक जिज्ञासाओं के सटीक उत्तर।
+        </Typography>
+      </Box>
+
+      {/* 3. The Interactive Questions List */}
+      <Box sx={{ maxWidth: "800px", mx: "auto", px: { xs: 2, sm: 4 } }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 4 }}>
+          {shankas.map((q, index) => (
+            <Paper
+              key={index}
+              elevation={0}
+              component="a" // Makes the entire paper a clickable link
+              href={`#shanka-${index}`} 
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                p: { xs: 2.5, sm: 3 },
+                borderRadius: "16px",
+                backgroundColor: "#ffffff",
+                border: "1px solid rgba(0,0,0,0.04)",
+                textDecoration: "none",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                "&:hover": {
+                  transform: "translateX(8px)", // Slides slightly to the right
+                  backgroundColor: "#FFF8E1", // Soft warm highlight
+                  borderColor: "rgba(230, 81, 0, 0.2)",
+                  boxShadow: "0 8px 24px rgba(230, 81, 0, 0.08)",
+                  // Animates the icon inside the card on hover
+                  "& .arrow-icon": {
+                    color: "#E65100",
+                    transform: "translateX(4px)"
+                  },
+                  "& .question-text": {
+                    color: "#E65100"
+                  }
+                }
+              }}
+            >
+              <Typography 
+                className="question-text"
+                variant="h6" 
+                sx={{ 
+                  fontWeight: 500, 
+                  color: "#333333",
+                  fontSize: { xs: "1.05rem", sm: "1.15rem" },
+                  lineHeight: 1.5,
+                  pr: 2, // Padding right so text doesn't hit the arrow
+                  transition: "color 0.3s ease"
+                }}
+              >
+                {q}
+              </Typography>
+
+              {/* The "Read More" Arrow */}
+              <Box 
+                sx={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  flexShrink: 0,
+                  color: "#BDBDBD" // Starts grey, turns saffron on hover
+                }}
+              >
+                <Typography 
+                  sx={{ 
+                    display: { xs: "none", sm: "block" }, // Hide "Read More" text on mobile to save space
+                    fontSize: "0.85rem", 
+                    fontWeight: 600, 
+                    mr: 1,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px"
+                  }}
+                >
+                  Read
+                </Typography>
+                <ArrowForwardIosIcon className="arrow-icon" sx={{ fontSize: "16px", transition: "all 0.3s ease" }} />
+              </Box>
+            </Paper>
+          ))}
+        </Box>
+
+        {/* 4. Footer Action */}
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button 
+            variant="text" 
+            endIcon={<AutoStoriesOutlinedIcon />}
+            sx={{ 
+              color: "#5D4037", // A deep earthy brown for secondary actions
+              fontWeight: 600,
+              fontSize: "1rem",
+              textTransform: "none",
+              "&:hover": {
+                backgroundColor: "rgba(93, 64, 55, 0.05)",
+              }
+            }}
+          >
+            सभी शंका समाधान देखें...
+          </Button>
+        </Box>
+      </Box>
+
+    </Box>
   );
 }

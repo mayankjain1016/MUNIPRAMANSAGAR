@@ -11,7 +11,7 @@ import Subscribe from "../components/Subscribe";
 export default function HomePage() {
   return (
     <main>
-      <BookBanner />
+      {/* <BookBanner /> */}
       <ShankhaSearch />
       <HeroSlider />
       <QuickLinks />
