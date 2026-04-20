@@ -9,9 +9,9 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutlined";
 
 // Assuming these are your local paths
-import sliderimg1 from "../assets/sliderimg1.jpeg";
-import sliderimg2 from "../assets/sliderimg2.jpeg";
-import sliderimg3 from "../assets/sliderimg3.jpeg";
+import sliderimg1 from "../sliderimg1.jpeg";
+import sliderimg2 from "../sliderimg2.jpeg";
+import sliderimg3 from "../sliderimg3.jpeg";
 
 // Upgraded data structure to include content for the left pane
 const slides = [
@@ -19,7 +19,7 @@ const slides = [
     key: "s1", 
     image: sliderimg1, 
     title: "प्रवचन सुधा", 
-    subtitle: "मुनि श्री प्रमाण सागर जी के दिव्य प्रवचन सुनें और अपने जीवन को एक नई एवं सकारात्मक दिशा दें।" 
+    subtitle: "मुनि श्री निर्भय सागर जी के दिव्य प्रवचन सुनें और अपने जीवन को एक नई एवं सकारात्मक दिशा दें।" 
   },
   { 
     key: "s2", 

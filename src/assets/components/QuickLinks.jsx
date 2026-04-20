@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -23,6 +24,14 @@ const QUICK_LINKS = [
 ];
 
 export default function QuickLinks() {
+  const navigate = useNavigate();
+
+  const handleClick = (label) => {
+    if (label === "प्रवचन") {
+      navigate("/pravachan");
+    }
+  };
+
   return (
     <Box component="section" sx={{ width: "100%", py: { xs: 4, md: 6 } }}>
       
@@ -69,8 +78,7 @@ export default function QuickLinks() {
         {QUICK_LINKS.map((item) => (
           <ButtonBase
             key={item.label}
-            component="a" // Makes it semantically a link if you add an href
-            href={`#${item.label}`}
+            onClick={() => handleClick(item.label)}
             sx={{
               display: "flex",
               flexDirection: "column",

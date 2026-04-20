@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Divider from "@mui/material/Divider";
-import logo from "../assets/Page.jpeg";
+import logo from "../Nirbhaylogo.jpeg";
 
 // MUI Icons
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -54,8 +54,13 @@ export default function Footer() {
             <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
               <img 
                 src={logo} 
-                alt="Muni Praman Sagar" 
-                style={{ height: "45px", width: "auto" }} 
+                alt="Nirbhaya Logo" 
+                style={{ 
+                  height: "50px", 
+                  width: "50px", 
+                  objectFit: "cover", 
+                  borderRadius: "50%" 
+                }} 
               />
             </Box>
             <Typography 
@@ -66,7 +71,7 @@ export default function Footer() {
                 fontSize: "0.95rem"
               }}
             >
-              जिस प्रकार से सूर्य की किरणों से जगत का अन्धकार मिट जाता है, ऐसे ही मुनि श्री 108 प्रमाण सागर जी सिद्धांतों में छुपे वैज्ञानिक तथ्यों को अपनी सरल वाणी से शंका समाधान, प्रवचनों और साहित्य से समस्त दुनिया के जीवों का मार्ग दर्शन करते हैं।
+              जिस प्रकार से सूर्य की किरणों से जगत का अन्धकार मिट जाता है, ऐसे ही मुनि श्री 108 निर्भय सागर जी सिद्धांतों में छुपे वैज्ञानिक तथ्यों को अपनी सरल वाणी से शंका समाधान, प्रवचनों और साहित्य से समस्त दुनिया के जीवों का मार्ग दर्शन करते हैं।
             </Typography>
           </Grid>
 

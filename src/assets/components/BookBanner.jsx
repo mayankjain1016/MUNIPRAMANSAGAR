@@ -7,7 +7,7 @@ import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"; // Sparkle icon for the "New" badge
 
 // Assuming this is your local path
-import backgroundImg from "../assets/backgroundimg1.jpeg";
+import backgroundImg from "../backgroundimg1.jpeg";
 
 export default function BookBanner() {
   return (

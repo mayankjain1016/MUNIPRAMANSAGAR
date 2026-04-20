@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,19 +9,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import logo from "../assets/Page.jpeg";
+import Typography from "@mui/material/Typography";
+import logo from "../Nirbhaylogo.jpeg";
 
 const NAV_LINKS = [
-  { label: "प्रवचन", href: "#pravachan" },
-  { label: "शंका समाधान", href: "#shanka-samadhan" },
-  { label: "भावना योग", href: "#bhavna-yog" },
-  { label: "गुणायतन", href: "#gunayatan" },
-  { label: "पाठशाला", href: "#pathshala" },
-  { label: "कहानियाँ", href: "#kahaniyan" }
+  { label: "Home Section", href: "/" },
+  { label: "Biography", href: "#biography" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "News Media", href: "#news-media" },
+  { label: "Event Gallery", href: "#event-gallery" }
 ];
 
 export default function Navbar() {
-  // MUI uses an HTML element reference to anchor the dropdown menu
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -29,6 +30,13 @@ export default function Navbar() {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleNavClick = (href) => {
+    handleCloseNavMenu();
+    if (href.startsWith("/")) {
+      navigate(href);
+    }
   };
 
   return (
@@ -46,13 +54,29 @@ export default function Navbar() {
           {/* 1. Logo Area */}
           <a 
             href="/" 
-            style={{ display: "flex", alignItems: "center", textDecoration: "none" }}
+            style={{ display: "flex", alignItems: "center", textDecoration: "none", gap: "12px" }}
           >
             <img 
               src={logo} 
-              alt="Muni Praman Sagar" 
-              style={{ height: "45px", width: "auto" }} 
+              alt="Nirbhaya Logo" 
+              style={{ 
+                height: "50px", 
+                width: "50px", 
+                objectFit: "cover", 
+                borderRadius: "50%" 
+              }} 
             />
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: "#333333", 
+                fontWeight: 600, 
+                fontSize: "1rem",
+                fontFamily: "system-ui, -apple-system, sans-serif"
+              }}
+            >
+              आचार्य श्री निर्भय सागर जी
+            </Typography>
           </a>
 
           {/* 2. Mobile Menu (Hamburger & Dropdown) */}
@@ -79,16 +103,24 @@ export default function Navbar() {
               sx={{ display: { xs: "block", md: "none" } }}
             >
               {NAV_LINKS.map((link) => (
-                <MenuItem key={link.label} onClick={handleCloseNavMenu}>
+                <MenuItem key={link.label} onClick={() => handleNavClick(link.href)}>
                   <a 
-                    href={link.href} 
+                    href={link.href.startsWith("/") ? undefined : link.href}
+                    onClick={(e) => {
+                      if (link.href.startsWith("/")) {
+                        e.preventDefault();
+                      }
+                    }}
                     style={{ 
                       textDecoration: "none", 
                       color: "inherit", 
                       width: "100%", 
                       display: "block",
-                      padding: "4px 16px"
+                      padding: "4px 16px",
+                      transition: "color 0.3s ease"
                     }}
+                    onMouseEnter={(e) => e.target.style.color = "#D2691E"}
+                    onMouseLeave={(e) => e.target.style.color = "inherit"}
                   >
                     {link.label}
                   </a>
@@ -103,14 +135,17 @@ export default function Navbar() {
             {NAV_LINKS.map((link) => (
               <Button
                 key={link.label}
-                href={link.href}
-                onClick={handleCloseNavMenu}
-                style={{ 
+                onClick={() => handleNavClick(link.href)}
+                sx={{ 
                   color: "#555555", 
                   display: "block", 
                   fontSize: "16px", 
-                  textTransform: "none", // Prevents MUI from making all text uppercase
-                  fontWeight: 500
+                  textTransform: "none",
+                  fontWeight: 500,
+                  "&:hover": {
+                    color: "#D2691E",
+                    backgroundColor: "transparent"
+                  }
                 }}
               >
                 {link.label}

@@ -10,15 +10,17 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 
-// Upgraded data structure to use actual image URLs (standard 16:9 ratio for video thumbnails)
+// Upgraded data structure with actual YouTube video links
 const vids = [
   { 
     title: "सोमशर्म से मुनि बनने की कहानी | Jain Pathshala by Pramanik Samooh", 
-    img: "https://via.placeholder.com/640x360/3E2723/FFECB3?text=Story+Thumbnail" // Placeholder for actual YT thumbnail
+    videoId: "41qcbxa1yDU",
+    url: "https://youtu.be/41qcbxa1yDU?si=XYOBivF_CFfgbUM5"
   },
   { 
     title: "महिला सशक्तिकरण का अर्थ क्या है? | Best of Shanka Samadhan", 
-    img: "https://via.placeholder.com/640x360/1A237E/E8EAF6?text=Shanka+Samadhan" 
+    videoId: "tAyDxsBAHjY",
+    url: "https://youtu.be/tAyDxsBAHjY?si=3P3tTQVrse8n0aZW"
   },
 ];
 
@@ -37,32 +39,6 @@ export default function TrendingVideos() {
 
       {/* 2. Header Section */}
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mb: 6 }}>
-        <Box 
-          sx={{ 
-            backgroundColor: "#FFF3E0", 
-            borderRadius: "50%", 
-            p: 2, 
-            mb: 2,
-            boxShadow: "0 4px 12px rgba(230, 81, 0, 0.1)"
-          }}
-        >
-          <OndemandVideoIcon sx={{ fontSize: "36px", color: "#E65100" }} />
-        </Box>
-        <Typography 
-          variant="h4" 
-          component="h2" 
-          sx={{ 
-            fontWeight: 800, 
-            color: "#333333",
-            fontFamily: "system-ui, -apple-system, sans-serif",
-            letterSpacing: "-0.5px"
-          }}
-        >
-          ट्रेंडिंग वीडियो
-        </Typography>
-        <Typography variant="body1" sx={{ color: "#757575", mt: 1 }}>
-          (Trending Videos)
-        </Typography>
       </Box>
 
       {/* 3. Video Grid */}
@@ -99,13 +75,13 @@ export default function TrendingVideos() {
             }}
           >
             {/* CardActionArea makes the entire card a clickable button with a ripple effect */}
-            <CardActionArea component="a" href="YOUR_YOUTUBE_LINK_HERE" target="_blank" rel="noopener noreferrer">
+            <CardActionArea component="a" href={video.url} target="_blank" rel="noopener noreferrer">
               
               {/* Thumbnail Container */}
               <Box sx={{ position: "relative", aspectRatio: "16/9" }}>
                 <CardMedia
                   component="img"
-                  image={video.img}
+                  image={`https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`}
                   alt={video.title}
                   sx={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />

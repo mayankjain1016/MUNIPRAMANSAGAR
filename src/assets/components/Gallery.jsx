@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -10,14 +11,25 @@ import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
+import Nirbhayaimg1 from "../Gallery/Nirbhayimg1.jpeg";
+import Nirbhayaimg2 from "../Gallery/Nirbhayimg2.jpeg";
+import Nirbhayaimg3 from "../Gallery/Nirbhayimg3.jpeg";
+import Nirbhayaimg4 from "../Gallery/Nirbhayimg4.jpeg";
+
 const galleryData = [
-  { img: "https://via.placeholder.com/400x300/FFE0B2/E65100?text=गोमिया", label: "गोमिया, बोकारो मंगल प्रवेश 12Apr" },
-  { img: "https://via.placeholder.com/400x300/FFCC80/E65100?text=साड़म", label: "साड़म, बोकारो मंगल प्रवेश 11Apr" },
-  { img: "https://via.placeholder.com/400x300/FFB74D/E65100?text=पेटरवार", label: "पेटरवार, बोकारो मंगल प्रवेश 09Apr" },
-  { img: "https://via.placeholder.com/400x300/FFA726/ffffff?text=राधाकृष्ण", label: "राधाकृष्ण किशोर जी झा. वित्त मंत्री" },
+  { img: Nirbhayaimg1, label: "गोमिया, बोकारो मंगल प्रवेश 12Apr" },
+  { img: Nirbhayaimg2, label: "साड़म, बोकारो मंगल प्रवेश 11Apr" },
+  { img: Nirbhayaimg3, label: "पेटरवार, बोकारो मंगल प्रवेश 09Apr" },
+  { img: Nirbhayaimg4, label: "राधाकृष्ण किशोर जी झा. वित्त मंत्री" },
 ];
 
 export default function Gallery() {
+  const navigate = useNavigate();
+
+  const handleViewAllPhotos = () => {
+    navigate("/gallery");
+  };
+
   return (
     <Box component="section" sx={{ width: "100%", py: { xs: 6, md: 8 }, backgroundColor: "#ffffff" }}>
       
@@ -32,32 +44,6 @@ export default function Gallery() {
 
       {/* 2. Gallery Header */}
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mb: 6 }}>
-        <Box 
-          sx={{ 
-            backgroundColor: "#FFF8E1", 
-            borderRadius: "50%", 
-            p: 2, 
-            mb: 2,
-            boxShadow: "0 4px 12px rgba(230, 81, 0, 0.1)"
-          }}
-        >
-          <CollectionsOutlinedIcon sx={{ fontSize: "36px", color: "#E65100" }} />
-        </Box>
-        <Typography 
-          variant="h4" 
-          component="h2" 
-          sx={{ 
-            fontWeight: 800, 
-            color: "#333333",
-            fontFamily: "system-ui, -apple-system, sans-serif",
-            letterSpacing: "-0.5px"
-          }}
-        >
-          गैलरी
-        </Typography>
-        <Typography variant="body1" sx={{ color: "#757575", mt: 1 }}>
-          (Photo Gallery)
-        </Typography>
       </Box>
 
       {/* 3. Responsive Photo Grid */}
@@ -98,12 +84,13 @@ export default function Gallery() {
             <Box sx={{ overflow: "hidden" }}>
               <CardMedia
                 component="img"
-                height="220"
+                height="280"
                 image={item.img}
                 alt={item.label}
                 sx={{
                   transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                  objectFit: "cover"
+                  objectFit: "cover",
+                  width: "100%"
                 }}
               />
             </Box>
@@ -131,6 +118,7 @@ export default function Gallery() {
         <Button 
           variant="outlined" 
           endIcon={<ArrowForwardIosIcon sx={{ fontSize: "14px" }} />}
+          onClick={handleViewAllPhotos}
           sx={{ 
             color: "#E65100", 
             borderColor: "rgba(230, 81, 0, 0.3)",
