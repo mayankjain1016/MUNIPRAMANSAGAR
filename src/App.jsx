@@ -8,6 +8,7 @@ import SwadhyayShrinkalaPage from "./pages/SwadhyayShrinkalaPage";
 import SamastPravachanPage from "./pages/SamastPravachanPage";
 import PravachanMalaPage from "./pages/PravachanMalaPage";
 import GalleryPage from "./pages/GalleryPage";
+import BiographyPage from "./pages/BiographyPage";
 import Footer from "./assets/components/Footer";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/pravachan/samast" element={<SamastPravachanPage />} />
           <Route path="/pravachan/mala" element={<PravachanMalaPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/biography" element={<BiographyPage />} />
         </Routes>
         <Footer />
         <button className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top">↑</button>

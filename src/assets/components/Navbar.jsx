@@ -14,7 +14,7 @@ import logo from "../Nirbhaylogo.jpeg";
 
 const NAV_LINKS = [
   { label: "Home Section", href: "/" },
-  { label: "Biography", href: "#biography" },
+  { label: "Biography", href: "/biography" },
   { label: "Gallery", href: "/gallery" },
   { label: "News Media", href: "#news-media" },
   { label: "Event Gallery", href: "#event-gallery" }
