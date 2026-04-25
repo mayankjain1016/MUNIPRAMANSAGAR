@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -19,24 +20,32 @@ const slides = [
     key: "s1", 
     image: sliderimg1, 
     title: "प्रवचन सुधा", 
-    subtitle: "मुनि श्री निर्भय सागर जी के दिव्य प्रवचन सुनें और अपने जीवन को एक नई एवं सकारात्मक दिशा दें।" 
+    subtitle: "मुनि श्री निर्भय सागर जी के दिव्य प्रवचन सुनें और अपने जीवन को एक नई एवं सकारात्मक दिशा दें।",
+    route: "/pravachan"
   },
   { 
     key: "s2", 
     image: sliderimg2, 
     title: "शंका समाधान", 
-    subtitle: "धर्म, समाज और दैनिक जीवन की उलझनों से जुड़े अपने सभी प्रश्नों के सटीक उत्तर पाएं।" 
+    subtitle: "धर्म, समाज और दैनिक जीवन की उलझनों से जुड़े अपने सभी प्रश्नों के सटीक उत्तर पाएं।",
+    route: "/shanka-samadhan"
   },
   { 
     key: "s3", 
     image: sliderimg3, 
     title: "भावना योग", 
-    subtitle: "मानसिक शांति, शारीरिक ऊर्जा और आत्म-शुद्धि के लिए विशेष ध्यान एवं योग प्रणाली।" 
+    subtitle: "मानसिक शांति, शारीरिक ऊर्जा और आत्म-शुद्धि के लिए विशेष ध्यान एवं योग प्रणाली।",
+    route: "/bhavana-yog"
   },
 ];
 
 export default function HeroSlider() {
   const [cur, setCur] = useState(0);
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate(slides[cur].route);
+  };
 
   // Auto-play functionality
   useEffect(() => {
@@ -130,6 +139,7 @@ export default function HeroSlider() {
                 <Button 
                   variant="outlined" 
                   startIcon={<PlayCircleOutlineIcon />}
+                  onClick={handleButtonClick}
                   sx={{
                     color: "#E65100",
                     borderColor: "#E65100",

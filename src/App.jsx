@@ -7,6 +7,9 @@ import NavinPravachanPage from "./pages/NavinPravachanPage";
 import SwadhyayShrinkalaPage from "./pages/SwadhyayShrinkalaPage";
 import SamastPravachanPage from "./pages/SamastPravachanPage";
 import PravachanMalaPage from "./pages/PravachanMalaPage";
+import ShankaSamadhanPage from "./pages/ShankaSamadhanPage";
+import KahaniyaPage from "./pages/KahaniyaPage";
+import BhavanaYogPage from "./pages/BhavanaYogPage";
 import GalleryPage from "./pages/GalleryPage";
 import BiographyPage from "./pages/BiographyPage";
 import Footer from "./assets/components/Footer";
@@ -24,6 +27,9 @@ export default function App() {
           <Route path="/pravachan/swadhyay" element={<SwadhyayShrinkalaPage />} />
           <Route path="/pravachan/samast" element={<SamastPravachanPage />} />
           <Route path="/pravachan/mala" element={<PravachanMalaPage />} />
+          <Route path="/shanka-samadhan" element={<ShankaSamadhanPage />} />
+          <Route path="/kahaniya" element={<KahaniyaPage />} />
+          <Route path="/bhavana-yog" element={<BhavanaYogPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/biography" element={<BiographyPage />} />
         </Routes>

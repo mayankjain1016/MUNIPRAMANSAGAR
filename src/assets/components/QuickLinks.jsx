@@ -29,6 +29,12 @@ export default function QuickLinks() {
   const handleClick = (label) => {
     if (label === "प्रवचन") {
       navigate("/pravachan");
+    } else if (label === "शंका समाधान") {
+      navigate("/shanka-samadhan");
+    } else if (label === "कहानियाँ") {
+      navigate("/kahaniya");
+    } else if (label === "भावना योग") {
+      navigate("/bhavana-yog");
     }
   };
 
