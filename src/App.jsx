@@ -14,6 +14,7 @@ import GalleryPage from "./pages/GalleryPage";
 import EventDetailPage from "./pages/EventDetailPage";
 import BooksPage from "./pages/BooksPage";
 import NewsMediaPage from "./pages/NewsMediaPage";
+import GunayatanPage from "./pages/GunayatanPage";
 import BiographyPage from "./pages/BiographyPage";
 import Footer from "./assets/components/Footer";
 
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/event/:eventId" element={<EventDetailPage />} />
           <Route path="/books" element={<BooksPage />} />
           <Route path="/news-media" element={<NewsMediaPage />} />
+          <Route path="/gunayatan" element={<GunayatanPage />} />
           <Route path="/biography" element={<BiographyPage />} />
         </Routes>
         <Footer />

@@ -35,6 +35,8 @@ export default function QuickLinks() {
       navigate("/kahaniya");
     } else if (label === "भावना योग") {
       navigate("/bhavana-yog");
+    } else if (label === "गुणायतन") {
+      navigate("/gunayatan");
     }
   };
 
