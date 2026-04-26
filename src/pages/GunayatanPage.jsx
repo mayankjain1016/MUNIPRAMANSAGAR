@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { GiPeaceDove, GiScales, GiOpenPalm, GiLotusFlower, GiYinYang } from 'react-icons/gi';
 import './Gunayatan.css';
 import gunayatanImg from '../assets/Gunayatan_img.jpeg';
+import gunaytan1 from '../assets/Gunayatan/gunaytan1.jpeg';
+import gunaytan2 from '../assets/Gunayatan/gunaytan2.jpeg';
+import gunaytan3 from '../assets/Gunayatan/gunaytan3.jpeg';
+import gunaytan4 from '../assets/Gunayatan/gunaytan4.jpeg';
+import gunaytan5 from '../assets/Gunayatan/gunaytan5.jpeg';
 
 const GunayatanPage = () => {
   const navigate = useNavigate();
@@ -50,6 +55,34 @@ const GunayatanPage = () => {
     'संस्कार शिक्षा',
     'सेवा और समर्पण',
     'आत्मिक शुद्धि',
+  ];
+
+  const galleryItems = [
+    {
+      image: gunaytan1,
+      title: 'गुणायतन',
+      description: 'गुणायतन वह पवित्र स्थल है, जहाँ पंचायतन शैली का दिव्य जिनमंदिर पाँच वेदियों से अलंकृत एक महान वास्तुशिल्प प्रस्तुत करता है।'
+    },
+    {
+      image: gunaytan2,
+      title: 'अनुभव केंद्र',
+      description: 'जैन धर्म की गहराई को आधुनिक तकनीक के माध्यम से आत्मा तक पहुँचाने वाला एक अद्वितीय अनुभव केंद्र।'
+    },
+    {
+      image: gunaytan3,
+      title: 'सहस्रकूट जिनालय',
+      description: 'हजारों जिनबिंबों से सुसज्जित, दर्शन और भक्ति का केंद्र, सहस्रकूट जिनालय श्रद्धा में विशेष स्थान रखता है।'
+    },
+    {
+      image: gunaytan4,
+      title: 'साधना वसतिका',
+      description: 'साधना एवं साधु वसतिका एक शांत स्थान है, जहाँ तप, स्वाध्याय और मौन साधना के लिए पूर्ण वातावरण मिलता है।'
+    },
+    {
+      image: gunaytan5,
+      title: 'आतिथ्य निवास',
+      description: 'श्रद्धालुओं के लिए सुव्यवस्थित आवास स्थल, जहाँ शांत वातावरण और आधुनिक सुविधाएँ उपलब्ध हैं।'
+    }
   ];
 
   return (
@@ -154,47 +187,38 @@ const GunayatanPage = () => {
         </div>
       </section>
 
-      {/* Quote Section */}
-      <section className="quote-section">
-        <div className="section-container">
-          <div className="quote-content">
-            <div className="quote-mark">"</div>
-            <p className="quote-text">
-              सच्ची शांति बाहर की वस्तुओं में नहीं, अपने भीतर के निर्मल भावों में मिलती है।
-            </p>
-            <p className="quote-text">
-              धर्म केवल पूजा का विषय नहीं, बल्कि जीवन जीने की पवित्र कला है।
-            </p>
-            <div className="quote-mark">"</div>
-          </div>
-        </div>
-      </section>
-
       {/* Gallery Section */}
       <section className="gunayatan-section">
         <div className="section-container">
           <h2 className="section-heading centered">गुणायतन की झलकियाँ</h2>
           <div className="gallery-grid">
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <div className="gallery-item" key={item}>
-                <div className="gallery-placeholder">छवि {item}</div>
+            {galleryItems.map((item, index) => (
+              <div className="gallery-item" key={index}>
+                <div className="image-container">
+                  <img src={item.image} alt={item.title} className="gallery-img" />
+                </div>
+                <div className="card-content">
+                  <p className="card-description">{item.description}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="cta-section">
+      {/* Final Quote Section */}
+      <section className="final-quote-section">
         <div className="section-container">
-          <div className="cta-content">
-            <h2 className="cta-heading">आइए, गुणों के मार्ग पर एक कदम आगे बढ़ाएँ</h2>
-            <p className="cta-text">
-              गुणायतन हमें यह प्रेरणा देता है कि हम अपने जीवन में अच्छे विचार, पवित्र आचरण और धर्ममय जीवन को अपनाएँ।
-            </p>
-            <button className="cta-button" onClick={() => navigate('/')}>
-              और जानें
-            </button>
+          <div className="final-quote-content">
+            <div className="final-quote-box">
+              <p className="final-quote-text">
+                ""सच्ची शांति बाहर की वस्तुओं में नहीं, अपने भीतर के निर्मल भावों में मिलती है।
+
+                धर्म केवल पूजा का विषय नहीं, बल्कि जीवन जीने की पवित्र कला है।
+
+                गुणायतन हमें यह प्रेरणा देता है कि हम अपने जीवन में अच्छे विचार, पवित्र आचरण और धर्ममय जीवन को अपनाएँ।""
+              </p>
+            </div>
           </div>
         </div>
       </section>

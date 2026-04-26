@@ -3,7 +3,6 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
 
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -53,7 +52,7 @@ export default function ShankaSamadhan() {
             component="h2" 
             sx={{ 
               fontWeight: 700, 
-              color: "#E65100", // Saffron spiritual accent
+              color: "#E65100",
               fontFamily: "system-ui, -apple-system, sans-serif",
             }}
           >
@@ -72,8 +71,8 @@ export default function ShankaSamadhan() {
             <Paper
               key={index}
               elevation={0}
-              component="a" // Makes the entire paper a clickable link
-              href={`#shanka-${index}`} 
+              component="a"
+              href={`/shanka-samadhan/answer/${index}`}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -84,12 +83,12 @@ export default function ShankaSamadhan() {
                 border: "1px solid rgba(0,0,0,0.04)",
                 textDecoration: "none",
                 transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                cursor: "pointer",
                 "&:hover": {
-                  transform: "translateX(8px)", // Slides slightly to the right
-                  backgroundColor: "#FFF8E1", // Soft warm highlight
+                  transform: "translateX(8px)",
+                  backgroundColor: "#FFF8E1",
                   borderColor: "rgba(230, 81, 0, 0.2)",
                   boxShadow: "0 8px 24px rgba(230, 81, 0, 0.08)",
-                  // Animates the icon inside the card on hover
                   "& .arrow-icon": {
                     color: "#E65100",
                     transform: "translateX(4px)"
@@ -108,7 +107,7 @@ export default function ShankaSamadhan() {
                   color: "#333333",
                   fontSize: { xs: "1.05rem", sm: "1.15rem" },
                   lineHeight: 1.5,
-                  pr: 2, // Padding right so text doesn't hit the arrow
+                  pr: 2,
                   transition: "color 0.3s ease"
                 }}
               >
@@ -121,12 +120,12 @@ export default function ShankaSamadhan() {
                   display: "flex", 
                   alignItems: "center", 
                   flexShrink: 0,
-                  color: "#BDBDBD" // Starts grey, turns saffron on hover
+                  color: "#BDBDBD"
                 }}
               >
                 <Typography 
                   sx={{ 
-                    display: { xs: "none", sm: "block" }, // Hide "Read More" text on mobile to save space
+                    display: { xs: "none", sm: "block" },
                     fontSize: "0.85rem", 
                     fontWeight: 600, 
                     mr: 1,
@@ -134,7 +133,7 @@ export default function ShankaSamadhan() {
                     letterSpacing: "0.5px"
                   }}
                 >
-                  Read
+                  पढ़ें
                 </Typography>
                 <ArrowForwardIosIcon className="arrow-icon" sx={{ fontSize: "16px", transition: "all 0.3s ease" }} />
               </Box>
@@ -146,9 +145,10 @@ export default function ShankaSamadhan() {
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button 
             variant="text" 
+            href="/shanka-samadhan"
             endIcon={<AutoStoriesOutlinedIcon />}
             sx={{ 
-              color: "#5D4037", // A deep earthy brown for secondary actions
+              color: "#5D4037",
               fontWeight: 600,
               fontSize: "1rem",
               textTransform: "none",

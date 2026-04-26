@@ -16,6 +16,8 @@ import BooksPage from "./pages/BooksPage";
 import NewsMediaPage from "./pages/NewsMediaPage";
 import GunayatanPage from "./pages/GunayatanPage";
 import BiographyPage from "./pages/BiographyPage";
+import ShankaSamadhanAnswerPage from "./pages/ShankaSamadhanAnswerPage";
+import PathshalaPage from "./pages/PathshalaPage";
 import Footer from "./assets/components/Footer";
 
 export default function App() {
@@ -32,6 +34,7 @@ export default function App() {
           <Route path="/pravachan/samast" element={<SamastPravachanPage />} />
           <Route path="/pravachan/mala" element={<PravachanMalaPage />} />
           <Route path="/shanka-samadhan" element={<ShankaSamadhanPage />} />
+          <Route path="/shanka-samadhan/answer/:answerId" element={<ShankaSamadhanAnswerPage />} />
           <Route path="/kahaniya" element={<KahaniyaPage />} />
           <Route path="/bhavana-yog" element={<BhavanaYogPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
@@ -40,6 +43,7 @@ export default function App() {
           <Route path="/news-media" element={<NewsMediaPage />} />
           <Route path="/gunayatan" element={<GunayatanPage />} />
           <Route path="/biography" element={<BiographyPage />} />
+          <Route path="/pathshala" element={<PathshalaPage />} />
         </Routes>
         <Footer />
         <button className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top">↑</button>

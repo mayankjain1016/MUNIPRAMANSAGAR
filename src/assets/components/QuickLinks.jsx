@@ -37,6 +37,8 @@ export default function QuickLinks() {
       navigate("/bhavana-yog");
     } else if (label === "गुणायतन") {
       navigate("/gunayatan");
+    } else if (label === "पाठशाला") {
+      navigate("/pathshala");
     }
   };
 
