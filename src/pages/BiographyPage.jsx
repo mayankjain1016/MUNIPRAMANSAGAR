@@ -77,36 +77,11 @@ export default function BiographyPage() {
                 fontSize: { xs: "1.8rem", sm: "2.5rem", md: "3.5rem" },
                 letterSpacing: "-0.5px",
                 textShadow: "0 4px 20px rgba(0,0,0,0.6), 0 2px 10px rgba(0,0,0,0.4)",
-                mb: 3,
                 lineHeight: 1.3
               }}
             >
               आचार्य श्री १०८ निर्भय सागर जी महाराज
             </Typography>
-            
-            <Box
-              sx={{
-                display: "inline-block",
-                backgroundColor: "rgba(230, 81, 0, 0.95)",
-                padding: { xs: "10px 24px", sm: "12px 32px" },
-                borderRadius: "50px",
-                boxShadow: "0 4px 20px rgba(230, 81, 0, 0.5)",
-                backdropFilter: "blur(10px)"
-              }}
-            >
-              <Typography
-                variant="h5"
-                sx={{
-                  color: "#ffffff",
-                  fontWeight: 600,
-                  fontSize: { xs: "1rem", sm: "1.3rem", md: "1.5rem" },
-                  letterSpacing: "1px",
-                  textShadow: "0 2px 8px rgba(0,0,0,0.3)"
-                }}
-              >
-                सम्पूर्ण जीवन परिचय
-              </Typography>
-            </Box>
           </Box>
         </Box>
 

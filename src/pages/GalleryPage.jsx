@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -16,17 +17,22 @@ import Nirbhayimg7 from "../assets/Gallery/Nirbhayimg7.jpeg";
 import Nirbhayimg8 from "../assets/Gallery/Nirbhayimg8.jpeg";
 
 const galleryImages = [
-  { img: Nirbhayimg1, label: "गोमिया, बोकारो मंगल प्रवेश 12Apr" },
-  { img: Nirbhayimg2, label: "साड़म, बोकारो मंगल प्रवेश 11Apr" },
-  { img: Nirbhayimg3, label: "पेटरवार, बोकारो मंगल प्रवेश 09Apr" },
-  { img: Nirbhayimg4, label: "राधाकृष्ण किशोर जी झा. वित्त मंत्री" },
-  { img: Nirbhayimg5, label: "आध्यात्मिक कार्यक्रम" },
-  { img: Nirbhayimg6, label: "धार्मिक समारोह" },
-  { img: Nirbhayimg7, label: "प्रवचन सभा" },
-  { img: Nirbhayimg8, label: "मंगल प्रवेश" }
+  { id: "event-1", img: Nirbhayimg1, label: "गोमिया, बोकारो मंगल प्रवेश 12Apr" },
+  { id: "event-2", img: Nirbhayimg2, label: "साड़म, बोकारो मंगल प्रवेश 11Apr" },
+  { id: "event-3", img: Nirbhayimg3, label: "पेटरवार, बोकारो मंगल प्रवेश 09Apr" },
+  { id: "event-4", img: Nirbhayimg4, label: "राधाकृष्ण किशोर जी झा. वित्त मंत्री" },
+  { id: "event-5", img: Nirbhayimg5, label: "आध्यात्मिक कार्यक्रम" },
+  { id: "event-6", img: Nirbhayimg6, label: "धार्मिक समारोह" },
+  { id: "event-7", img: Nirbhayimg7, label: "प्रवचन सभा" },
+  { id: "event-8", img: Nirbhayimg8, label: "मंगल प्रवेश" }
 ];
 
 export default function GalleryPage() {
+  const navigate = useNavigate();
+
+  const handleEventClick = (eventId) => {
+    navigate(`/event/${eventId}`);
+  };
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#FAFAFA", py: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
@@ -44,7 +50,7 @@ export default function GalleryPage() {
               letterSpacing: "-0.5px"
             }}
           >
-            गैलरी
+            इवेंट गैलरी
           </Typography>
           <Typography 
             variant="h6" 
@@ -77,6 +83,7 @@ export default function GalleryPage() {
             <Card 
               key={index} 
               elevation={0}
+              onClick={() => handleEventClick(item.id)}
               sx={{ 
                 borderRadius: "16px",
                 border: "1px solid rgba(0,0,0,0.05)",

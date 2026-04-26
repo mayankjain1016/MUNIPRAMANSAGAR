@@ -15,9 +15,9 @@ import logo from "../Nirbhaylogo.jpeg";
 const NAV_LINKS = [
   { label: "Home Section", href: "/" },
   { label: "Biography", href: "/biography" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "News Media", href: "#news-media" },
-  { label: "Event Gallery", href: "#event-gallery" }
+  { label: "Event Gallery", href: "/gallery" },
+  { label: "Books", href: "/books" },
+  { label: "News Media", href: "/news-media" }
 ];
 
 export default function Navbar() {

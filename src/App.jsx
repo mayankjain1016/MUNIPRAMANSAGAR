@@ -11,6 +11,9 @@ import ShankaSamadhanPage from "./pages/ShankaSamadhanPage";
 import KahaniyaPage from "./pages/KahaniyaPage";
 import BhavanaYogPage from "./pages/BhavanaYogPage";
 import GalleryPage from "./pages/GalleryPage";
+import EventDetailPage from "./pages/EventDetailPage";
+import BooksPage from "./pages/BooksPage";
+import NewsMediaPage from "./pages/NewsMediaPage";
 import BiographyPage from "./pages/BiographyPage";
 import Footer from "./assets/components/Footer";
 
@@ -31,6 +34,9 @@ export default function App() {
           <Route path="/kahaniya" element={<KahaniyaPage />} />
           <Route path="/bhavana-yog" element={<BhavanaYogPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/event/:eventId" element={<EventDetailPage />} />
+          <Route path="/books" element={<BooksPage />} />
+          <Route path="/news-media" element={<NewsMediaPage />} />
           <Route path="/biography" element={<BiographyPage />} />
         </Routes>
         <Footer />

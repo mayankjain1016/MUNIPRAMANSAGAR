@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -28,6 +29,11 @@ const newsData = [
 ];
 
 export default function EventsAndNews() {
+  const navigate = useNavigate();
+
+  const handleViewAll = () => {
+    navigate("/news-media");
+  };
   return (
     <Box 
       component="section" 
@@ -167,6 +173,7 @@ export default function EventsAndNews() {
             </Typography>
             <Button 
               endIcon={<ArrowForwardIcon />} 
+              onClick={handleViewAll}
               sx={{ color: "#E65100", textTransform: "none", fontWeight: 600 }}
             >
               View All
