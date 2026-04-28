@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaQuestionCircle, FaOm, FaSeedling, FaPray } from 'react-icons/fa';
 import './Pathshala.css';
 
 const PrashnottariPage = () => {
@@ -8,10 +9,10 @@ const PrashnottariPage = () => {
   const [expandedQuestion, setExpandedQuestion] = useState(null);
 
   const categories = [
-    { id: 'all', name: 'सभी प्रश्न', icon: '❓' },
-    { id: 'dharma', name: 'धर्म संबंधी', icon: '🕉️' },
-    { id: 'life', name: 'जीवन संबंधी', icon: '🌱' },
-    { id: 'practice', name: 'साधना संबंधी', icon: '🙏' }
+    { id: 'all', name: 'सभी प्रश्न', icon: <FaQuestionCircle /> },
+    { id: 'dharma', name: 'धर्म संबंधी', icon: <FaOm /> },
+    { id: 'life', name: 'जीवन संबंधी', icon: <FaSeedling /> },
+    { id: 'practice', name: 'साधना संबंधी', icon: <FaPray /> }
   ];
 
   const questionsAnswers = [

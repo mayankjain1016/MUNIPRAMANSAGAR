@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUserGraduate, FaBrain, FaBan, FaHandshake, FaBullseye } from 'react-icons/fa';
 import './Pathshala.css';
 
 const YuvaPage = () => {
@@ -7,11 +8,11 @@ const YuvaPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', name: 'सभी विषय', icon: '👨‍🎓' },
-    { id: 'stress', name: 'तनाव प्रबंधन', icon: '🧘' },
-    { id: 'addiction', name: 'लत और व्यसन', icon: '🚫' },
-    { id: 'relationships', name: 'संबंध और मित्रता', icon: '🤝' },
-    { id: 'career', name: 'करियर और लक्ष्य', icon: '🎯' }
+    { id: 'all', name: 'सभी विषय', icon: <FaUserGraduate /> },
+    { id: 'stress', name: 'तनाव प्रबंधन', icon: <FaBrain /> },
+    { id: 'addiction', name: 'लत और व्यसन', icon: <FaBan /> },
+    { id: 'relationships', name: 'संबंध और मित्रता', icon: <FaHandshake /> },
+    { id: 'career', name: 'करियर और लक्ष्य', icon: <FaBullseye /> }
   ];
 
   const youthGuidance = [

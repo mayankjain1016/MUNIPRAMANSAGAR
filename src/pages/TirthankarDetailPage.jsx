@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import * as GiIcons from 'react-icons/gi';
 import tirthankarData from '../data/tirthankarData';
 import './Pathshala.css';
 
@@ -8,6 +9,11 @@ const TirthankarDetailPage = () => {
   const { slug } = useParams();
 
   const tirthankar = tirthankarData.find(t => t.slug === slug);
+
+  const getIcon = (iconName) => {
+    const Icon = GiIcons[iconName];
+    return Icon ? <Icon /> : null;
+  };
 
   if (!tirthankar) {
     return (
@@ -44,7 +50,7 @@ const TirthankarDetailPage = () => {
         {/* Hero Section */}
         <section className="pathshala-hero">
           <div className="tirthankar-detail-header">
-            <div className="tirthankar-detail-symbol">{tirthankar.lanchhan}</div>
+            <div className="tirthankar-detail-symbol">{getIcon(tirthankar.lanchhan)}</div>
             <div className="tirthankar-detail-info">
               <div className="tirthankar-detail-number">{tirthankar.number}</div>
               <h1 className="tirthankar-detail-name">{tirthankar.name}</h1>
@@ -66,9 +72,9 @@ const TirthankarDetailPage = () => {
             <div className="detail-card">
               <h2 className="detail-title">लांछन (प्रतीक)</h2>
               <div className="lanchhan-display">
-                <span className="lanchhan-symbol">{tirthankar.lanchhan}</span>
+                <span className="lanchhan-symbol">{getIcon(tirthankar.lanchhan)}</span>
                 <p className="lanchhan-description">
-                  {tirthankar.name} का लांछन {tirthankar.lanchhan} है, जो उनकी विशिष्ट पहचान का प्रतीक है।
+                  यह {tirthankar.name} का पवित्र लांछन है, जो उनकी विशिष्ट पहचान का प्रतीक है।
                 </p>
               </div>
             </div>

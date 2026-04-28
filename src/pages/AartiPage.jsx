@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaLightbulb, FaFire, FaLeaf } from 'react-icons/fa';
+import { GiLion, GiSnake } from 'react-icons/gi';
 import './Pathshala.css';
 
 const AartiPage = () => {
@@ -7,11 +9,11 @@ const AartiPage = () => {
   const [selectedTirthankar, setSelectedTirthankar] = useState('all');
 
   const tirthankarOptions = [
-    { id: 'all', name: 'सभी आरतियाँ', icon: '🪔' },
-    { id: 'mahavir', name: 'महावीर स्वामी', icon: '🦁' },
-    { id: 'parshvanath', name: 'पार्श्वनाथ', icon: '🐍' },
-    { id: 'neminath', name: 'नेमिनाथ', icon: '🪔' },
-    { id: 'rishabhdev', name: 'रिषभदेव', icon: '🐂' }
+    { id: 'all', name: 'सभी आरतियाँ', icon: <FaLightbulb /> },
+    { id: 'mahavir', name: 'महावीर स्वामी', icon: <GiLion /> },
+    { id: 'parshvanath', name: 'पार्श्वनाथ', icon: <GiSnake /> },
+    { id: 'neminath', name: 'नेमिनाथ', icon: <FaLeaf /> },
+    { id: 'rishabhdev', name: 'रिषभदेव', icon: <FaFire /> }
   ];
 
   const aartis = [

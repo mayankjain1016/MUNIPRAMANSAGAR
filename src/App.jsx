@@ -14,6 +14,7 @@ import GalleryPage from "./pages/GalleryPage";
 import EventDetailPage from "./pages/EventDetailPage";
 import BooksPage from "./pages/BooksPage";
 import NewsMediaPage from "./pages/NewsMediaPage";
+import NewsArticle from "./pages/NewsArticle";
 import GunayatanPage from "./pages/GunayatanPage";
 import BiographyPage from "./pages/BiographyPage";
 import ShankaSamadhanAnswerPage from "./pages/ShankaSamadhanAnswerPage";
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/pravachan/samast" element={<SamastPravachanPage />} />
           <Route path="/pravachan/mala" element={<PravachanMalaPage />} />
           <Route path="/shanka-samadhan" element={<ShankaSamadhanPage />} />
+          <Route path="/shanka-samadhan/:slug" element={<ShankaSamadhanAnswerPage />} />
           <Route path="/shanka-samadhan/answer/:answerId" element={<ShankaSamadhanAnswerPage />} />
           <Route path="/kahaniya" element={<KahaniyaPage />} />
           <Route path="/bhavana-yog" element={<BhavanaYogPage />} />
@@ -51,6 +53,7 @@ export default function App() {
           <Route path="/event/:eventId" element={<EventDetailPage />} />
           <Route path="/books" element={<BooksPage />} />
           <Route path="/news-media" element={<NewsMediaPage />} />
+          <Route path="/news/:id" element={<NewsArticle />} />
           <Route path="/gunayatan" element={<GunayatanPage />} />
           <Route path="/biography" element={<BiographyPage />} />
           <Route path="/pathshala" element={<PathshalaPage />} />

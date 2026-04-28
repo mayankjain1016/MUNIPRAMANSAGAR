@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaMicrophone, FaOm, FaBalanceScale, FaUserGraduate, FaChild, FaHeadphones } from 'react-icons/fa';
 import './Pathshala.css';
 
 const PathshalaPravachanPage = () => {
@@ -7,11 +8,11 @@ const PathshalaPravachanPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', name: 'सभी प्रवचन', icon: '🎙️' },
-    { id: 'spiritual', name: 'आध्यात्मिक', icon: '🕉️' },
-    { id: 'moral', name: 'नैतिक', icon: '⚖️' },
-    { id: 'youth', name: 'युवाओं के लिए', icon: '👨‍🎓' },
-    { id: 'children', name: 'बच्चों के लिए', icon: '👶' }
+    { id: 'all', name: 'सभी प्रवचन', icon: <FaMicrophone /> },
+    { id: 'spiritual', name: 'आध्यात्मिक', icon: <FaOm /> },
+    { id: 'moral', name: 'नैतिक', icon: <FaBalanceScale /> },
+    { id: 'youth', name: 'युवाओं के लिए', icon: <FaUserGraduate /> },
+    { id: 'children', name: 'बच्चों के लिए', icon: <FaChild /> }
   ];
 
   const pravachans = [
@@ -161,8 +162,8 @@ const PathshalaPravachanPage = () => {
                     {categories.find(cat => cat.id === pravachan.category)?.name}
                   </div>
                   <div className="pravachan-meta">
-                    <span className="pravachan-duration">⏱️ {pravachan.duration}</span>
-                    <span className="pravachan-date">📅 {pravachan.date}</span>
+                    <span className="pravachan-duration"><FaHeadphones /> {pravachan.duration}</span>
+                    <span className="pravachan-date">{pravachan.date}</span>
                   </div>
                 </div>
                 
@@ -178,7 +179,7 @@ const PathshalaPravachanPage = () => {
                     </ul>
                   </div>
                   
-                  <button className="listen-btn">🎧 सुनें</button>
+                  <button className="listen-btn"><FaHeadphones /> सुनें</button>
                 </div>
               </div>
             ))}

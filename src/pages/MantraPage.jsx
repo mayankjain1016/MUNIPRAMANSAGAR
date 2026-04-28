@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaBook, FaPray, FaLightbulb, FaScroll, FaHands } from 'react-icons/fa';
 import './Pathshala.css';
 
 const MantraPage = () => {
@@ -7,11 +8,11 @@ const MantraPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const mantraCategories = [
-    { id: 'all', name: 'सभी मंत्र', icon: '📿' },
-    { id: 'navkar', name: 'नवकार मंत्र', icon: '🙏' },
-    { id: 'aarti', name: 'आरती', icon: '🪔' },
-    { id: 'stotra', name: 'स्तोत्र', icon: '📖' },
-    { id: 'prayer', name: 'प्रार्थना', icon: '🤲' }
+    { id: 'all', name: 'सभी मंत्र', icon: <FaBook /> },
+    { id: 'navkar', name: 'नवकार मंत्र', icon: <FaPray /> },
+    { id: 'aarti', name: 'आरती', icon: <FaLightbulb /> },
+    { id: 'stotra', name: 'स्तोत्र', icon: <FaScroll /> },
+    { id: 'prayer', name: 'प्रार्थना', icon: <FaHands /> }
   ];
 
   const mantras = [

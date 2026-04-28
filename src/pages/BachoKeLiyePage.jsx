@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaChild, FaBook, FaGraduationCap, FaGamepad } from 'react-icons/fa';
 import './Pathshala.css';
 
 const BachoKeLiyePage = () => {
@@ -7,10 +8,10 @@ const BachoKeLiyePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', name: 'सभी सामग्री', icon: '👶' },
-    { id: 'stories', name: 'कहानियाँ', icon: '📚' },
-    { id: 'teachings', name: 'शिक्षाएँ', icon: '🎓' },
-    { id: 'activities', name: 'गतिविधियाँ', icon: '🎮' }
+    { id: 'all', name: 'सभी सामग्री', icon: <FaChild /> },
+    { id: 'stories', name: 'कहानियाँ', icon: <FaBook /> },
+    { id: 'teachings', name: 'शिक्षाएँ', icon: <FaGraduationCap /> },
+    { id: 'activities', name: 'गतिविधियाँ', icon: <FaGamepad /> }
   ];
 
   const childrenContent = [

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaLightbulb, FaMoon, FaGift, FaCalendarCheck } from 'react-icons/fa';
 import './Pathshala.css';
 
 const VratParvPage = () => {
@@ -7,10 +8,10 @@ const VratParvPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', name: 'सभी व्रत और पर्व', icon: '🪔' },
-    { id: 'vrat', name: 'व्रत और उपवास', icon: '🌙' },
-    { id: 'parv', name: 'पर्व और त्योहार', icon: '🎉' },
-    { id: 'muhurat', name: 'मुहूर्त और रीति', icon: '📅' }
+    { id: 'all', name: 'सभी व्रत और पर्व', icon: <FaLightbulb /> },
+    { id: 'vrat', name: 'व्रत और उपवास', icon: <FaMoon /> },
+    { id: 'parv', name: 'पर्व और त्योहार', icon: <FaGift /> },
+    { id: 'muhurat', name: 'मुहूर्त और रीति', icon: <FaCalendarCheck /> }
   ];
 
   const vratParvItems = [

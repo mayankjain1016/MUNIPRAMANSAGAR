@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as GiIcons from 'react-icons/gi';
 import tirthankarData from '../data/tirthankarData';
 import './Pathshala.css';
 
@@ -12,6 +13,11 @@ const TirthankarPage = () => {
 
   const handleReadMore = (slug) => {
     navigate(`/pathshala/tirthankar/${slug}`);
+  };
+
+  const getIcon = (iconName) => {
+    const Icon = GiIcons[iconName];
+    return Icon ? <Icon /> : null;
   };
 
   return (
@@ -46,7 +52,7 @@ const TirthankarPage = () => {
               <div key={tirthankar.number} className="tirthankar-listing-card">
                 <div className="tirthankar-listing-header">
                   <div className="tirthankar-number-badge">{tirthankar.number}</div>
-                  <div className="tirthankar-lanchhan">{tirthankar.lanchhan}</div>
+                  <div className="tirthankar-lanchhan">{getIcon(tirthankar.lanchhan)}</div>
                 </div>
                 <h3 className="tirthankar-listing-name">{tirthankar.name}</h3>
                 <button

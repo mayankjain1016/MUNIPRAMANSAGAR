@@ -13,6 +13,8 @@ import {
   ArrowForward as ArrowForwardIcon
 } from "@mui/icons-material";
 
+import { getLatestNews } from "../../data/newsData";
+
 // Animation for the live location marker
 const pulseAnimation = keyframes`
   0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
@@ -20,20 +22,19 @@ const pulseAnimation = keyframes`
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
 `;
 
-const newsData = [
-  { date: "12 Apr 2026", text: "मुनिश्री ससंघ का गोमिया, जिला-बोकारो, झारखण्ड में मंगल प्रवेश हुआ" },
-  { date: "11 Apr 2026", text: "मुनिश्री ससंघ का साड़म, जिला-बोकारो, झारखण्ड में मंगल प्रवेश हुआ" },
-  { date: "09 Apr 2026", text: "मुनिश्री ससंघ का पेटरवार, जिला-बोकारो, झारखण्ड में मंगल प्रवेश हुआ" },
-  { date: "06 Apr 2026", text: "श्री राधाकृष्ण किशोर जी (झारखंड वित्त मंत्री) राँची में गुरु चरणों में" },
-  { date: "05 Apr 2026", text: "राँची पंचकल्याणक दिवस-5 झलकियाँ" },
-];
-
 export default function EventsAndNews() {
   const navigate = useNavigate();
+  
+  const newsData = getLatestNews(5);
 
   const handleViewAll = () => {
     navigate("/news-media");
   };
+
+  const handleNewsClick = (id) => {
+    navigate(`/news/${id}`);
+  };
+
   return (
     <Box 
       component="section" 
@@ -199,24 +200,26 @@ export default function EventsAndNews() {
           >
             {newsData.map((item, index) => (
               <Box 
-                key={index} 
+                key={item.id} 
+                onClick={() => handleNewsClick(item.id)}
                 sx={{ 
                   display: "flex", 
                   flexDirection: "column",
                   borderBottom: index !== newsData.length - 1 ? "1px dashed #E0E0E0" : "none",
-                  pb: index !== newsData.length - 1 ? 3 : 0
+                  pb: index !== newsData.length - 1 ? 3 : 0,
+                  cursor: "pointer"
                 }}
               >
                 <Chip 
                   label={item.date} 
                   size="small" 
                   sx={{ 
-                    alignSelf: "flex-start", 
-                    mb: 1.5, 
                     backgroundColor: "#FAFAFA", 
                     color: "#757575",
                     fontWeight: 600,
-                    border: "1px solid #EEEEEE"
+                    border: "1px solid #EEEEEE",
+                    mb: 1.5,
+                    width: "fit-content"
                   }} 
                 />
                 <Typography 
@@ -228,7 +231,7 @@ export default function EventsAndNews() {
                     fontSize: "1.05rem"
                   }}
                 >
-                  {item.text}
+                  {item.title}
                 </Typography>
               </Box>
             ))}

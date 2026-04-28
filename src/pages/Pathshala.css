@@ -575,7 +575,15 @@
 .card-icon {
   font-size: 3rem;
   margin-bottom: 20px;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4AF37;
+}
+
+.card-icon svg {
+  width: 3rem;
+  height: 3rem;
 }
 
 .card-title {
@@ -761,7 +769,15 @@
 .tirthankar-symbol {
   font-size: 3rem;
   margin-bottom: 15px;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4AF37;
+}
+
+.tirthankar-symbol svg {
+  width: 3rem;
+  height: 3rem;
 }
 
 .tirthankar-name {
@@ -938,6 +954,14 @@
 
 .category-icon {
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .category-name {
@@ -1098,6 +1122,14 @@
 
 .filter-icon {
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .filter-name {
@@ -1240,6 +1272,14 @@
 
 .vp-category-icon {
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vp-category-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .vp-category-name {
@@ -1358,6 +1398,14 @@
 
 .children-category-icon {
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.children-category-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .children-category-name {
@@ -1501,6 +1549,14 @@
 
 .youth-category-icon {
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.youth-category-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .youth-category-name {
@@ -1657,6 +1713,14 @@
 
 .qa-category-icon {
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qa-category-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .qa-category-name {
@@ -1802,6 +1866,14 @@
 
 .pravachan-category-icon {
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pravachan-category-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .pravachan-category-name {
@@ -1996,7 +2068,15 @@
 .tirthankar-lanchhan {
   font-size: 3rem;
   margin-bottom: 15px;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4AF37;
+}
+
+.tirthankar-lanchhan svg {
+  width: 3rem;
+  height: 3rem;
 }
 
 .tirthankar-listing-name {
@@ -2037,7 +2117,15 @@
 
 .tirthankar-detail-symbol {
   font-size: 6rem;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4AF37;
+}
+
+.tirthankar-detail-symbol svg {
+  width: 6rem;
+  height: 6rem;
 }
 
 .tirthankar-detail-info {
@@ -2122,7 +2210,15 @@
 
 .lanchhan-symbol {
   font-size: 4rem;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4AF37;
+}
+
+.lanchhan-symbol svg {
+  width: 4rem;
+  height: 4rem;
 }
 
 .lanchhan-description {
