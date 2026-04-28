@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -19,6 +20,8 @@ const shankas = [
 ];
 
 export default function ShankaSamadhan() {
+  const navigate = useNavigate();
+
   return (
     <Box component="section" sx={{ width: "100%", py: { xs: 6, md: 8 }, backgroundColor: "#FAFAFA" }}>
       
@@ -71,8 +74,7 @@ export default function ShankaSamadhan() {
             <Paper
               key={index}
               elevation={0}
-              component="a"
-              href={`/shanka-samadhan/answer/${index}`}
+              onClick={() => navigate(`/shanka-samadhan/answer/${index}`)}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -145,7 +147,7 @@ export default function ShankaSamadhan() {
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button 
             variant="text" 
-            href="/shanka-samadhan"
+            onClick={() => navigate('/shanka-samadhan')}
             endIcon={<AutoStoriesOutlinedIcon />}
             sx={{ 
               color: "#5D4037",
