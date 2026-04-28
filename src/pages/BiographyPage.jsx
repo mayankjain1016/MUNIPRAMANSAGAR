@@ -24,11 +24,12 @@ export default function BiographyPage() {
             borderRadius: "24px",
             overflow: "hidden",
             boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
-            height: { xs: "400px", sm: "500px", md: "600px" },
+            height: { xs: "50vh", sm: "60vh", md: "80vh", lg: "95vh" },
             backgroundImage: `url(${Bioimg1})`,
-            backgroundSize: "cover",
+            backgroundSize: "contain",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
+            backgroundColor: "#2c1810",
             display: "flex",
             alignItems: "center",
             justifyContent: "center"
@@ -56,15 +57,16 @@ export default function BiographyPage() {
               width: "90%",
               maxWidth: "900px",
               px: 2,
+              transform: "translateY(80px)",
               animation: "fadeInUp 1s ease-out",
               "@keyframes fadeInUp": {
                 "0%": {
                   opacity: 0,
-                  transform: "translateY(30px)"
+                  transform: "translateY(110px)"
                 },
                 "100%": {
                   opacity: 1,
-                  transform: "translateY(0)"
+                  transform: "translateY(80px)"
                 }
               }
             }}
@@ -74,13 +76,13 @@ export default function BiographyPage() {
               sx={{
                 color: "#ffffff",
                 fontWeight: 800,
-                fontSize: { xs: "1.8rem", sm: "2.5rem", md: "3.5rem" },
+                fontSize: "clamp(18px, 4vw, 42px)",
                 letterSpacing: "-0.5px",
                 textShadow: "0 4px 20px rgba(0,0,0,0.6), 0 2px 10px rgba(0,0,0,0.4)",
                 lineHeight: 1.3
               }}
             >
-              आचार्य श्री १०८ निर्भय सागर जी महाराज
+              वैज्ञानिक संत 108 आचार्य श्री निर्भय सागर जी महाराज
             </Typography>
           </Box>
         </Box>
@@ -88,7 +90,7 @@ export default function BiographyPage() {
         {/* Introduction Section */}
         <Box sx={{ mb: 6 }}>
           <Typography variant="h4" sx={{ fontWeight: 700, color: "#E65100", mb: 3 }}>
-            परिचय — एक दिव्य आत्मा का अवतरण
+            परिचय आचार्य श्री — एक दिव्य आत्मा का अवतरण
           </Typography>
           <Typography variant="body1" sx={{ color: "#424242", lineHeight: 1.8, mb: 2 }}>
             इस पावन धरा पर समय-समय पर ऐसी महान विभूतियों का जन्म होता है जो न केवल अपने जीवन को धर्म के मार्ग पर समर्पित करती हैं, बल्कि लाखों लोगों के जीवन में आस्था, ज्ञान और वैराग्य की ज्योति जलाती हैं। ऐसे ही एक दिव्य पुरुष हैं — <strong>परम पूज्य वैज्ञानिक संत, वीतरागी आचार्य श्री १०८ निर्भय सागर जी महाराज।</strong>
@@ -106,10 +108,10 @@ export default function BiographyPage() {
         {/* Birth and Family Section */}
         <Box sx={{ mb: 6 }}>
           <Typography variant="h4" sx={{ fontWeight: 700, color: "#E65100", mb: 3 }}>
-            जन्म एवं परिवार
+            जन्म एवं परिवार का परिचय
           </Typography>
           <Typography variant="body1" sx={{ color: "#424242", lineHeight: 1.8, mb: 2 }}>
-            दिगम्बर जैन मुनि सवाई सिंघई अभयकुमार जैन का जन्म <strong>24 फरवरी 1963</strong> को मध्यप्रदेश के जिला सागर, तालुका बाँदा के <strong>ग्राम घावली</strong> में हुआ।
+            दिगम्बर जैन मुनि सवाई सिंघई अभयकुमार जैन का जन्म <strong>24 फरवरी 1963</strong> को मध्यप्रदेश के जिला सागर, तालुका बाँदा के <strong>ग्राम धबोली</strong> में हुआ।
           </Typography>
           <Typography variant="body1" sx={{ color: "#424242", lineHeight: 1.8, mb: 2 }}>
             उनकी माताजी का नाम <strong>श्रीमती सुहागरानी जैन</strong> था और पिताजी का नाम <strong>श्री हुकुमचंद जी जैन (सिंघई)</strong> था।
@@ -200,7 +202,7 @@ export default function BiographyPage() {
         {/* Disciples Section */}
         <Box sx={{ mb: 6 }}>
           <Typography variant="h4" sx={{ fontWeight: 700, color: "#E65100", mb: 3 }}>
-            शिष्य मण्डल — एक विशाल धर्म परिवार
+            शिष्यों का परिवार
           </Typography>
           <Typography variant="body1" sx={{ color: "#424242", lineHeight: 1.8, mb: 2 }}>
             आचार्य श्री निर्भय सागर जी महाराज के द्वारा दीक्षित <strong>कुल 613 शिष्य</strong> हैं — जिनमें <strong>406 मुनि</strong> (आचार्य, ऐलाचार्य, उपाध्याय, मुनि), <strong>172 आर्यिका माताजी</strong> (गणिनी आर्यिका, आर्यिका), और <strong>35 जूनियर</strong> (ऐलक, क्षुल्लक, क्षुल्लिका) शामिल हैं।
