@@ -2,27 +2,42 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const booksData = [
-  { id: 1, title: "जैन धर्म के मूल सिद्धांत", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 2, title: "अहिंसा का महत्व", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 3, title: "आत्मा और कर्म", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 4, title: "ध्यान और साधना", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 5, title: "जीवन दर्शन", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 6, title: "धर्म और समाज", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 7, title: "आध्यात्मिक यात्रा", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 8, title: "सत्य की खोज", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 9, title: "मोक्ष मार्ग", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 10, title: "जैन दर्शन", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 11, title: "कर्म सिद्धांत", author: "आचार्य श्री निर्भय सागर जी", placeholder: true },
-  { id: 12, title: "आत्म चिंतन", author: "आचार्य श्री निर्भय सागर जी", placeholder: true }
+  { id: 1, title: "जैन धर्म के मूल सिद्धांत", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 2, title: "अहिंसा का महत्व", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 3, title: "आत्मा और कर्म", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 4, title: "ध्यान और साधना", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 5, title: "जीवन दर्शन", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 6, title: "धर्म और समाज", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 7, title: "आध्यात्मिक यात्रा", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 8, title: "सत्य की खोज", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 9, title: "मोक्ष मार्ग", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 10, title: "जैन दर्शन", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 11, title: "कर्म सिद्धांत", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
+  { id: 12, title: "आत्म चिंतन", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" }
 ];
 
 export default function BooksPage() {
+  // Function to handle book download
+  const handleDownload = (book) => {
+    if (book.downloadUrl && book.downloadUrl !== "") {
+      // If download URL exists, create a temporary link and trigger download
+      const link = document.createElement('a');
+      link.href = book.downloadUrl;
+      link.download = `${book.title}.pdf`; // You can change the extension based on file type
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      // If no download URL, show alert (you can replace this with a toast notification)
+      alert(`${book.title} की डाउनलोड लिंक अभी उपलब्ध नहीं है।`);
+    }
+  };
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#FAFAFA", py: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
@@ -171,10 +186,12 @@ export default function BooksPage() {
                   {book.author}
                 </Typography>
 
-                {/* Read Button */}
+                {/* Download Button */}
                 <Button
                   variant="outlined"
                   fullWidth
+                  startIcon={<DownloadIcon />}
+                  onClick={() => handleDownload(book)}
                   sx={{
                     borderColor: "#E0E0E0",
                     color: "#555555",
@@ -190,7 +207,7 @@ export default function BooksPage() {
                     }
                   }}
                 >
-                  पढ़ें
+                  Download
                 </Button>
               </CardContent>
             </Card>

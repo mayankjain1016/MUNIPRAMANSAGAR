@@ -15,57 +15,60 @@ export default function HeroSlider() {
       sx={{ 
         width: "100%", 
         display: "flex", 
-        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
         backgroundColor: "#FAFAFA",
         py: { xs: 2, md: 6 },
         px: { xs: 2, sm: 4, md: 8 }
       }}
     >
+      {/* Hero Image */}
       <Paper
         elevation={0}
         sx={{
           width: "100%",
           maxWidth: "1200px",
           backgroundColor: "#ffffff",
-          borderRadius: "24px",
+          borderRadius: "24px 24px 0 0",
           overflow: "hidden",
-          boxShadow: "0 20px 50px rgba(230, 81, 0, 0.08)",
-          border: "1px solid rgba(230, 81, 0, 0.05)",
-          height: { xs: "350px", md: "1200px" },
+          boxShadow: "none",
+          border: "none",
+          height: { xs: "350px", md: "900px" },
           backgroundImage: `url(${Bioimg1})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          position: "relative"
+          backgroundRepeat: "no-repeat"
         }}
       >
-        {/* Text Overlay */}
-        <Box
+      </Paper>
+
+      {/* Text Box Below Hero */}
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: "1200px",
+          background: "linear-gradient(135deg, #FF9800 0%, #E65100 100%)",
+          borderRadius: "0 0 24px 24px",
+          padding: { xs: "20px", md: "30px" },
+          boxShadow: "0 20px 50px rgba(230, 81, 0, 0.08)",
+          border: "none",
+          textAlign: "center"
+        }}
+      >
+        <Typography
+          variant="h5"
           sx={{
-            position: "absolute",
-            top: "60%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            textAlign: "center",
-            width: "90%",
-            maxWidth: "900px",
-            px: 2
+            color: "#ffffff",
+            fontWeight: 600,
+            fontSize: { xs: "1.2rem", md: "1.5rem" },
+            lineHeight: 1.6,
+            textShadow: "0 2px 4px rgba(0,0,0,0.2)"
           }}
         >
-          <Typography
-            variant="h1"
-            sx={{
-              color: "#ffffff",
-              fontWeight: 700,
-              fontSize: "clamp(28px, 5vw, 56px)",
-              textShadow: "0 4px 20px rgba(0,0,0,0.6), 0 2px 10px rgba(0,0,0,0.4)",
-              lineHeight: 1.3
-            }}
-          >
-            वैज्ञानिक संत 108 आचार्य श्री निर्भय सागर जी महाराज
-          </Typography>
-        </Box>
-      </Paper>
+          {/* Add your text here */}
+          वैज्ञानिक संत 108 आचार्य श्री निर्भय सागर जी महाराज
+        </Typography>
+      </Box>
     </Box>
   );
 }

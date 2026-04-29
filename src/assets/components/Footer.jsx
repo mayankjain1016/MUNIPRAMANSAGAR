@@ -9,12 +9,9 @@ import logo from "../Nirbhaylogo.jpeg";
 // MUI Icons
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
-import AndroidIcon from "@mui/icons-material/Android";
-import AppleIcon from "@mui/icons-material/Apple";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import TwitterIcon from "@mui/icons-material/Twitter";
 
 const navLinks = [
   "Gunayatan", 
@@ -24,12 +21,9 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { icon: <AndroidIcon fontSize="small" />, label: "Android App", url: "#" },
-  { icon: <AppleIcon fontSize="small" />, label: "Apple Store", url: "#" },
   { icon: <InstagramIcon fontSize="small" />, label: "Instagram", url: "#" },
   { icon: <FacebookIcon fontSize="small" />, label: "Facebook", url: "#" },
   { icon: <YouTubeIcon fontSize="small" />, label: "Youtube", url: "#" },
-  { icon: <TwitterIcon fontSize="small" />, label: "Twitter", url: "#" },
 ];
 
 export default function Footer() {
@@ -160,9 +154,12 @@ export default function Footer() {
         {/* 5. Copyright Area */}
         <Divider sx={{ mt: 8, mb: 4, borderColor: "rgba(255,255,255,0.1)" }} />
         
-        <Box sx={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 1 }}>
           <Typography variant="body2" sx={{ color: "#8D6E63", fontSize: "0.85rem", fontWeight: 500 }}>
             © {currentYear} ALL RIGHTS RESERVED BY PRAMANIK SAMOOH
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#8D6E63", fontSize: "0.8rem" }}>
+            Website Built by <Link href="#" sx={{ color: "#FFB74D", textDecoration: "none", fontWeight: 600, "&:hover": { color: "#FF9800" } }}>AFFOBE</Link>
           </Typography>
         </Box>
       </Container>

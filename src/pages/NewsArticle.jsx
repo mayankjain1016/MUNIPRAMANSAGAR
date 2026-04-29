@@ -1,14 +1,13 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaArrowLeft, FaCalendarAlt, FaTag, FaNewspaper } from 'react-icons/fa';
-import { getNewsById, getRelatedNews } from '../data/newsData';
+import { FaArrowLeft, FaCalendarAlt, FaTag } from 'react-icons/fa';
+import { getNewsById } from '../data/newsData';
 import './NewsArticle.css';
 
 const NewsArticle = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const news = getNewsById(id);
-  const relatedNews = getRelatedNews(parseInt(id), 3);
 
   if (!news) {
     return (
@@ -38,9 +37,17 @@ const NewsArticle = () => {
         {/* Article Header */}
         <article className="article-content">
           
-          {/* Hero Image Placeholder */}
+          {/* Hero Image */}
           <div className="article-hero-image">
-            <FaNewspaper />
+            <img 
+              src={news.image} 
+              alt={news.title}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+            />
           </div>
 
           {/* Article Meta */}
@@ -104,34 +111,6 @@ const NewsArticle = () => {
           </div>
 
         </article>
-
-        {/* Related News Section */}
-        {relatedNews.length > 0 && (
-          <section className="related-news-section">
-            <h2 className="related-news-title">संबंधित समाचार</h2>
-            <div className="related-news-grid">
-              {relatedNews.map((relatedItem) => (
-                <div 
-                  key={relatedItem.id} 
-                  className="related-news-card"
-                  onClick={() => {
-                    navigate(`/news/${relatedItem.id}`);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                >
-                  <div className="related-news-image">
-                    <FaNewspaper />
-                  </div>
-                  <div className="related-news-content">
-                    <span className="related-news-category">{relatedItem.category}</span>
-                    <h3 className="related-news-title-text">{relatedItem.title}</h3>
-                    <span className="related-news-date">{relatedItem.date}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
 
         {/* Back to News Button */}
         <div className="article-footer">

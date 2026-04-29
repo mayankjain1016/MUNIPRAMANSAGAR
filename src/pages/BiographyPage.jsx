@@ -24,9 +24,9 @@ export default function BiographyPage() {
             borderRadius: "24px",
             overflow: "hidden",
             boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
-            height: { xs: "50vh", sm: "60vh", md: "80vh", lg: "95vh" },
+            height: { xs: "300px", sm: "400px", md: "500px", lg: "600px" },
             backgroundImage: `url(${Bioimg1})`,
-            backgroundSize: "contain",
+            backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundColor: "#2c1810",
@@ -79,24 +79,10 @@ export default function BiographyPage() {
                 fontSize: "clamp(18px, 4vw, 42px)",
                 letterSpacing: "-0.5px",
                 textShadow: "0 4px 20px rgba(0,0,0,0.6), 0 2px 10px rgba(0,0,0,0.4)",
-                lineHeight: 1.3,
-                mb: 2
+                lineHeight: 1.3
               }}
             >
-              आत्मा के कल्याण का पथ
-            </Typography>
-            <Typography
-              variant="h5"
-              sx={{
-                color: "#ffffff",
-                fontWeight: 400,
-                fontSize: "clamp(14px, 2vw, 22px)",
-                textShadow: "0 2px 10px rgba(0,0,0,0.5)",
-                lineHeight: 1.5,
-                opacity: 0.95
-              }}
-            >
-              संयम, साधना और आत्मशांति की ओर एक दिव्य यात्रा।
+              वैज्ञानिक संत 108 आचार्य श्री निर्भय सागर जी महाराज
             </Typography>
           </Box>
         </Box>

@@ -86,8 +86,9 @@
 }
 
 .section-container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .content-card {
@@ -119,17 +120,17 @@
 
 /* Principles Grid */
 .principles-grid {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
-  flex-wrap: nowrap;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .principle-card {
   background: white;
-  width: 220px;
   min-height: 200px;
-  padding: 30px;
+  padding: 30px 20px;
   border-radius: 18px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   display: flex;
@@ -178,6 +179,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .importance-card {
@@ -216,7 +219,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -278,12 +281,14 @@
 /* Gallery Grid */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .gallery-item {
-  height: 400px;
+  height: 420px;
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -328,7 +333,36 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  .principles-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .importance-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .experience-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .gallery-item {
+    height: 380px;
+  }
+}
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
   .gunayatan-hero {
     min-height: 420px;
   }
@@ -349,6 +383,10 @@
     padding: 50px 15px;
   }
 
+  .section-container {
+    padding: 0 15px;
+  }
+
   .content-card {
     padding: 30px 20px;
   }
@@ -362,12 +400,11 @@
   }
 
   .principles-grid {
-    flex-wrap: wrap;
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
   }
 
   .principle-card {
-    width: calc(50% - 7.5px);
     min-height: 180px;
     padding: 25px 20px;
   }
@@ -418,7 +455,7 @@
   }
 
   .gallery-grid {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
   }
 
@@ -435,23 +472,19 @@
   }
 
   .card-description {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   .final-quote-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
-  .quote-mark {
-    font-size: 3rem;
-  }
-
-  .cta-button {
-    padding: 12px 40px;
-    font-size: 1rem;
+  .final-quote-box {
+    padding: 30px 25px;
   }
 }
 
+/* Small Mobile (max-width: 480px) */
 @media (max-width: 480px) {
   .hero-title {
     font-size: 2rem;
@@ -470,12 +503,11 @@
   }
 
   .principles-grid {
-    flex-wrap: wrap;
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
   .principle-card {
-    width: calc(50% - 6px);
     min-height: 170px;
     padding: 20px 15px;
   }
@@ -518,7 +550,6 @@
   .experience-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    max-width: 100%;
   }
 
   .experience-card {
@@ -528,5 +559,31 @@
 
   .experience-text {
     font-size: 0.9rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .gallery-item {
+    height: 280px;
+  }
+
+  .image-container {
+    height: 160px;
+  }
+
+  .card-description {
+    font-size: 0.8rem;
+  }
+
+  .final-quote-text {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .final-quote-box {
+    padding: 25px 20px;
   }
 }

@@ -65,9 +65,17 @@ const NewsMediaPage = () => {
                 className="news-card"
                 onClick={() => handleNewsClick(news.id)}
               >
-                {/* Image Placeholder */}
+                {/* Image */}
                 <div className="news-image-placeholder">
-                  <FaNewspaper />
+                  <img 
+                    src={news.image} 
+                    alt={news.title}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
                 </div>
 
                 {/* News Content */}
