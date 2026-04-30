@@ -158,24 +158,60 @@ export default function EventsAndNews() {
           sx={{
             gridColumn: { xs: "1", lg: "6 / 13" },
             gridRow: { xs: "auto", lg: "1 / 3" },
-            backgroundColor: "#ffffff",
+            background: "linear-gradient(135deg, #FFF8E1 0%, #ffffff 100%)",
             borderRadius: "24px",
             p: { xs: 3, md: 4 },
-            border: "1px solid rgba(230, 81, 0, 0.1)",
-            boxShadow: "0 12px 32px rgba(0, 0, 0, 0.05)",
+            border: "2px solid rgba(230, 81, 0, 0.15)",
+            boxShadow: "0 12px 32px rgba(230, 81, 0, 0.08)",
             display: "flex",
             flexDirection: "column",
+            position: "relative",
+            overflow: "hidden"
           }}
         >
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: "#333", display: "flex", alignItems: "center" }}>
-              <CampaignIcon sx={{ color: "#E65100", mr: 1.5, fontSize: "28px" }} /> 
-              Latest News
-            </Typography>
+          {/* Decorative orange circle */}
+          <Box 
+            sx={{
+              position: "absolute",
+              top: "-50px",
+              right: "-50px",
+              width: "200px",
+              height: "200px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(230, 81, 0, 0.08) 0%, transparent 70%)",
+              pointerEvents: "none"
+            }}
+          />
+          
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3, position: "relative", zIndex: 1 }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  backgroundColor: "#E65100",
+                  borderRadius: "50%",
+                  p: 1,
+                  display: "flex",
+                  mr: 1.5,
+                  boxShadow: "0 4px 12px rgba(230, 81, 0, 0.3)"
+                }}
+              >
+                <CampaignIcon sx={{ color: "white", fontSize: "24px" }} />
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: "#5a3008" }}>
+                Latest News
+              </Typography>
+            </Box>
             <Button 
               endIcon={<ArrowForwardIcon />} 
               onClick={handleViewAll}
-              sx={{ color: "#E65100", textTransform: "none", fontWeight: 600 }}
+              sx={{ 
+                color: "#E65100", 
+                textTransform: "none", 
+                fontWeight: 600,
+                "&:hover": {
+                  backgroundColor: "rgba(230, 81, 0, 0.08)"
+                }
+              }}
             >
               View All
             </Button>
@@ -191,10 +227,12 @@ export default function EventsAndNews() {
               display: "flex",
               flexDirection: "column",
               gap: 3,
+              position: "relative",
+              zIndex: 1,
               // Custom Scrollbar
               "&::-webkit-scrollbar": { width: "6px" },
-              "&::-webkit-scrollbar-track": { background: "#f1f1f1", borderRadius: "10px" },
-              "&::-webkit-scrollbar-thumb": { background: "#FFB74D", borderRadius: "10px" },
+              "&::-webkit-scrollbar-track": { background: "rgba(230, 81, 0, 0.05)", borderRadius: "10px" },
+              "&::-webkit-scrollbar-thumb": { background: "linear-gradient(135deg, #FF9800, #E65100)", borderRadius: "10px" },
               "&::-webkit-scrollbar-thumb:hover": { background: "#E65100" }
             }}
           >
@@ -207,19 +245,32 @@ export default function EventsAndNews() {
                   flexDirection: "column",
                   borderBottom: index !== newsData.length - 1 ? "1px dashed #E0E0E0" : "none",
                   pb: index !== newsData.length - 1 ? 3 : 0,
-                  cursor: "pointer"
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  borderRadius: "12px",
+                  p: 2,
+                  ml: -2,
+                  mr: -2,
+                  "&:hover": {
+                    backgroundColor: "#FFE0B2",
+                    transform: "translateX(8px)",
+                    boxShadow: "0 4px 12px rgba(230, 81, 0, 0.15)",
+                    borderColor: "transparent",
+                    borderLeft: "4px solid #E65100"
+                  }
                 }}
               >
                 <Chip 
                   label={item.date} 
                   size="small" 
                   sx={{ 
-                    backgroundColor: "#FAFAFA", 
-                    color: "#757575",
+                    background: "linear-gradient(135deg, #FF9800, #E65100)",
+                    color: "white",
                     fontWeight: 600,
-                    border: "1px solid #EEEEEE",
+                    border: "none",
                     mb: 1.5,
-                    width: "fit-content"
+                    width: "fit-content",
+                    boxShadow: "0 2px 8px rgba(230, 81, 0, 0.2)"
                   }} 
                 />
                 <Typography 
@@ -228,7 +279,11 @@ export default function EventsAndNews() {
                     color: "#212121", 
                     fontWeight: 500, 
                     lineHeight: 1.6,
-                    fontSize: "1.05rem"
+                    fontSize: "1.05rem",
+                    transition: "color 0.3s ease",
+                    "&:hover": {
+                      color: "#E65100"
+                    }
                   }}
                 >
                   {item.title}

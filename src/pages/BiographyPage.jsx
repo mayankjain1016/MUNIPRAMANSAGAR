@@ -57,16 +57,16 @@ export default function BiographyPage() {
               width: "90%",
               maxWidth: "900px",
               px: 2,
-              transform: "translateY(80px)",
+              transform: "translateY(180px)",
               animation: "fadeInUp 1s ease-out",
               "@keyframes fadeInUp": {
                 "0%": {
                   opacity: 0,
-                  transform: "translateY(110px)"
+                  transform: "translateY(210px)"
                 },
                 "100%": {
                   opacity: 1,
-                  transform: "translateY(80px)"
+                  transform: "translateY(180px)"
                 }
               }
             }}
