@@ -273,11 +273,11 @@ export default function BiographyPage() {
         <Divider sx={{ my: 6 }} />
 
         {/* Conclusion Section */}
-        <Box sx={{ mb: 6, textAlign: "center", backgroundColor: "#FFF8E1", p: 4, borderRadius: "16px" }}>
-          <Typography variant="h4" sx={{ fontWeight: 700, color: "#E65100", mb: 3 }}>
+        <Box sx={{ mb: 6, textAlign: "center", backgroundColor: "#FFF8E1", p: { xs: 2, sm: 3, md: 4 }, borderRadius: { xs: "12px", md: "16px" } }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: "#E65100", mb: { xs: 2, md: 3 }, fontSize: { xs: "1.3rem", sm: "1.75rem", md: "2.125rem" } }}>
             श्रद्धाञ्जलि एवं प्रेरणा
           </Typography>
-          <Typography variant="body1" sx={{ color: "#424242", lineHeight: 1.8, mb: 3 }}>
+          <Typography variant="body1" sx={{ color: "#424242", lineHeight: 1.8, mb: { xs: 2, md: 3 }, fontSize: { xs: "0.9rem", sm: "1rem" } }}>
             आचार्य श्री निर्भय सागर जी महाराज का जीवन इस बात का प्रमाण है कि यदि हृदय में वैराग्य हो तो उच्च शिक्षा, आधुनिक ज्ञान और सांसारिक समृद्धि — सब कुछ होते हुए भी मनुष्य मोक्षमार्ग अपना सकता है। वे आज की पीढ़ी के लिए एक जीवंत प्रेरणास्रोत हैं।
           </Typography>
           <Typography 
@@ -288,7 +288,8 @@ export default function BiographyPage() {
               fontWeight: 600,
               borderLeft: "4px solid #E65100",
               pl: 2,
-              py: 1
+              py: 1,
+              fontSize: { xs: "0.95rem", sm: "1.1rem", md: "1.25rem" }
             }}
           >
             "आत्मा को जानो, आत्मा में रमो — यही सच्चा धर्म है।"

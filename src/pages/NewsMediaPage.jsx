@@ -10,16 +10,26 @@ const NewsMediaPage = () => {
 
   const categories = [
     { id: 'all', name: 'सभी समाचार' },
-    { id: 'मंगल प्रवेश', name: 'मंगल प्रवेश' },
-    { id: 'प्रवचन सभा', name: 'प्रवचन सभा' },
-    { id: 'अहिंसा संदेश', name: 'अहिंसा संदेश' },
-    { id: 'युवा मार्गदर्शन', name: 'युवा मार्गदर्शन' },
-    { id: 'ध्यान शिविर', name: 'ध्यान शिविर' }
+    { id: 'latest', name: 'नवीनतम समाचार' },
+    { id: 'popular', name: 'लोकप्रिय समाचार' },
+    { id: 'special', name: 'विशेष समाचार' }
   ];
 
   const filteredNews = selectedCategory === 'all' 
     ? newsData 
-    : newsData.filter(news => news.category === selectedCategory);
+    : newsData.filter(news => {
+        if (selectedCategory === 'latest') {
+          // Show latest 6 news items
+          return newsData.indexOf(news) < 6;
+        } else if (selectedCategory === 'popular') {
+          // Show popular news (you can add a 'popular' field to newsData)
+          return news.views > 1000; // Example logic
+        } else if (selectedCategory === 'special') {
+          // Show special news (you can add a 'special' field to newsData)
+          return news.featured === true; // Example logic
+        }
+        return news.category === selectedCategory;
+      });
 
   const handleNewsClick = (id) => {
     navigate(`/news/${id}`);
@@ -81,7 +91,6 @@ const NewsMediaPage = () => {
                 {/* News Content */}
                 <div className="news-card-content">
                   <div className="news-card-header">
-                    <span className="news-category-badge">{news.category}</span>
                     <span className="news-date">
                       <FaCalendarAlt /> {news.date}
                     </span>

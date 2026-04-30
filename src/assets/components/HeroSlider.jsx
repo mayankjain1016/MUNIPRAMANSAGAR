@@ -49,7 +49,7 @@ export default function HeroSlider() {
           maxWidth: "1200px",
           background: "linear-gradient(135deg, #FF9800 0%, #E65100 100%)",
           borderRadius: "0 0 24px 24px",
-          padding: { xs: "20px", md: "30px" },
+          padding: { xs: "12px 16px", sm: "16px 20px", md: "20px 30px" },
           boxShadow: "0 20px 50px rgba(230, 81, 0, 0.08)",
           border: "none",
           textAlign: "center"
@@ -60,8 +60,8 @@ export default function HeroSlider() {
           sx={{
             color: "#ffffff",
             fontWeight: 600,
-            fontSize: { xs: "1.2rem", md: "1.5rem" },
-            lineHeight: 1.6,
+            fontSize: { xs: "0.9rem", sm: "1.1rem", md: "1.3rem", lg: "1.5rem" },
+            lineHeight: 1.4,
             textShadow: "0 2px 4px rgba(0,0,0,0.2)"
           }}
         >

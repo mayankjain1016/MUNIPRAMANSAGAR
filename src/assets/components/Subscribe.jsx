@@ -30,18 +30,18 @@ export default function Subscribe() {
       <Paper 
         elevation={0} 
         sx={{
-          maxWidth: "1000px", 
+          maxWidth: "600px", 
           width: "100%",
           // Warm spiritual gradient background
           background: "linear-gradient(135deg, #FFF3E0 0%, #FFFFFF 100%)",
-          borderRadius: "24px",
+          borderRadius: "12px",
           border: "1px solid rgba(230, 81, 0, 0.1)",
-          p: { xs: 3, md: 5 },
+          p: { xs: 1.5, sm: 2, md: 2.5 },
           display: "flex",
           flexDirection: { xs: "column", md: "row" }, // Stacks on mobile, row on desktop
           alignItems: "center",
-          gap: { xs: 3, md: 4 },
-          boxShadow: "0 12px 40px rgba(230, 81, 0, 0.08)"
+          gap: { xs: 1.5, sm: 2, md: 2.5 },
+          boxShadow: "0 4px 16px rgba(230, 81, 0, 0.05)"
         }}
       >
         {/* 1. Pulsing Icon Badge */}
@@ -49,14 +49,14 @@ export default function Subscribe() {
           sx={{
             backgroundColor: "#25D366", // Official WhatsApp Green
             borderRadius: "50%",
-            p: 2,
+            p: { xs: 0.8, sm: 1, md: 1.2 },
             display: "flex",
             color: "white",
             animation: `${pulseAnimation} 2s infinite`,
             flexShrink: 0
           }}
         >
-          <WhatsAppIcon sx={{ fontSize: { xs: "36px", md: "48px" } }} />
+          <WhatsAppIcon sx={{ fontSize: { xs: "18px", sm: "20px", md: "24px" } }} />
         </Box>
 
         {/* 2. Text Content Area */}
@@ -67,8 +67,8 @@ export default function Subscribe() {
             sx={{ 
               fontWeight: 800, 
               color: "#333333", 
-              mb: 1.5,
-              fontSize: { xs: "1.5rem", md: "2rem" },
+              mb: { xs: 0.5, md: 0.8 },
+              fontSize: { xs: "0.85rem", sm: "1rem", md: "1.2rem" },
               letterSpacing: "-0.5px"
             }}
           >
@@ -79,9 +79,9 @@ export default function Subscribe() {
             variant="body1" 
             sx={{ 
               color: "#616161", 
-              mb: 2, 
-              lineHeight: 1.6,
-              fontSize: "1.05rem"
+              mb: { xs: 0.8, md: 1.2 }, 
+              lineHeight: 1.5,
+              fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.9rem" }
             }}
           >
             मुनिश्री से सम्बंधित सभी नवीनतम अपडेट, प्रवचन और कार्यक्रम की जानकारी सीधे अपने फोन पर पाने के लिए अभी सब्सक्राइब करें।
@@ -95,13 +95,13 @@ export default function Subscribe() {
               backgroundColor: "#FFF8E1",
               border: "1px solid rgba(230, 81, 0, 0.2)",
               borderRadius: "8px",
-              px: 1.5,
+              px: { xs: 1, sm: 1.5 },
               py: 0.5
             }}
           >
-            <NotificationsActiveOutlinedIcon sx={{ fontSize: "18px", color: "#E65100", mr: 1 }} />
-            <Typography variant="body2" sx={{ color: "#E65100", fontWeight: 600 }}>
-              Notifications ऑन रखना न भूलें! 🙏
+            <NotificationsActiveOutlinedIcon sx={{ fontSize: { xs: "16px", sm: "18px" }, color: "#E65100", mr: { xs: 0.5, sm: 1 } }} />
+            <Typography variant="body2" sx={{ color: "#E65100", fontWeight: 600, fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
+              Notifications ऑन रखना न भूलें!
             </Typography>
           </Box>
         </Box>
@@ -114,15 +114,15 @@ export default function Subscribe() {
             href="YOUR_WHATSAPP_LINK_HERE"
             target="_blank"
             rel="noopener noreferrer"
-            startIcon={<WhatsAppIcon />}
+            startIcon={<WhatsAppIcon sx={{ fontSize: { xs: "18px", sm: "20px", md: "24px" } }} />}
             sx={{
               backgroundColor: "#25D366", // Official WhatsApp Green
               color: "white",
               borderRadius: "50px", // Pill shape
-              px: 4,
-              py: 1.5,
+              px: { xs: 3, sm: 3.5, md: 4 },
+              py: { xs: 1, sm: 1.25, md: 1.5 },
               fontWeight: 700,
-              fontSize: "1.1rem",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.1rem" },
               textTransform: "none",
               boxShadow: "0 8px 20px rgba(37, 211, 102, 0.3)",
               transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",

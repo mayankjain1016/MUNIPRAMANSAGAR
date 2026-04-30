@@ -42,14 +42,14 @@ export default function ShankaSamadhan() {
             alignItems: "center",
             backgroundColor: "#FFF3E0", 
             borderRadius: "50px", 
-            px: 3,
-            py: 1.5,
+            px: { xs: 2, sm: 3 },
+            py: { xs: 1, sm: 1.5 },
             mb: 2,
             border: "1px solid rgba(230, 81, 0, 0.15)",
             boxShadow: "0 4px 12px rgba(230, 81, 0, 0.05)"
           }}
         >
-          <ForumOutlinedIcon sx={{ color: "#E65100", mr: 1.5 }} />
+          <ForumOutlinedIcon sx={{ color: "#E65100", mr: { xs: 1, sm: 1.5 }, fontSize: { xs: "1.2rem", sm: "1.5rem" } }} />
           <Typography 
             variant="h5" 
             component="h2" 
@@ -57,12 +57,13 @@ export default function ShankaSamadhan() {
               fontWeight: 700, 
               color: "#E65100",
               fontFamily: "system-ui, -apple-system, sans-serif",
+              fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" }
             }}
           >
             आपके सवाल गुरुदेव के जवाब
           </Typography>
         </Box>
-        <Typography variant="body1" sx={{ color: "#000000", fontSize: "1.5rem" }}>
+        <Typography variant="body1" sx={{ color: "#000000", fontSize: { xs: "1.1rem", sm: "1.3rem", md: "1.5rem" } }}>
           हर शंका का समाधान
         </Typography>
       </Box>
