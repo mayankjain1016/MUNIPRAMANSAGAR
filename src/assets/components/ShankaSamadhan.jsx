@@ -59,11 +59,11 @@ export default function ShankaSamadhan() {
               fontFamily: "system-ui, -apple-system, sans-serif",
             }}
           >
-            हर शंका का समाधान
+            आपके सवाल गुरुदेव के जवाब
           </Typography>
         </Box>
-        <Typography variant="body1" sx={{ color: "#757575" }}>
-          आपके सवाल गुरुदेव के जवाब
+        <Typography variant="body1" sx={{ color: "#000000", fontSize: "1.5rem" }}>
+          हर शंका का समाधान
         </Typography>
       </Box>
 

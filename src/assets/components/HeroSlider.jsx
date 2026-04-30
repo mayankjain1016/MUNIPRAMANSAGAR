@@ -33,7 +33,7 @@ export default function HeroSlider() {
           overflow: "hidden",
           boxShadow: "none",
           border: "none",
-          height: { xs: "350px", md: "900px" },
+          height: { xs: "300px", sm: "400px", md: "500px", lg: "600px" },
           backgroundImage: `url(${Bioimg1})`,
           backgroundSize: "cover",
           backgroundPosition: "center",

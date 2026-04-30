@@ -7,6 +7,10 @@ import NavinPravachanPage from "./pages/NavinPravachanPage";
 import SwadhyayShrinkalaPage from "./pages/SwadhyayShrinkalaPage";
 import SamastPravachanPage from "./pages/SamastPravachanPage";
 import PravachanMalaPage from "./pages/PravachanMalaPage";
+import ShankaSamadhanMainPage from "./pages/ShankaSamadhanMainPage";
+import ShankaSamadhanAllClips from "./pages/ShankaSamadhanAllClips";
+import ShankaSamadhanNewClips from "./pages/ShankaSamadhanNewClips";
+import ShankaSamadhanPopularClips from "./pages/ShankaSamadhanPopularClips";
 import ShankaSamadhanPage from "./pages/ShankaSamadhanPage";
 import KahaniyaPage from "./pages/KahaniyaPage";
 import BhavanaYogPage from "./pages/BhavanaYogPage";
@@ -44,7 +48,11 @@ export default function App() {
           <Route path="/pravachan/swadhyay" element={<SwadhyayShrinkalaPage />} />
           <Route path="/pravachan/samast" element={<SamastPravachanPage />} />
           <Route path="/pravachan/mala" element={<PravachanMalaPage />} />
-          <Route path="/shanka-samadhan" element={<ShankaSamadhanPage />} />
+          <Route path="/shanka-samadhan" element={<ShankaSamadhanMainPage />} />
+          <Route path="/shanka-samadhan/all-clips" element={<ShankaSamadhanAllClips />} />
+          <Route path="/shanka-samadhan/new-clips" element={<ShankaSamadhanNewClips />} />
+          <Route path="/shanka-samadhan/popular-clips" element={<ShankaSamadhanPopularClips />} />
+          <Route path="/shanka-samadhan/all-questions" element={<ShankaSamadhanPage />} />
           <Route path="/shanka-samadhan/:slug" element={<ShankaSamadhanAnswerPage />} />
           <Route path="/shanka-samadhan/answer/:answerId" element={<ShankaSamadhanAnswerPage />} />
           <Route path="/kahaniya" element={<KahaniyaPage />} />
