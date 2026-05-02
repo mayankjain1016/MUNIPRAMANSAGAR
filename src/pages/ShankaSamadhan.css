@@ -4,7 +4,7 @@
   width: 100%;
   min-height: 100vh;
   background-color: #F9F3E7;
-  padding-bottom: 60px;
+  padding-bottom: 0;
 }
 
 .shanka-container {
@@ -180,7 +180,7 @@
 /* Load More Section */
 .load-more-container {
   text-align: center;
-  padding: 40px 0;
+  padding: 40px 0 0 0;
 }
 
 .load-more-btn {
@@ -220,6 +220,7 @@
   background: linear-gradient(135deg, #FFF8E1 0%, #FAF0E6 100%);
   border-radius: 16px;
   border: 2px solid #D4AF37;
+  margin-bottom: 0;
 }
 
 .all-loaded-message p {

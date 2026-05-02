@@ -148,7 +148,7 @@ export default function ShankaSamadhan() {
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button 
             variant="text" 
-            onClick={() => navigate('/shanka-samadhan')}
+            onClick={() => navigate('/shanka-samadhan/all-questions')}
             endIcon={<AutoStoriesOutlinedIcon />}
             sx={{ 
               color: "#5D4037",

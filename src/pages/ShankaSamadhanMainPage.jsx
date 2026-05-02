@@ -241,14 +241,16 @@ export default function ShankaSamadhanMainPage() {
             textAlign: "center", 
             backgroundColor: "#ffffff", 
             borderRadius: "16px", 
-            p: 4,
-            boxShadow: "0 4px 16px rgba(0,0,0,0.06)"
+            p: { xs: 2.5, sm: 3, md: 3.5 },
+            boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+            maxWidth: "700px",
+            mx: "auto"
           }}
         >
-          <Typography variant="h5" sx={{ fontWeight: 700, color: "#E65100", mb: 2 }}>
+          <Typography variant="h5" sx={{ fontWeight: 700, color: "#E65100", mb: 1.5, fontSize: { xs: "1.2rem", sm: "1.35rem", md: "1.5rem" } }}>
             अपनी शंका भेजें
           </Typography>
-          <Typography variant="body1" sx={{ color: "#666", lineHeight: 1.8, maxWidth: "800px", mx: "auto", mb: 3 }}>
+          <Typography variant="body1" sx={{ color: "#666", lineHeight: 1.7, maxWidth: "600px", mx: "auto", mb: 2.5, fontSize: { xs: "0.9rem", sm: "0.95rem", md: "1rem" } }}>
             यदि आपके मन में कोई प्रश्न या शंका है, तो कृपया हमें भेजें। गुरुदेव आपकी शंका का समाधान करेंगे।
           </Typography>
           <Button
@@ -259,10 +261,10 @@ export default function ShankaSamadhanMainPage() {
               backgroundColor: "#E65100",
               color: "#ffffff",
               borderRadius: "50px",
-              padding: "12px 32px",
+              padding: { xs: "10px 24px", sm: "11px 28px", md: "12px 32px" },
               fontWeight: 600,
               textTransform: "none",
-              fontSize: "1rem",
+              fontSize: { xs: "0.9rem", sm: "0.95rem", md: "1rem" },
               "&:hover": {
                 backgroundColor: "#BF360C"
               }

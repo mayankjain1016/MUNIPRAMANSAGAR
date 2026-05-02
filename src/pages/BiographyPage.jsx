@@ -16,26 +16,26 @@ export default function BiographyPage() {
     <Box sx={{ minHeight: "100vh", backgroundColor: "#FAFAFA", py: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
         
-        {/* Hero Section with Background Image and Text Overlay */}
+        {/* Hero Section with Background Image */}
         <Box 
           sx={{ 
             position: "relative",
-            mb: 8,
-            borderRadius: "24px",
+            mb: 0,
+            borderRadius: "24px 24px 0 0",
             overflow: "hidden",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+            boxShadow: "0 20px 50px rgba(230, 81, 0, 0.08)",
+            border: "none",
             height: { xs: "300px", sm: "400px", md: "500px", lg: "600px" },
             backgroundImage: `url(${Bioimg1})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
-            backgroundColor: "#2c1810",
             display: "flex",
             alignItems: "center",
             justifyContent: "center"
           }}
         >
-          {/* Dark Gradient Overlay */}
+          {/* Light Gradient Overlay */}
           <Box
             sx={{
               position: "absolute",
@@ -43,48 +43,37 @@ export default function BiographyPage() {
               left: 0,
               right: 0,
               bottom: 0,
-              background: "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%)",
+              background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.2) 100%)",
               zIndex: 1
             }}
           />
-          
-          {/* Text Overlay */}
-          <Box
+        </Box>
+
+        {/* Text Box Below Hero */}
+        <Box 
+          sx={{
+            background: "linear-gradient(135deg, #FF9800 0%, #E65100 100%)",
+            borderRadius: "0 0 24px 24px",
+            p: { xs: "6px 16px", sm: "8px 20px", md: "10px 30px" },
+            mb: 8,
+            boxShadow: "0 20px 50px rgba(230, 81, 0, 0.08)",
+            border: "none",
+            textAlign: "center"
+          }}
+        >
+          <Typography
+            variant="h2"
+            component="h1"
             sx={{
-              position: "relative",
-              zIndex: 2,
-              textAlign: "center",
-              width: "90%",
-              maxWidth: "900px",
-              px: 2,
-              transform: "translateY(180px)",
-              animation: "fadeInUp 1s ease-out",
-              "@keyframes fadeInUp": {
-                "0%": {
-                  opacity: 0,
-                  transform: "translateY(210px)"
-                },
-                "100%": {
-                  opacity: 1,
-                  transform: "translateY(180px)"
-                }
-              }
+              fontWeight: 800,
+              color: "#ffffff",
+              fontSize: { xs: "1.3rem", sm: "1.6rem", md: "1.8rem" },
+              letterSpacing: "-0.5px",
+              textShadow: "0 2px 4px rgba(0,0,0,0.2)"
             }}
           >
-            <Typography
-              variant="h1"
-              sx={{
-                color: "#ffffff",
-                fontWeight: 800,
-                fontSize: "clamp(18px, 4vw, 42px)",
-                letterSpacing: "-0.5px",
-                textShadow: "0 4px 20px rgba(0,0,0,0.6), 0 2px 10px rgba(0,0,0,0.4)",
-                lineHeight: 1.3
-              }}
-            >
-              वैज्ञानिक संत 108 आचार्य श्री निर्भय सागर जी महाराज
-            </Typography>
-          </Box>
+            वैज्ञानिक संत 108 आचार्य श्री निर्भय सागर जी महाराज
+          </Typography>
         </Box>
 
         {/* Introduction Section */}

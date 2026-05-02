@@ -217,24 +217,6 @@ const ShankaSamadhanPage = () => {
               </p>
             </div>
           )}
-
-          {/* All Loaded Message */}
-          {!hasMore && (
-            <div className="all-loaded-message">
-              <p>सभी {allQuestions.length} प्रश्न दिखाए गए हैं</p>
-            </div>
-          )}
-        </section>
-
-        {/* Contact Section */}
-        <section className="shanka-contact-section">
-          <div className="contact-card">
-            <h2>और प्रश्न हैं?</h2>
-            <p>यदि आपके मन में कोई और प्रश्न है जो यहाँ सूचीबद्ध नहीं है, तो कृपया हमसे संपर्क करें। हम आपकी शंकाओं का समाधान करने के लिए सदैव तत्पर हैं।</p>
-            <button className="contact-btn" onClick={() => navigate('/contact')}>
-              संपर्क करें
-            </button>
-          </div>
         </section>
 
       </div>
