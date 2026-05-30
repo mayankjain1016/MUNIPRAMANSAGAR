@@ -95,34 +95,128 @@ export default function BookManagement() {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4">Book Management</Typography>
-        <Button variant="contained" startIcon={<Add />} onClick={() => handleOpen()}>
+    <Box>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4, flexWrap: 'wrap', gap: 2 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5, fontSize: { xs: '1.5rem', sm: '1.875rem' } }}>
+            Book Management
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.9rem' }}>
+            Manage books and PDF files
+          </Typography>
+        </Box>
+        <Button 
+          variant="contained" 
+          startIcon={<Add />} 
+          onClick={() => handleOpen()}
+          sx={{
+            backgroundColor: '#f97316',
+            color: '#ffffff',
+            px: 3,
+            py: 1.25,
+            borderRadius: 2,
+            textTransform: 'none',
+            fontWeight: 600,
+            boxShadow: 'none',
+            '&:hover': {
+              backgroundColor: '#ea580c',
+              boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+            }
+          }}
+        >
           Add Book
         </Button>
       </Box>
 
-      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+      {error && (
+        <Alert 
+          severity="error" 
+          sx={{ 
+            mb: 3,
+            borderRadius: 2,
+            backgroundColor: '#fef2f2',
+            border: '1px solid #fecaca',
+            color: '#991b1b',
+          }}
+        >
+          {error}
+        </Alert>
+      )}
 
       <Grid container spacing={3}>
         {books.map((book) => (
-          <Grid item xs={12} sm={6} md={4} key={book._id}>
-            <Card>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={book._id}>
+            <Card elevation={0} sx={{ 
+              height: '100%',
+              border: '1px solid #e2e8f0',
+              borderRadius: 3,
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 12px 24px rgba(0, 0, 0, 0.08)',
+              }
+            }}>
               <CardMedia
                 component="img"
-                height="300"
+                height="320"
                 image={`${API_URL}/uploads/books/${book.coverImage}`}
                 alt={book.title}
+                sx={{ objectFit: 'cover' }}
               />
-              <CardContent>
-                <Typography variant="h6" gutterBottom>{book.title}</Typography>
-                <Typography variant="body2" color="text.secondary" gutterBottom>{book.author}</Typography>
-                <Typography variant="body2" sx={{ mb: 2 }}>{book.description}</Typography>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <IconButton color="primary" onClick={() => handleOpen(book)}><Edit /></IconButton>
-                  <IconButton color="error" onClick={() => handleDelete(book._id)}><Delete /></IconButton>
-                  <IconButton color="success" href={`${API_URL}/uploads/books/${book.pdfFile}`} target="_blank"><PictureAsPdf /></IconButton>
+              <CardContent sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, color: '#0f172a', mb: 1, fontSize: '1rem' }}>
+                  {book.title}
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#64748b', mb: 1, fontSize: '0.85rem' }}>
+                  {book.author}
+                </Typography>
+                <Typography variant="body2" sx={{ 
+                  color: '#64748b', 
+                  mb: 2,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  lineHeight: 1.5,
+                  fontSize: '0.85rem',
+                }}>
+                  {book.description}
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1, justifyContent: 'space-between' }}>
+                  <Box sx={{ display: 'flex', gap: 0.5 }}>
+                    <IconButton 
+                      size="small" 
+                      onClick={() => handleOpen(book)}
+                      sx={{
+                        color: '#3b82f6',
+                        '&:hover': { backgroundColor: '#eff6ff' }
+                      }}
+                    >
+                      <Edit fontSize="small" />
+                    </IconButton>
+                    <IconButton 
+                      size="small" 
+                      onClick={() => handleDelete(book._id)}
+                      sx={{
+                        color: '#ef4444',
+                        '&:hover': { backgroundColor: '#fef2f2' }
+                      }}
+                    >
+                      <Delete fontSize="small" />
+                    </IconButton>
+                  </Box>
+                  <IconButton 
+                    size="small" 
+                    href={`${API_URL}/uploads/books/${book.pdfFile}`} 
+                    target="_blank"
+                    sx={{
+                      color: '#10b981',
+                      '&:hover': { backgroundColor: '#f0fdf4' }
+                    }}
+                  >
+                    <PictureAsPdf fontSize="small" />
+                  </IconButton>
                 </Box>
               </CardContent>
             </Card>
@@ -131,7 +225,9 @@ export default function BookManagement() {
       </Grid>
 
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle>{editMode ? 'Edit Book' : 'Add Book'}</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 600, color: '#0f172a' }}>
+          {editMode ? 'Edit Book' : 'Add Book'}
+        </DialogTitle>
         <DialogContent>
           <TextField
             fullWidth
@@ -164,18 +260,77 @@ export default function BookManagement() {
             onChange={(e) => setFormData({ ...formData, order: e.target.value })}
             margin="normal"
           />
-          <Button variant="outlined" component="label" fullWidth sx={{ mt: 2 }} startIcon={<CloudUpload />}>
+          <Button 
+            variant="outlined" 
+            component="label" 
+            fullWidth 
+            sx={{ 
+              mt: 2,
+              borderColor: '#e2e8f0',
+              color: '#64748b',
+              textTransform: 'none',
+              py: 1.5,
+              '&:hover': {
+                borderColor: '#f97316',
+                backgroundColor: '#fff7ed',
+                color: '#f97316',
+              }
+            }} 
+            startIcon={<CloudUpload />}
+          >
             Upload Cover Image {coverImage && '✓'}
             <input type="file" hidden accept="image/*" onChange={(e) => setCoverImage(e.target.files[0])} />
           </Button>
-          <Button variant="outlined" component="label" fullWidth sx={{ mt: 2 }} startIcon={<PictureAsPdf />}>
+          <Button 
+            variant="outlined" 
+            component="label" 
+            fullWidth 
+            sx={{ 
+              mt: 2,
+              borderColor: '#e2e8f0',
+              color: '#64748b',
+              textTransform: 'none',
+              py: 1.5,
+              '&:hover': {
+                borderColor: '#f97316',
+                backgroundColor: '#fff7ed',
+                color: '#f97316',
+              }
+            }} 
+            startIcon={<PictureAsPdf />}
+          >
             Upload PDF {pdfFile && '✓'}
             <input type="file" hidden accept="application/pdf" onChange={(e) => setPdfFile(e.target.files[0])} />
           </Button>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained">Save</Button>
+        <DialogActions sx={{ p: 3 }}>
+          <Button 
+            onClick={handleClose}
+            sx={{
+              color: '#64748b',
+              textTransform: 'none',
+              fontWeight: 600,
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleSubmit} 
+            variant="contained"
+            sx={{
+              backgroundColor: '#f97316',
+              color: '#ffffff',
+              textTransform: 'none',
+              fontWeight: 600,
+              boxShadow: 'none',
+              '&:hover': {
+                backgroundColor: '#ea580c',
+                boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+              }
+            }}
+          >
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

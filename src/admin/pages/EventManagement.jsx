@@ -165,10 +165,10 @@ export default function EventManagement() {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
-          <Typography variant="h4">Upcoming Event Management</Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5, fontSize: '1.875rem' }}>Upcoming Events</Typography>
+          <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.9rem' }}>
             Drag and drop to reorder events • Manage upcoming events displayed on the homepage
           </Typography>
         </Box>
@@ -176,10 +176,18 @@ export default function EventManagement() {
           variant="contained"
           startIcon={<Add />}
           onClick={() => handleOpen()}
-          sx={{ 
-            background: 'linear-gradient(135deg, #FF9800 0%, #E65100 100%)',
+          sx={{
+            backgroundColor: '#f97316',
+            color: '#ffffff',
+            px: 3,
+            py: 1.25,
+            borderRadius: 2,
+            textTransform: 'none',
+            fontWeight: 600,
+            boxShadow: 'none',
             '&:hover': {
-              background: 'linear-gradient(135deg, #F57C00 0%, #D84315 100%)'
+              backgroundColor: '#ea580c',
+              boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
             }
           }}
         >
@@ -188,8 +196,8 @@ export default function EventManagement() {
       </Box>
 
       {events.length === 0 ? (
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
-          <Typography variant="body1" color="text.secondary">
+        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', border: '1px solid #e2e8f0', borderRadius: 3 }}>
+          <Typography variant="body1" sx={{ color: '#64748b', fontSize: '0.95rem' }}>
             No upcoming events yet. Click "Add Event" to create one.
           </Typography>
         </Paper>
@@ -202,15 +210,17 @@ export default function EventManagement() {
             onDragOver={(e) => handleDragOver(e, index)}
             onDrop={(e) => handleDrop(e, index)}
             onDragEnd={handleDragEnd}
+            elevation={0}
             sx={{ 
               p: 3, 
-              mb: 2,
-              border: event.isActive ? '2px solid #E8F5E9' : '1px solid #EEEEEE',
-              backgroundColor: draggedIndex === index ? '#FFF3E0' : (event.isActive ? '#FAFAFA' : '#F5F5F5'),
+              mb: 2.5,
+              border: event.isActive ? '1px solid #bbf7d0' : '1px solid #e2e8f0',
+              backgroundColor: draggedIndex === index ? '#fef3c7' : (event.isActive ? '#ffffff' : '#f8fafc'),
+              borderRadius: 3,
               cursor: 'move',
               transition: 'all 0.2s ease',
               '&:hover': {
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                boxShadow: '0 8px 16px rgba(0,0,0,0.08)',
                 transform: 'translateY(-2px)'
               }
             }}
@@ -219,7 +229,7 @@ export default function EventManagement() {
               <Box sx={{ display: 'flex', gap: 2, flex: 1 }}>
                 <DragIndicator 
                   sx={{ 
-                    color: '#FF9800', 
+                    color: '#f97316', 
                     mt: 0.5,
                     cursor: 'grab',
                     '&:active': {
@@ -228,25 +238,31 @@ export default function EventManagement() {
                   }} 
                 />
                 <Box sx={{ flex: 1 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                    <Typography variant="h6">{event.title}</Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, color: '#0f172a', fontSize: '1.1rem' }}>{event.title}</Typography>
                     <Chip 
                       label={event.isActive ? 'Active' : 'Inactive'}
                       size="small"
-                      color={event.isActive ? 'success' : 'default'}
+                      sx={{
+                        backgroundColor: event.isActive ? '#dcfce7' : '#f1f5f9',
+                        color: event.isActive ? '#166534' : '#64748b',
+                        fontWeight: 600,
+                        border: `1px solid ${event.isActive ? '#bbf7d0' : '#e2e8f0'}`,
+                      }}
                     />
                     <Chip 
                       label={`Position: ${index + 1}`}
                       size="small"
-                      variant="outlined"
                       sx={{ 
-                        borderColor: '#FF9800',
-                        color: '#FF9800'
+                        backgroundColor: '#fff7ed',
+                        color: '#f97316',
+                        fontWeight: 600,
+                        border: '1px solid #fed7aa',
                       }}
                     />
                   </Box>
                   {event.description && (
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                    <Typography variant="body2" sx={{ color: '#64748b', lineHeight: 1.6 }}>
                       {event.description}
                     </Typography>
                   )}
@@ -255,15 +271,30 @@ export default function EventManagement() {
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <IconButton 
                   onClick={() => handleToggleActive(event)}
-                  color={event.isActive ? 'success' : 'default'}
+                  sx={{
+                    color: event.isActive ? '#10b981' : '#64748b',
+                    '&:hover': { backgroundColor: event.isActive ? '#f0fdf4' : '#f1f5f9' }
+                  }}
                   title={event.isActive ? 'Deactivate' : 'Activate'}
                 >
                   <Switch checked={event.isActive} size="small" />
                 </IconButton>
-                <IconButton onClick={() => handleOpen(event)} color="primary">
+                <IconButton 
+                  onClick={() => handleOpen(event)}
+                  sx={{
+                    color: '#3b82f6',
+                    '&:hover': { backgroundColor: '#eff6ff' }
+                  }}
+                >
                   <Edit />
                 </IconButton>
-                <IconButton onClick={() => handleDelete(event._id)} color="error">
+                <IconButton 
+                  onClick={() => handleDelete(event._id)}
+                  sx={{
+                    color: '#ef4444',
+                    '&:hover': { backgroundColor: '#fef2f2' }
+                  }}
+                >
                   <Delete />
                 </IconButton>
               </Box>

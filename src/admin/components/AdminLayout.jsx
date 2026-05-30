@@ -44,6 +44,7 @@ const drawerWidth = 280;
 
 const menuItems = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin' },
+  { text: 'Homepage', icon: <VideoIcon />, path: '/admin/homepage' },
   { text: 'Biography', icon: <PersonIcon />, path: '/admin/biography' },
   { text: 'Disciples (शिष्य)', icon: <GroupIcon />, path: '/admin/disciples' },
   { text: 'Books (पुस्तकें)', icon: <BookIcon />, path: '/admin/books' },
@@ -90,7 +91,7 @@ export default function AdminLayout() {
   };
 
   const drawer = (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff' }}>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff', borderRight: '1px solid #e2e8f0' }}>
       {/* Sidebar Header */}
       <Box
         sx={{
@@ -98,41 +99,43 @@ export default function AdminLayout() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: '1px solid #e0e0e0',
+          borderBottom: '1px solid #e2e8f0',
+          minHeight: 80,
         }}
       >
-        <Stack direction="row" spacing={1.5} alignItems="center">
+        <Stack direction="row" spacing={2} alignItems="center">
           <Box
             sx={{
-              width: 40,
-              height: 40,
-              borderRadius: 1.5,
-              backgroundColor: '#FF9800',
+              width: 48,
+              height: 48,
+              borderRadius: 2.5,
+              backgroundColor: '#f97316',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(249, 115, 22, 0.25)',
             }}
           >
-            <DashboardIcon sx={{ color: 'white', fontSize: 24 }} />
+            <DashboardIcon sx={{ color: 'white', fontSize: 26 }} />
           </Box>
           <Box>
-            <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#1a1a1a' }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.15rem', color: '#0f172a', lineHeight: 1.2 }}>
               Admin Panel
             </Typography>
-            <Typography variant="caption" sx={{ color: '#757575', fontSize: '0.75rem' }}>
+            <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.75rem' }}>
               Management System
             </Typography>
           </Box>
         </Stack>
         {isMobile && (
-          <IconButton onClick={handleDrawerToggle} size="small">
+          <IconButton onClick={handleDrawerToggle} size="small" sx={{ color: '#64748b' }}>
             <CloseIcon />
           </IconButton>
         )}
       </Box>
 
       {/* Navigation Menu */}
-      <List sx={{ flex: 1, px: 2, py: 2 }}>
+      <List sx={{ flex: 1, px: 2, py: 3, overflowY: 'auto', overflowX: 'hidden' }}>
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -142,10 +145,11 @@ export default function AdminLayout() {
                 sx={{
                   borderRadius: 2,
                   py: 1.5,
-                  px: 2,
-                  backgroundColor: isActive ? '#FFF3E0' : 'transparent',
+                  px: 2.5,
+                  backgroundColor: isActive ? '#fff7ed' : 'transparent',
+                  border: isActive ? '1px solid #fed7aa' : '1px solid transparent',
                   '&:hover': {
-                    backgroundColor: isActive ? '#FFE0B2' : '#f5f5f5',
+                    backgroundColor: isActive ? '#fff7ed' : '#f8fafc',
                   },
                   transition: 'all 0.2s ease',
                 }}
@@ -153,7 +157,7 @@ export default function AdminLayout() {
                 <ListItemIcon
                   sx={{
                     minWidth: 40,
-                    color: isActive ? '#FF9800' : '#757575',
+                    color: isActive ? '#f97316' : '#64748b',
                   }}
                 >
                   {item.icon}
@@ -161,9 +165,9 @@ export default function AdminLayout() {
                 <ListItemText
                   primary={item.text}
                   primaryTypographyProps={{
-                    fontSize: '0.95rem',
+                    fontSize: '0.9rem',
                     fontWeight: isActive ? 600 : 500,
-                    color: isActive ? '#FF9800' : '#424242',
+                    color: isActive ? '#f97316' : '#475569',
                   }}
                 />
               </ListItemButton>
@@ -173,8 +177,8 @@ export default function AdminLayout() {
       </List>
 
       {/* Sidebar Footer */}
-      <Box sx={{ p: 2, borderTop: '1px solid #e0e0e0' }}>
-        <Typography variant="caption" sx={{ color: '#9e9e9e', display: 'block', textAlign: 'center' }}>
+      <Box sx={{ p: 3, borderTop: '1px solid #e2e8f0' }}>
+        <Typography variant="caption" sx={{ color: '#94a3b8', display: 'block', textAlign: 'center', fontSize: '0.75rem' }}>
           v1.0.0 • Muni Pramansagar
         </Typography>
       </Box>
@@ -195,7 +199,7 @@ export default function AdminLayout() {
           boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
         }}
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Toolbar sx={{ justifyContent: 'space-between', minHeight: { xs: 64, sm: 70 } }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <IconButton
               color="inherit"
@@ -206,10 +210,10 @@ export default function AdminLayout() {
               <MenuIcon />
             </IconButton>
             <Box>
-              <Typography variant="h6" sx={{ fontWeight: 600, color: '#1a1a1a', fontSize: '1.1rem' }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: '#0f172a', fontSize: '1.125rem' }}>
                 {menuItems.find(item => item.path === location.pathname)?.text || 'Dashboard'}
               </Typography>
-              <Typography variant="caption" sx={{ color: '#757575' }}>
+              <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
                 Manage your content
               </Typography>
             </Box>
@@ -221,10 +225,11 @@ export default function AdminLayout() {
               label={admin?.role || 'Admin'}
               size="small"
               sx={{
-                backgroundColor: '#FFF3E0',
-                color: '#FF9800',
+                backgroundColor: '#fef3c7',
+                color: '#92400e',
                 fontWeight: 600,
                 fontSize: '0.75rem',
+                border: '1px solid #fde68a',
                 display: { xs: 'none', sm: 'flex' },
               }}
             />
@@ -233,9 +238,10 @@ export default function AdminLayout() {
                 sx={{
                   width: 40,
                   height: 40,
-                  backgroundColor: '#FF9800',
+                  backgroundColor: '#f97316',
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: '0.95rem',
+                  border: '2px solid #fed7aa',
                 }}
               >
                 {admin?.username?.charAt(0).toUpperCase()}
@@ -318,7 +324,6 @@ export default function AdminLayout() {
               boxSizing: 'border-box',
               width: drawerWidth,
               border: 'none',
-              borderRight: '1px solid #e0e0e0',
             },
           }}
           open
@@ -332,10 +337,11 @@ export default function AdminLayout() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: { xs: 2, sm: 3 },
+          p: { xs: 2, sm: 3, md: 4 },
           width: { md: `calc(100% - ${drawerWidth}px)` },
-          mt: 8,
+          mt: { xs: 8, sm: 9 },
           minHeight: 'calc(100vh - 64px)',
+          backgroundColor: '#f8fafc',
         }}
       >
         <Outlet />

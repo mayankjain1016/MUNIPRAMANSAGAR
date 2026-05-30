@@ -38,6 +38,7 @@ import KahaniyaManagement from "./admin/pages/KahaniyaManagement";
 import BiographyManagement from "./admin/pages/BiographyManagement";
 import DiscipleManagement from "./admin/pages/DiscipleManagement";
 import BookManagement from "./admin/pages/BookManagement";
+import HomepageManagement from "./admin/pages/HomepageManagement";
 
 import Footer from "./assets/components/Footer";
 
@@ -60,6 +61,7 @@ export default function App() {
             }
           >
             <Route index element={<AdminDashboard />} />
+            <Route path="homepage" element={<HomepageManagement />} />
             <Route path="biography" element={<BiographyManagement />} />
             <Route path="disciples" element={<DiscipleManagement />} />
             <Route path="books" element={<BookManagement />} />

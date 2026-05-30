@@ -100,18 +100,32 @@ export default function BiographyManagement() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h4" sx={{ mb: 4, fontWeight: 700, color: '#E65100' }}>
-        Biography Management
-      </Typography>
+    <Box>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5, fontSize: '1.875rem' }}>
+          Biography Management
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.9rem' }}>
+          Manage biography content with rich text editor
+        </Typography>
+      </Box>
 
       {message.text && (
-        <Alert severity={message.type} sx={{ mb: 3 }} onClose={() => setMessage({ type: '', text: '' })}>
+        <Alert 
+          severity={message.type} 
+          sx={{ 
+            mb: 3,
+            borderRadius: 2,
+            border: message.type === 'success' ? '1px solid #bbf7d0' : '1px solid #fecaca',
+            backgroundColor: message.type === 'success' ? '#f0fdf4' : '#fef2f2',
+          }} 
+          onClose={() => setMessage({ type: '', text: '' })}
+        >
           {message.text}
         </Alert>
       )}
 
-      <Paper sx={{ p: 4 }}>
+      <Paper elevation={0} sx={{ p: { xs: 3, sm: 4 }, border: '1px solid #e2e8f0', borderRadius: 3 }}>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             fullWidth
@@ -141,30 +155,42 @@ export default function BiographyManagement() {
             helperText="Enter image URLs separated by commas"
           />
 
-          <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 600 }}>
+          <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600, color: '#0f172a' }}>
             Content
           </Typography>
           
           {/* Editor Toolbar */}
-          <Paper sx={{ p: 1, mb: 1, display: 'flex', gap: 0.5, flexWrap: 'wrap', border: '1px solid #e0e0e0' }}>
+          <Paper elevation={0} sx={{ p: 1.5, mb: 1, display: 'flex', gap: 0.5, flexWrap: 'wrap', border: '1px solid #e2e8f0', borderRadius: 2, backgroundColor: '#f8fafc' }}>
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().toggleBold().run()}
-              sx={{ bgcolor: editor?.isActive('bold') ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive('bold') ? '#fff7ed' : 'transparent',
+                color: editor?.isActive('bold') ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <FormatBold fontSize="small" />
             </IconButton>
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().toggleItalic().run()}
-              sx={{ bgcolor: editor?.isActive('italic') ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive('italic') ? '#fff7ed' : 'transparent',
+                color: editor?.isActive('italic') ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <FormatItalic fontSize="small" />
             </IconButton>
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().toggleStrike().run()}
-              sx={{ bgcolor: editor?.isActive('strike') ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive('strike') ? '#fff7ed' : 'transparent',
+                color: editor?.isActive('strike') ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <FormatUnderlined fontSize="small" />
             </IconButton>
@@ -172,21 +198,33 @@ export default function BiographyManagement() {
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-              sx={{ bgcolor: editor?.isActive('heading', { level: 2 }) ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive('heading', { level: 2 }) ? '#fff7ed' : 'transparent',
+                color: editor?.isActive('heading', { level: 2 }) ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <Typography variant="caption" fontWeight="bold">H2</Typography>
             </IconButton>
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-              sx={{ bgcolor: editor?.isActive('heading', { level: 3 }) ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive('heading', { level: 3 }) ? '#fff7ed' : 'transparent',
+                color: editor?.isActive('heading', { level: 3 }) ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <Typography variant="caption" fontWeight="bold">H3</Typography>
             </IconButton>
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-              sx={{ bgcolor: editor?.isActive('heading', { level: 4 }) ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive('heading', { level: 4 }) ? '#fff7ed' : 'transparent',
+                color: editor?.isActive('heading', { level: 4 }) ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <Typography variant="caption" fontWeight="bold">H4</Typography>
             </IconButton>
@@ -194,14 +232,22 @@ export default function BiographyManagement() {
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().toggleBulletList().run()}
-              sx={{ bgcolor: editor?.isActive('bulletList') ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive('bulletList') ? '#fff7ed' : 'transparent',
+                color: editor?.isActive('bulletList') ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <FormatListBulleted fontSize="small" />
             </IconButton>
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().toggleOrderedList().run()}
-              sx={{ bgcolor: editor?.isActive('orderedList') ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive('orderedList') ? '#fff7ed' : 'transparent',
+                color: editor?.isActive('orderedList') ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <FormatListNumbered fontSize="small" />
             </IconButton>
@@ -209,21 +255,33 @@ export default function BiographyManagement() {
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().setTextAlign('left').run()}
-              sx={{ bgcolor: editor?.isActive({ textAlign: 'left' }) ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive({ textAlign: 'left' }) ? '#fff7ed' : 'transparent',
+                color: editor?.isActive({ textAlign: 'left' }) ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <FormatAlignLeft fontSize="small" />
             </IconButton>
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().setTextAlign('center').run()}
-              sx={{ bgcolor: editor?.isActive({ textAlign: 'center' }) ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive({ textAlign: 'center' }) ? '#fff7ed' : 'transparent',
+                color: editor?.isActive({ textAlign: 'center' }) ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <FormatAlignCenter fontSize="small" />
             </IconButton>
             <IconButton
               size="small"
               onClick={() => editor.chain().focus().setTextAlign('right').run()}
-              sx={{ bgcolor: editor?.isActive({ textAlign: 'right' }) ? '#FFF3E0' : 'transparent' }}
+              sx={{ 
+                bgcolor: editor?.isActive({ textAlign: 'right' }) ? '#fff7ed' : 'transparent',
+                color: editor?.isActive({ textAlign: 'right' }) ? '#f97316' : '#64748b',
+                '&:hover': { bgcolor: '#fff7ed' }
+              }}
             >
               <FormatAlignRight fontSize="small" />
             </IconButton>
@@ -234,6 +292,7 @@ export default function BiographyManagement() {
                 const url = window.prompt('Enter image URL:');
                 if (url) editor.chain().focus().setImage({ src: url }).run();
               }}
+              sx={{ color: '#64748b', '&:hover': { bgcolor: '#fff7ed' } }}
             >
               <ImageIcon fontSize="small" />
             </IconButton>
@@ -243,6 +302,7 @@ export default function BiographyManagement() {
                 const url = window.prompt('Enter link URL:');
                 if (url) editor.chain().focus().setLink({ href: url }).run();
               }}
+              sx={{ color: '#64748b', '&:hover': { bgcolor: '#fff7ed' } }}
             >
               <LinkIcon fontSize="small" />
             </IconButton>
@@ -252,29 +312,31 @@ export default function BiographyManagement() {
           <Box
             sx={{
               mb: 3,
-              border: '1px solid #e0e0e0',
-              borderRadius: 1,
-              p: 2,
+              border: '1px solid #e2e8f0',
+              borderRadius: 2,
+              p: 3,
               minHeight: '400px',
+              backgroundColor: '#ffffff',
               '& .ProseMirror': {
                 outline: 'none',
                 minHeight: '380px',
                 '& h1, & h2, & h3, & h4, & h5, & h6': {
                   fontWeight: 700,
-                  color: '#E65100',
+                  color: '#0f172a',
                   mb: 2,
                   mt: 3
                 },
                 '& p': {
-                  color: '#424242',
+                  color: '#475569',
                   lineHeight: 1.8,
                   mb: 2
                 },
                 '& strong': {
-                  fontWeight: 600
+                  fontWeight: 600,
+                  color: '#1e293b'
                 },
                 '& ul, & ol': {
-                  color: '#424242',
+                  color: '#475569',
                   lineHeight: 2,
                   pl: 3
                 },
@@ -296,14 +358,28 @@ export default function BiographyManagement() {
             size="large"
             disabled={loading}
             sx={{ 
-              background: 'linear-gradient(135deg, #FF9800 0%, #E65100 100%)',
-              '&:hover': { background: 'linear-gradient(135deg, #FB8C00 0%, #D84315 100%)' }
+              backgroundColor: '#f97316',
+              color: '#ffffff',
+              px: 4,
+              py: 1.5,
+              borderRadius: 2,
+              textTransform: 'none',
+              fontWeight: 600,
+              boxShadow: 'none',
+              '&:hover': {
+                backgroundColor: '#ea580c',
+                boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+              },
+              '&:disabled': {
+                backgroundColor: '#fdba74',
+                color: 'white',
+              }
             }}
           >
-            {loading ? <CircularProgress size={24} /> : biography ? 'Update Biography' : 'Create Biography'}
+            {loading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : biography ? 'Update Biography' : 'Create Biography'}
           </Button>
         </Box>
       </Paper>
-    </Container>
+    </Box>
   );
 }

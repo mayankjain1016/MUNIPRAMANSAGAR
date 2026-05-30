@@ -123,25 +123,63 @@ export default function HomepageManagement() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Box>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" fontWeight="bold" gutterBottom>
+        <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5, fontSize: '1.875rem' }}>
           Homepage Management
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.9rem' }}>
           Manage the two featured videos displayed after the gallery on your homepage
         </Typography>
       </Box>
 
-      {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSuccess('')}>{success}</Alert>}
+      {error && (
+        <Alert 
+          severity="error" 
+          sx={{ 
+            mb: 3,
+            borderRadius: 2,
+            backgroundColor: '#fef2f2',
+            border: '1px solid #fecaca',
+            color: '#991b1b',
+          }} 
+          onClose={() => setError('')}
+        >
+          {error}
+        </Alert>
+      )}
+      {success && (
+        <Alert 
+          severity="success" 
+          sx={{ 
+            mb: 3,
+            borderRadius: 2,
+            backgroundColor: '#f0fdf4',
+            border: '1px solid #bbf7d0',
+            color: '#166534',
+          }} 
+          onClose={() => setSuccess('')}
+        >
+          {success}
+        </Alert>
+      )}
 
       <Grid container spacing={3}>
         {[1, 2].map((position) => {
           const video = videos[position];
           return (
             <Grid item xs={12} md={6} key={position}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <Card elevation={0} sx={{ 
+                height: '100%', 
+                display: 'flex', 
+                flexDirection: 'column',
+                border: '1px solid #e2e8f0',
+                borderRadius: 3,
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  boxShadow: '0 8px 16px rgba(0, 0, 0, 0.08)',
+                }
+              }}>
                 {video && video.thumbnail && (
                   <CardMedia
                     component="img"
@@ -151,9 +189,9 @@ export default function HomepageManagement() {
                     sx={{ objectFit: 'cover' }}
                   />
                 )}
-                <CardContent sx={{ flexGrow: 1 }}>
+                <CardContent sx={{ flexGrow: 1, p: 3 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                    <Typography variant="h6">
+                    <Typography variant="h6" sx={{ fontWeight: 600, color: '#0f172a', fontSize: '1.1rem' }}>
                       {POSITIONS.find(p => p.value === position)?.label}
                     </Typography>
                     {video && (
@@ -172,29 +210,64 @@ export default function HomepageManagement() {
 
                   {video ? (
                     <>
-                      <Typography variant="subtitle1" gutterBottom noWrap>
+                      <Typography variant="subtitle1" sx={{ 
+                        fontWeight: 600,
+                        mb: 1,
+                        color: '#1e293b',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                      }}>
                         {video.title}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      <Typography variant="body2" sx={{ 
+                        color: '#64748b', 
+                        mb: 2,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}>
                         {video.youtubeUrl}
                       </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        Video ID: {video.videoId}
+                      <Typography variant="caption" sx={{ 
+                        color: '#94a3b8',
+                        px: 1.5, 
+                        py: 0.5, 
+                        backgroundColor: '#f1f5f9', 
+                        borderRadius: 1,
+                        fontWeight: 500,
+                      }}>
+                        ID: {video.videoId}
                       </Typography>
                     </>
                   ) : (
-                    <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
-                      No video configured yet. Click "Edit" to add one.
+                    <Typography variant="body2" sx={{ color: '#64748b', fontStyle: 'italic' }}>
+                      No video configured yet. Click "Add Video" to set one up.
                     </Typography>
                   )}
                 </CardContent>
 
-                <Box sx={{ p: 2, pt: 0 }}>
+                <Box sx={{ p: 3, pt: 0 }}>
                   <Button
                     fullWidth
                     variant="contained"
                     startIcon={<Edit />}
                     onClick={() => handleOpen(position)}
+                    sx={{
+                      backgroundColor: '#f97316',
+                      color: '#ffffff',
+                      py: 1.25,
+                      borderRadius: 2,
+                      textTransform: 'none',
+                      fontWeight: 600,
+                      boxShadow: 'none',
+                      '&:hover': {
+                        backgroundColor: '#ea580c',
+                        boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+                      }
+                    }}
                   >
                     {video ? 'Edit' : 'Add'} Video
                   </Button>
@@ -206,7 +279,7 @@ export default function HomepageManagement() {
       </Grid>
 
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle>
+        <DialogTitle sx={{ fontWeight: 600, color: '#0f172a' }}>
           Edit {POSITIONS.find(p => p.value === editingPosition)?.label}
         </DialogTitle>
         <DialogContent>
@@ -233,9 +306,9 @@ export default function HomepageManagement() {
                 <img 
                   src={getThumbnail(formData.youtubeUrl)} 
                   alt="Preview" 
-                  style={{ maxWidth: '100%', borderRadius: 8, marginTop: 8 }}
+                  style={{ maxWidth: '100%', borderRadius: 12, marginTop: 8, border: '1px solid #e2e8f0' }}
                 />
-                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
+                <Typography variant="caption" sx={{ color: '#64748b', display: 'block', mt: 1 }}>
                   Thumbnail Preview
                 </Typography>
               </Box>
@@ -251,13 +324,37 @@ export default function HomepageManagement() {
             />
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained" startIcon={<Save />}>
+        <DialogActions sx={{ p: 3 }}>
+          <Button 
+            onClick={handleClose}
+            sx={{
+              color: '#64748b',
+              textTransform: 'none',
+              fontWeight: 600,
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleSubmit} 
+            variant="contained" 
+            startIcon={<Save />}
+            sx={{
+              backgroundColor: '#f97316',
+              color: '#ffffff',
+              textTransform: 'none',
+              fontWeight: 600,
+              boxShadow: 'none',
+              '&:hover': {
+                backgroundColor: '#ea580c',
+                boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+              }
+            }}
+          >
             Save Video
           </Button>
         </DialogActions>
       </Dialog>
-    </Container>
+    </Box>
   );
 }

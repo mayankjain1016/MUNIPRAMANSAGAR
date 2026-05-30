@@ -48,15 +48,31 @@ export default function LocationManagement() {
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 3 }}>Location Management</Typography>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5, fontSize: '1.875rem' }}>
+          Location Management
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.9rem' }}>
+          Update current location information
+        </Typography>
+      </Box>
       
       {success && (
-        <Alert severity="success" sx={{ mb: 3 }}>
+        <Alert 
+          severity="success" 
+          sx={{ 
+            mb: 3,
+            borderRadius: 2,
+            backgroundColor: '#f0fdf4',
+            border: '1px solid #bbf7d0',
+            color: '#166534',
+          }}
+        >
           Location updated successfully!
         </Alert>
       )}
 
-      <Paper sx={{ p: 3 }}>
+      <Paper elevation={0} sx={{ p: { xs: 3, sm: 4 }, border: '1px solid #e2e8f0', borderRadius: 3 }}>
         <TextField
           fullWidth
           label="Address (Hindi)"
@@ -80,7 +96,25 @@ export default function LocationManagement() {
           startIcon={<Save />}
           onClick={handleSave}
           disabled={loading}
-          sx={{ mt: 2 }}
+          sx={{ 
+            mt: 3,
+            backgroundColor: '#f97316',
+            color: '#ffffff',
+            px: 4,
+            py: 1.5,
+            borderRadius: 2,
+            textTransform: 'none',
+            fontWeight: 600,
+            boxShadow: 'none',
+            '&:hover': {
+              backgroundColor: '#ea580c',
+              boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+            },
+            '&:disabled': {
+              backgroundColor: '#fdba74',
+              color: 'white',
+            }
+          }}
         >
           {loading ? 'Saving...' : 'Save Location'}
         </Button>

@@ -172,7 +172,18 @@ export default function NewsManagement() {
     <Grid container spacing={3}>
       {newsList.map((item) => (
         <Grid item xs={12} md={6} lg={4} key={item._id}>
-          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <Card elevation={0} sx={{ 
+            height: '100%', 
+            display: 'flex', 
+            flexDirection: 'column',
+            border: '1px solid #e2e8f0',
+            borderRadius: 3,
+            transition: 'all 0.2s ease',
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: '0 12px 24px rgba(0, 0, 0, 0.08)',
+            }
+          }}>
             {item.image && (
               <Box
                 component="img"
@@ -181,52 +192,84 @@ export default function NewsManagement() {
                 sx={{
                   height: 200,
                   objectFit: 'cover',
-                  width: '100%'
+                  width: '100%',
+                  borderTopLeftRadius: 12,
+                  borderTopRightRadius: 12,
                 }}
               />
             )}
-            <CardContent sx={{ flexGrow: 1 }}>
+            <CardContent sx={{ flexGrow: 1, p: 3 }}>
               <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
                 <Chip 
                   label={item.isPublished ? 'Published' : 'Draft'} 
-                  color={getStatusColor(item.isPublished)} 
-                  size="small" 
+                  size="small"
+                  sx={{
+                    backgroundColor: item.isPublished ? '#dcfce7' : '#fef3c7',
+                    color: item.isPublished ? '#166534' : '#92400e',
+                    fontWeight: 600,
+                    border: `1px solid ${item.isPublished ? '#bbf7d0' : '#fde68a'}`,
+                  }}
                 />
                 <Chip 
                   label={item.category} 
-                  color={getCategoryColor(item.category)} 
-                  size="small" 
+                  size="small"
+                  sx={{
+                    backgroundColor: '#f1f5f9',
+                    color: '#475569',
+                    fontWeight: 600,
+                    border: '1px solid #e2e8f0',
+                  }}
                 />
               </Box>
-              <Typography variant="h6" gutterBottom sx={{ 
+              <Typography variant="h6" sx={{ 
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
                 WebkitLineClamp: 2,
                 WebkitBoxOrient: 'vertical',
+                fontWeight: 600,
+                color: '#0f172a',
+                mb: 1.5,
+                fontSize: '1.1rem',
               }}>
                 {item.title}
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ 
+              <Typography variant="body2" sx={{ 
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
                 WebkitLineClamp: 3,
                 WebkitBoxOrient: 'vertical',
-                mb: 2
+                mb: 2,
+                color: '#64748b',
+                lineHeight: 1.6,
               }}>
                 {item.excerpt || item.content.replace(/<[^>]*>/g, '').substring(0, 150)}...
               </Typography>
-              <Typography variant="caption" color="text.secondary">
+              <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 500 }}>
                 {new Date(item.date).toLocaleDateString('hi-IN')} • {item.views} views
               </Typography>
             </CardContent>
-            <CardActions>
-              <IconButton size="small" onClick={() => handleOpen(item)} color="primary">
-                <Edit />
+            <CardActions sx={{ p: 2, pt: 0, gap: 1 }}>
+              <IconButton 
+                size="small" 
+                onClick={() => handleOpen(item)}
+                sx={{
+                  color: '#3b82f6',
+                  '&:hover': { backgroundColor: '#eff6ff' }
+                }}
+              >
+                <Edit fontSize="small" />
               </IconButton>
-              <IconButton size="small" onClick={() => handleDelete(item._id)} color="error">
-                <Delete />
+              <IconButton 
+                size="small" 
+                onClick={() => handleDelete(item._id)}
+                sx={{
+                  color: '#ef4444',
+                  '&:hover': { backgroundColor: '#fef2f2' }
+                }}
+              >
+                <Delete fontSize="small" />
               </IconButton>
             </CardActions>
           </Card>
@@ -240,8 +283,8 @@ export default function NewsManagement() {
       {/* Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
-          <Typography variant="h4" gutterBottom>News Management</Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5, fontSize: '1.875rem' }}>News Management</Typography>
+          <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.9rem' }}>
             Manage news articles with WordPad-style editor
           </Typography>
         </Box>
@@ -249,37 +292,67 @@ export default function NewsManagement() {
           variant="contained"
           startIcon={<Add />}
           onClick={() => handleOpen()}
-          size="large"
+          sx={{
+            backgroundColor: '#f97316',
+            color: '#ffffff',
+            px: 3,
+            py: 1.25,
+            borderRadius: 2,
+            textTransform: 'none',
+            fontWeight: 600,
+            boxShadow: 'none',
+            '&:hover': {
+              backgroundColor: '#ea580c',
+              boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+            }
+          }}
         >
-          Create News Article
+          Create Article
         </Button>
       </Box>
 
       {/* Statistics */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={4}>
-          <Paper sx={{ p: 3, textAlign: 'center', bgcolor: 'primary.main', color: 'white' }}>
-            <Typography variant="h3">{news.length}</Typography>
-            <Typography variant="body1">Total Articles</Typography>
+          <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid #e2e8f0', backgroundColor: '#ffffff' }}>
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5 }}>{news.length}</Typography>
+            <Typography variant="body2" sx={{ color: '#64748b', fontWeight: 500 }}>Total Articles</Typography>
           </Paper>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Paper sx={{ p: 3, textAlign: 'center', bgcolor: 'success.main', color: 'white' }}>
-            <Typography variant="h3">{publishedNews.length}</Typography>
-            <Typography variant="body1">Published</Typography>
+          <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid #bbf7d0', backgroundColor: '#f0fdf4' }}>
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#10b981', mb: 0.5 }}>{publishedNews.length}</Typography>
+            <Typography variant="body2" sx={{ color: '#059669', fontWeight: 500 }}>Published</Typography>
           </Paper>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Paper sx={{ p: 3, textAlign: 'center', bgcolor: 'warning.main', color: 'white' }}>
-            <Typography variant="h3">{draftNews.length}</Typography>
-            <Typography variant="body1">Drafts</Typography>
+          <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid #fde68a', backgroundColor: '#fefce8' }}>
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#f59e0b', mb: 0.5 }}>{draftNews.length}</Typography>
+            <Typography variant="body2" sx={{ color: '#d97706', fontWeight: 500 }}>Drafts</Typography>
           </Paper>
         </Grid>
       </Grid>
 
       {/* Tabs */}
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-        <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)}>
+      <Box sx={{ borderBottom: 1, borderColor: '#e2e8f0', mb: 3 }}>
+        <Tabs 
+          value={tabValue} 
+          onChange={(e, newValue) => setTabValue(newValue)}
+          sx={{
+            '& .MuiTab-root': {
+              textTransform: 'none',
+              fontWeight: 600,
+              fontSize: '0.9rem',
+              color: '#64748b',
+              '&.Mui-selected': {
+                color: '#f97316',
+              }
+            },
+            '& .MuiTabs-indicator': {
+              backgroundColor: '#f97316',
+            }
+          }}
+        >
           <Tab label={`All (${news.length})`} />
           <Tab label={`Published (${publishedNews.length})`} />
           <Tab label={`Drafts (${draftNews.length})`} />

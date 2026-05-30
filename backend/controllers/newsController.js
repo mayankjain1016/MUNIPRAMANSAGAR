@@ -53,7 +53,7 @@ export const createNews = async (req, res) => {
   try {
     const newsData = { ...req.body };
     if (req.file) {
-      newsData.image = `/uploads/${req.file.filename}`;
+      newsData.image = `/uploads/news/${req.file.filename}`;
     }
     const news = new News(newsData);
     const newNews = await news.save();
@@ -68,7 +68,7 @@ export const updateNews = async (req, res) => {
   try {
     const newsData = { ...req.body };
     if (req.file) {
-      newsData.image = `/uploads/${req.file.filename}`;
+      newsData.image = `/uploads/news/${req.file.filename}`;
     }
     const news = await News.findByIdAndUpdate(
       req.params.id,

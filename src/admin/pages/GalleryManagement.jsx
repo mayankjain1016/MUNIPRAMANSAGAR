@@ -198,12 +198,31 @@ export default function GalleryManagement() {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4">Gallery Management</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5, fontSize: '1.875rem' }}>Gallery Management</Typography>
+          <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.9rem' }}>
+            Manage photo galleries and collections
+          </Typography>
+        </Box>
         <Button
           variant="contained"
           startIcon={<Add />}
           onClick={() => handleOpen()}
+          sx={{
+            backgroundColor: '#f97316',
+            color: '#ffffff',
+            px: 3,
+            py: 1.25,
+            borderRadius: 2,
+            textTransform: 'none',
+            fontWeight: 600,
+            boxShadow: 'none',
+            '&:hover': {
+              backgroundColor: '#ea580c',
+              boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+            }
+          }}
         >
           Add Gallery
         </Button>
@@ -212,7 +231,15 @@ export default function GalleryManagement() {
       <Grid container spacing={3}>
         {galleries.map((gallery) => (
           <Grid item xs={12} sm={6} md={4} key={gallery._id}>
-            <Card>
+            <Card elevation={0} sx={{ 
+              border: '1px solid #e2e8f0',
+              borderRadius: 3,
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 12px 24px rgba(0, 0, 0, 0.08)',
+              }
+            }}>
               <CardMedia
                 component="img"
                 height="200"
@@ -220,36 +247,84 @@ export default function GalleryManagement() {
                 alt={gallery.title}
                 sx={{ objectFit: 'cover' }}
               />
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
+              <CardContent sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, color: '#0f172a', mb: 1, fontSize: '1.1rem' }}>
                   {gallery.title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
+                <Typography variant="body2" sx={{ color: '#64748b', mb: 2, lineHeight: 1.6 }}>
                   {gallery.description}
                 </Typography>
-                <Typography variant="caption" display="block">
-                  Date: {new Date(gallery.date).toLocaleDateString()}
-                </Typography>
-                <Typography variant="caption" display="block">
-                  Images: {gallery.images.length} | Views: {gallery.views}
-                </Typography>
-                <Typography variant="caption" display="block">
-                  Status: {gallery.isPublished ? 'Published' : 'Draft'}
-                </Typography>
-                <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                  <Typography variant="caption" sx={{ 
+                    px: 1.5, 
+                    py: 0.5, 
+                    backgroundColor: '#f1f5f9', 
+                    borderRadius: 1,
+                    color: '#475569',
+                    fontWeight: 500,
+                  }}>
+                    {new Date(gallery.date).toLocaleDateString()}
+                  </Typography>
+                  <Typography variant="caption" sx={{ 
+                    px: 1.5, 
+                    py: 0.5, 
+                    backgroundColor: '#fef3c7', 
+                    borderRadius: 1,
+                    color: '#92400e',
+                    fontWeight: 500,
+                  }}>
+                    {gallery.images.length} images
+                  </Typography>
+                  <Typography variant="caption" sx={{ 
+                    px: 1.5, 
+                    py: 0.5, 
+                    backgroundColor: gallery.isPublished ? '#dcfce7' : '#fee2e2', 
+                    borderRadius: 1,
+                    color: gallery.isPublished ? '#166534' : '#991b1b',
+                    fontWeight: 500,
+                  }}>
+                    {gallery.isPublished ? 'Published' : 'Draft'}
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, mt: 2 }}>
                   <Button
                     size="small"
                     variant="outlined"
                     onClick={() => handleOpenImageDialog(gallery)}
+                    sx={{
+                      borderColor: '#e2e8f0',
+                      color: '#64748b',
+                      textTransform: 'none',
+                      fontWeight: 600,
+                      '&:hover': {
+                        borderColor: '#f97316',
+                        backgroundColor: '#fff7ed',
+                        color: '#f97316',
+                      }
+                    }}
                   >
                     Add Images
                   </Button>
                   <Box>
-                    <IconButton onClick={() => handleOpen(gallery)} size="small">
-                      <Edit />
+                    <IconButton 
+                      onClick={() => handleOpen(gallery)} 
+                      size="small"
+                      sx={{
+                        color: '#3b82f6',
+                        '&:hover': { backgroundColor: '#eff6ff' }
+                      }}
+                    >
+                      <Edit fontSize="small" />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(gallery._id)} size="small">
-                      <Delete />
+                    <IconButton 
+                      onClick={() => handleDelete(gallery._id)} 
+                      size="small"
+                      sx={{
+                        color: '#ef4444',
+                        '&:hover': { backgroundColor: '#fef2f2' }
+                      }}
+                    >
+                      <Delete fontSize="small" />
                     </IconButton>
                   </Box>
                 </Box>

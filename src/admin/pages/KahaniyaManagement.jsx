@@ -145,49 +145,148 @@ export default function KahaniyaManagement() {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-        <Typography variant="h4" fontWeight="bold">कहानियाँ Management</Typography>
-        <Button variant="contained" startIcon={<Add />} onClick={() => handleOpen()}>
+    <Box>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4, flexWrap: 'wrap', gap: 2 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5, fontSize: { xs: '1.5rem', sm: '1.875rem' } }}>
+            कहानियाँ Management
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.9rem' }}>
+            Manage story videos and content
+          </Typography>
+        </Box>
+        <Button 
+          variant="contained" 
+          startIcon={<Add />} 
+          onClick={() => handleOpen()}
+          sx={{
+            backgroundColor: '#f97316',
+            color: '#ffffff',
+            px: 3,
+            py: 1.25,
+            borderRadius: 2,
+            textTransform: 'none',
+            fontWeight: 600,
+            boxShadow: 'none',
+            '&:hover': {
+              backgroundColor: '#ea580c',
+              boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+            }
+          }}
+        >
           Add Video
         </Button>
       </Box>
 
-      {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSuccess('')}>{success}</Alert>}
+      {error && (
+        <Alert 
+          severity="error" 
+          sx={{ 
+            mb: 3,
+            borderRadius: 2,
+            backgroundColor: '#fef2f2',
+            border: '1px solid #fecaca',
+            color: '#991b1b',
+          }} 
+          onClose={() => setError('')}
+        >
+          {error}
+        </Alert>
+      )}
+      {success && (
+        <Alert 
+          severity="success" 
+          sx={{ 
+            mb: 3,
+            borderRadius: 2,
+            backgroundColor: '#f0fdf4',
+            border: '1px solid #bbf7d0',
+            color: '#166534',
+          }} 
+          onClose={() => setSuccess('')}
+        >
+          {success}
+        </Alert>
+      )}
 
       <Grid container spacing={3}>
         {videos.map((video) => (
-          <Grid item xs={12} sm={6} md={4} key={video._id}>
-            <Card sx={{ opacity: video.isActive ? 1 : 0.6 }}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
+            <Card elevation={0} sx={{ 
+              opacity: video.isActive ? 1 : 0.6,
+              border: '1px solid #e2e8f0',
+              borderRadius: 3,
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 12px 24px rgba(0, 0, 0, 0.08)',
+              }
+            }}>
               <CardMedia
                 component="img"
-                height="200"
+                height="180"
                 image={getThumbnail(video.youtubeUrl)}
                 alt={video.title}
+                sx={{ objectFit: 'cover' }}
               />
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <DragIndicator sx={{ color: 'text.secondary' }} />
-                  <Typography variant="caption" color="text.secondary">
+              <CardContent sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
+                  <DragIndicator sx={{ color: '#94a3b8', fontSize: 18 }} />
+                  <Typography variant="caption" sx={{ color: '#64748b', fontWeight: 500 }}>
                     Order: {video.order}
                   </Typography>
                   {!video.isActive && (
-                    <Typography variant="caption" color="error" sx={{ ml: 'auto' }}>
+                    <Typography variant="caption" sx={{ ml: 'auto', color: '#ef4444', fontWeight: 600 }}>
                       Inactive
                     </Typography>
                   )}
                 </Box>
-                <Typography variant="h6" gutterBottom noWrap>{video.title}</Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                <Typography variant="h6" sx={{ 
+                  fontWeight: 600,
+                  mb: 1.5,
+                  color: '#0f172a',
+                  fontSize: '1rem',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                }}>
+                  {video.title}
+                </Typography>
+                <Typography variant="body2" sx={{ 
+                  color: '#64748b', 
+                  mb: 2,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  lineHeight: 1.5,
+                  fontSize: '0.85rem',
+                }}>
                   {video.description?.substring(0, 80)}...
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
-                  <IconButton size="small" color="primary" onClick={() => handleOpen(video)}>
-                    <Edit />
+                <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-end' }}>
+                  <IconButton 
+                    size="small" 
+                    onClick={() => handleOpen(video)}
+                    sx={{
+                      color: '#3b82f6',
+                      '&:hover': { backgroundColor: '#eff6ff' }
+                    }}
+                  >
+                    <Edit fontSize="small" />
                   </IconButton>
-                  <IconButton size="small" color="error" onClick={() => handleDelete(video._id)}>
-                    <Delete />
+                  <IconButton 
+                    size="small" 
+                    onClick={() => handleDelete(video._id)}
+                    sx={{
+                      color: '#ef4444',
+                      '&:hover': { backgroundColor: '#fef2f2' }
+                    }}
+                  >
+                    <Delete fontSize="small" />
                   </IconButton>
                 </Box>
               </CardContent>
@@ -197,7 +296,9 @@ export default function KahaniyaManagement() {
       </Grid>
 
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle>{editMode ? 'Edit Video' : 'Add New Video'}</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 600, color: '#0f172a' }}>
+          {editMode ? 'Edit Video' : 'Add New Video'}
+        </DialogTitle>
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
             <TextField
@@ -221,9 +322,11 @@ export default function KahaniyaManagement() {
                 <img 
                   src={getThumbnail(formData.youtubeUrl)} 
                   alt="Preview" 
-                  style={{ maxWidth: '100%', borderRadius: 8 }}
+                  style={{ maxWidth: '100%', borderRadius: 12, border: '1px solid #e2e8f0' }}
                 />
-                <Typography variant="caption" color="text.secondary">Thumbnail Preview</Typography>
+                <Typography variant="caption" sx={{ color: '#64748b', display: 'block', mt: 1 }}>
+                  Thumbnail Preview
+                </Typography>
               </Box>
             )}
             <TextField
@@ -254,13 +357,36 @@ export default function KahaniyaManagement() {
             />
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained">
+        <DialogActions sx={{ p: 3 }}>
+          <Button 
+            onClick={handleClose}
+            sx={{
+              color: '#64748b',
+              textTransform: 'none',
+              fontWeight: 600,
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleSubmit} 
+            variant="contained"
+            sx={{
+              backgroundColor: '#f97316',
+              color: '#ffffff',
+              textTransform: 'none',
+              fontWeight: 600,
+              boxShadow: 'none',
+              '&:hover': {
+                backgroundColor: '#ea580c',
+                boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+              }
+            }}
+          >
             {editMode ? 'Update' : 'Create'}
           </Button>
         </DialogActions>
       </Dialog>
-    </Container>
+    </Box>
   );
 }

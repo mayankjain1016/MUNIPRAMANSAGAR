@@ -55,12 +55,7 @@ export default function AdminLogin() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f8f9fa',
-        backgroundImage: `
-          linear-gradient(to right, #f8f9fa 1px, transparent 1px),
-          linear-gradient(to bottom, #f8f9fa 1px, transparent 1px)
-        `,
-        backgroundSize: '40px 40px',
+        backgroundColor: '#0f172a',
         position: 'relative',
         '&::before': {
           content: '""',
@@ -69,7 +64,8 @@ export default function AdminLogin() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'radial-gradient(circle at 20% 50%, rgba(255, 152, 0, 0.03) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(230, 81, 0, 0.03) 0%, transparent 50%)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0)',
+          backgroundSize: '40px 40px',
           pointerEvents: 'none',
         },
       }}
@@ -78,11 +74,11 @@ export default function AdminLogin() {
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 3, sm: 5 },
+            p: { xs: 4, sm: 5 },
             borderRadius: 3,
             backgroundColor: '#ffffff',
-            border: '1px solid #e0e0e0',
-            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.05)',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
           }}
         >
           {/* Logo/Icon */}
@@ -91,22 +87,22 @@ export default function AdminLogin() {
               sx={{
                 width: 72,
                 height: 72,
-                borderRadius: 2,
-                backgroundColor: '#FF9800',
+                borderRadius: 2.5,
+                backgroundColor: '#f97316',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 4px 14px rgba(255, 152, 0, 0.25)',
+                boxShadow: '0 8px 24px rgba(249, 115, 22, 0.3)',
               }}
             >
-              <AdminPanelSettings sx={{ fontSize: 40, color: 'white' }} />
+              <AdminPanelSettings sx={{ fontSize: 38, color: 'white' }} />
             </Box>
             <Box textAlign="center">
               <Typography
                 variant="h4"
                 sx={{
                   fontWeight: 700,
-                  color: '#1a1a1a',
+                  color: '#0f172a',
                   mb: 0.5,
                   fontSize: { xs: '1.75rem', sm: '2rem' },
                 }}
@@ -115,15 +111,14 @@ export default function AdminLogin() {
               </Typography>
               <Typography
                 variant="body2"
-                color="text.secondary"
-                sx={{ fontSize: '0.95rem' }}
+                sx={{ color: '#64748b', fontSize: '0.95rem' }}
               >
                 Muni Pramansagar Management System
               </Typography>
             </Box>
           </Stack>
 
-          <Divider sx={{ mb: 4 }} />
+          <Divider sx={{ mb: 4, borderColor: '#e2e8f0' }} />
 
           {/* Error Alert */}
           {error && (
@@ -132,8 +127,11 @@ export default function AdminLogin() {
               sx={{ 
                 mb: 3,
                 borderRadius: 2,
+                backgroundColor: '#fef2f2',
+                border: '1px solid #fecaca',
+                color: '#991b1b',
                 '& .MuiAlert-icon': {
-                  color: '#d32f2f',
+                  color: '#ef4444',
                 },
               }}
             >
@@ -163,14 +161,14 @@ export default function AdminLogin() {
                   '& .MuiOutlinedInput-root': {
                     borderRadius: 2,
                     '&:hover fieldset': {
-                      borderColor: '#FF9800',
+                      borderColor: '#f97316',
                     },
                     '&.Mui-focused fieldset': {
-                      borderColor: '#FF9800',
+                      borderColor: '#f97316',
                     },
                   },
                   '& .MuiInputLabel-root.Mui-focused': {
-                    color: '#FF9800',
+                    color: '#f97316',
                   },
                 }}
               />
@@ -205,14 +203,14 @@ export default function AdminLogin() {
                   '& .MuiOutlinedInput-root': {
                     borderRadius: 2,
                     '&:hover fieldset': {
-                      borderColor: '#FF9800',
+                      borderColor: '#f97316',
                     },
                     '&.Mui-focused fieldset': {
-                      borderColor: '#FF9800',
+                      borderColor: '#f97316',
                     },
                   },
                   '& .MuiInputLabel-root.Mui-focused': {
-                    color: '#FF9800',
+                    color: '#f97316',
                   },
                 }}
               />
@@ -227,17 +225,17 @@ export default function AdminLogin() {
                 sx={{
                   py: 1.5,
                   borderRadius: 2,
-                  backgroundColor: '#FF9800',
+                  backgroundColor: '#f97316',
                   textTransform: 'none',
                   fontSize: '1rem',
                   fontWeight: 600,
-                  boxShadow: '0 4px 14px rgba(255, 152, 0, 0.25)',
+                  boxShadow: 'none',
                   '&:hover': {
-                    backgroundColor: '#F57C00',
-                    boxShadow: '0 6px 20px rgba(255, 152, 0, 0.35)',
+                    backgroundColor: '#ea580c',
+                    boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
                   },
                   '&:disabled': {
-                    backgroundColor: '#FFB74D',
+                    backgroundColor: '#fdba74',
                     color: 'white',
                   },
                 }}
@@ -251,7 +249,7 @@ export default function AdminLogin() {
           <Box mt={4} textAlign="center">
             <Typography
               variant="caption"
-              sx={{ color: '#9e9e9e', fontSize: '0.85rem' }}
+              sx={{ color: '#94a3b8', fontSize: '0.85rem' }}
             >
               Protected Area • Authorized Access Only
             </Typography>
