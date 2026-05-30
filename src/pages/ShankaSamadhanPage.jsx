@@ -1,169 +1,51 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaQuestionCircle, FaArrowRight } from 'react-icons/fa';
+import apiService from '../services/apiService';
+import { API_ENDPOINTS } from '../config/api';
 import './ShankaSamadhan.css';
 
 const ShankaSamadhanPage = () => {
   const navigate = useNavigate();
+  const [questions, setQuestions] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
+  const [loading, setLoading] = useState(true);
 
-  const allQuestions = [
-    {
-      id: 1,
-      slug: 'krodh-se-mukti',
-      question: 'क्रोध से मुक्ति कैसे पाएँ?',
-      category: 'मानसिक शांति'
-    },
-    {
-      id: 2,
-      slug: 'nirnay-kaise-len',
-      question: 'निर्णय कैसे लें?',
-      category: 'जीवन कौशल'
-    },
-    {
-      id: 3,
-      slug: 'branded-saman-se-bache',
-      question: 'युवा वर्ग ब्रांडेड सामान को पाने की दौड़ और चकाचौंध से कैसे बचें?',
-      category: 'युवा मार्गदर्शन'
-    },
-    {
-      id: 4,
-      slug: 'mansik-ashanti-door-kare',
-      question: 'मानसिक अशांति कैसे दूर करें?',
-      category: 'मानसिक शांति'
-    },
-    {
-      id: 5,
-      slug: 'nirasha-me-parivartan',
-      question: 'क्या निराशा और लाचारी में किया गया परिवर्तन स्थायी होता है?',
-      category: 'आत्म विकास'
-    },
-    {
-      id: 6,
-      slug: 'sanyam-kaise-rakhe',
-      question: 'संयम कैसे रखें?',
-      category: 'आध्यात्मिक साधना'
-    },
-    {
-      id: 7,
-      slug: 'nirbhay-kaise-ho',
-      question: 'निर्भय कैसे हों?',
-      category: 'आत्मविश्वास'
-    },
-    {
-      id: 8,
-      slug: 'ahankaar-kam-kare',
-      question: 'अहंकार को कैसे कम करें?',
-      category: 'आध्यात्मिक साधना'
-    },
-    {
-      id: 9,
-      slug: 'buri-sangati-se-bache',
-      question: 'बुरी संगति से कैसे बचें?',
-      category: 'जीवन कौशल'
-    },
-    {
-      id: 10,
-      slug: 'mobile-sanyam',
-      question: 'मोबाइल और सोशल मीडिया का संयम कैसे रखें?',
-      category: 'युवा मार्गदर्शन'
-    },
-    {
-      id: 11,
-      slug: 'mata-pita-samman',
-      question: 'माता-पिता का सम्मान क्यों जरूरी है?',
-      category: 'पारिवारिक मूल्य'
-    },
-    {
-      id: 12,
-      slug: 'dhairya-kaise-rakhe',
-      question: 'जीवन में धैर्य कैसे रखें?',
-      category: 'मानसिक शांति'
-    },
-    {
-      id: 13,
-      slug: 'irshya-se-bache',
-      question: 'ईर्ष्या से कैसे बचें?',
-      category: 'आत्म विकास'
-    },
-    {
-      id: 14,
-      slug: 'asafalta-se-seekh',
-      question: 'असफलता से सीख कैसे लें?',
-      category: 'जीवन कौशल'
-    },
-    {
-      id: 15,
-      slug: 'man-shant-kaise-rakhe',
-      question: 'मन को शांत कैसे रखें?',
-      category: 'मानसिक शांति'
-    },
-    {
-      id: 16,
-      slug: 'kshama-kyu-jaruri',
-      question: 'क्षमा करना क्यों जरूरी है?',
-      category: 'आध्यात्मिक साधना'
-    },
-    {
-      id: 17,
-      slug: 'achhi-aadate-kaise-vikasit-kare',
-      question: 'अच्छी आदतें कैसे विकसित करें?',
-      category: 'आत्म विकास'
-    },
-    {
-      id: 18,
-      slug: 'dharm-jivan-me-kaise-apnaye',
-      question: 'धर्म को जीवन में कैसे अपनाएँ?',
-      category: 'आध्यात्मिक साधना'
-    },
-    {
-      id: 19,
-      slug: 'aatmvishwas-kaise-badhaye',
-      question: 'आत्मविश्वास कैसे बढ़ाएँ?',
-      category: 'आत्मविश्वास'
-    },
-    {
-      id: 20,
-      slug: 'samay-prabandhan',
-      question: 'समय का सही उपयोग कैसे करें?',
-      category: 'जीवन कौशल'
-    },
-    {
-      id: 21,
-      slug: 'bhay-se-mukti',
-      question: 'भय से मुक्ति कैसे पाएँ?',
-      category: 'मानसिक शांति'
-    },
-    {
-      id: 22,
-      slug: 'satya-ka-palan',
-      question: 'सत्य का पालन कैसे करें?',
-      category: 'नैतिक मूल्य'
-    },
-    {
-      id: 23,
-      slug: 'ahimsa-ka-palan',
-      question: 'अहिंसा का पालन कैसे करें?',
-      category: 'जैन सिद्धांत'
-    },
-    {
-      id: 24,
-      slug: 'jeevan-ka-lakshya',
-      question: 'जीवन का लक्ष्य कैसे निर्धारित करें?',
-      category: 'जीवन कौशल'
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
+
+  const fetchQuestions = async () => {
+    try {
+      const data = await apiService.get(API_ENDPOINTS.shankaSamadhan.getAll);
+      setQuestions(data);
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
-  const visibleQuestions = allQuestions.slice(0, visibleCount);
-  const hasMore = visibleCount < allQuestions.length;
+  const visibleQuestions = questions.slice(0, visibleCount);
+  const hasMore = visibleCount < questions.length;
 
   const handleLoadMore = () => {
-    setVisibleCount(prev => Math.min(prev + 8, allQuestions.length));
+    setVisibleCount(prev => Math.min(prev + 8, questions.length));
   };
 
   const handleQuestionClick = (slug) => {
     navigate(`/shanka-samadhan/${slug}`);
   };
+
+  if (loading) {
+    return (
+      <div className="shanka-samadhan-page">
+        <div className="shanka-container">
+          <p style={{ textAlign: 'center', padding: '50px' }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="shanka-samadhan-page">
@@ -192,7 +74,7 @@ const ShankaSamadhanPage = () => {
           <div className="questions-grid">
             {visibleQuestions.map((item) => (
               <div 
-                key={item.id} 
+                key={item._id} 
                 className="question-card"
                 onClick={() => handleQuestionClick(item.slug)}
               >
@@ -213,7 +95,7 @@ const ShankaSamadhanPage = () => {
                 और देखें
               </button>
               <p className="questions-count">
-                {visibleCount} में से {allQuestions.length} प्रश्न दिखाए गए
+                {visibleCount} में से {questions.length} प्रश्न दिखाए गए
               </p>
             </div>
           )}

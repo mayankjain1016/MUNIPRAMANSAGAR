@@ -3,26 +3,40 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import YouTubeIcon from "@mui/icons-material/YouTube";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutlined";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const storyVideos = [
-  { id: 1, title: "महावीर स्वामी की कहानी", description: "भगवान महावीर के जीवन की प्रेरक कहानी" },
-  { id: 2, title: "अहिंसा की शिक्षा", description: "जैन धर्म में अहिंसा का महत्व" },
-  { id: 3, title: "राजा श्रेयांस की कहानी", description: "त्याग और वैराग्य की प्रेरणादायक कथा" },
-  { id: 4, title: "चंदनबाला की कहानी", description: "धैर्य और विश्वास की अद्भुत कहानी" },
-  { id: 5, title: "सत्य की शक्ति", description: "सत्य बोलने का महत्व" },
-  { id: 6, title: "अपरिग्रह की कहानी", description: "संग्रह न करने की शिक्षा" },
-  { id: 7, title: "मेथी कुमार की कथा", description: "दया और करुणा की कहानी" },
-  { id: 8, title: "24 तीर्थंकरों की कहानी", description: "जैन धर्म के महान तीर्थंकर" },
-  { id: 9, title: "अणुव्रत की शिक्षा", description: "छोटे व्रतों का पालन" },
-  { id: 10, title: "जैन संस्कृति और परंपरा", description: "हमारी समृद्ध संस्कृति को जानें" },
-  { id: 11, title: "पंच परमेष्ठी", description: "जैन धर्म के पांच परमेष्ठी" },
-  { id: 12, title: "नवकार मंत्र की महिमा", description: "सबसे पवित्र मंत्र का महत्व" }
-];
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export default function KahaniyaPage() {
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
+  const fetchVideos = async () => {
+    try {
+      const { data } = await axios.get(`${API_URL}/kahaniya`);
+      setVideos(data);
+    } catch (error) {
+      console.error('Failed to fetch videos:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getThumbnail = (videoId) => {
+    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+  };
+
+  const openVideo = (url) => {
+    window.open(url, '_blank');
+  };
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#FAFAFA", py: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
@@ -84,72 +98,96 @@ export default function KahaniyaPage() {
             mb: 6
           }}
         >
-          {storyVideos.map((video) => (
-            <Card
-              key={video.id}
-              elevation={0}
-              sx={{
-                borderRadius: "16px",
-                border: "1px solid rgba(0,0,0,0.06)",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                cursor: "pointer",
-                "&:hover": {
-                  transform: "translateY(-8px)",
-                  boxShadow: "0 16px 40px rgba(230, 81, 0, 0.15)",
-                  borderColor: "rgba(230, 81, 0, 0.2)",
-                  "& .youtube-icon": {
-                    transform: "scale(1.1)",
-                    color: "#FF0000"
+          {loading ? (
+            <Typography>Loading...</Typography>
+          ) : videos.length === 0 ? (
+            <Typography>No videos available</Typography>
+          ) : (
+            videos.map((video) => (
+              <Card
+                key={video._id}
+                elevation={0}
+                onClick={() => openVideo(video.youtubeUrl)}
+                sx={{
+                  borderRadius: "16px",
+                  border: "1px solid rgba(0,0,0,0.06)",
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  cursor: "pointer",
+                  "&:hover": {
+                    transform: "translateY(-8px)",
+                    boxShadow: "0 16px 40px rgba(230, 81, 0, 0.15)",
+                    borderColor: "rgba(230, 81, 0, 0.2)",
+                    "& .play-icon": {
+                      transform: "scale(1.2)",
+                      color: "#FF0000"
+                    }
                   }
-                }
-              }}
-            >
-              <Box 
-                sx={{ 
-                  position: "relative",
-                  aspectRatio: "16/9",
-                  backgroundColor: "#E0E0E0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
                 }}
               >
-                <YouTubeIcon 
-                  className="youtube-icon"
+                <Box 
                   sx={{ 
-                    fontSize: "64px", 
-                    color: "#9E9E9E",
-                    transition: "all 0.3s ease"
-                  }} 
-                />
-              </Box>
-
-              <CardContent sx={{ p: 3 }}>
-                <Typography 
-                  variant="h6" 
-                  component="h3"
-                  sx={{ 
-                    fontWeight: 600,
-                    color: "#333333",
-                    mb: 1,
-                    fontSize: "1.1rem"
+                    position: "relative",
+                    aspectRatio: "16/9",
+                    overflow: "hidden",
+                    backgroundImage: `url(${getThumbnail(video.videoId)})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}
                 >
-                  {video.title}
-                </Typography>
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      inset: 0,
+                      backgroundColor: "rgba(0,0,0,0.3)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      opacity: 0,
+                      transition: "opacity 0.3s",
+                      "&:hover": { opacity: 1 }
+                    }}
+                  >
+                    <PlayCircleOutlineIcon 
+                      className="play-icon"
+                      sx={{ 
+                        fontSize: "64px", 
+                        color: "white",
+                        transition: "all 0.3s ease"
+                      }} 
+                    />
+                  </Box>
+                </Box>
 
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
-                    color: "#757575"
-                  }}
-                >
-                  {video.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
+                <CardContent sx={{ p: 3 }}>
+                  <Typography 
+                    variant="h6" 
+                    component="h3"
+                    sx={{ 
+                      fontWeight: 600,
+                      color: "#333333",
+                      mb: 1,
+                      fontSize: "1.1rem"
+                    }}
+                  >
+                    {video.title}
+                  </Typography>
+
+                  <Typography 
+                    variant="body2" 
+                    sx={{ 
+                      color: "#757575"
+                    }}
+                  >
+                    {video.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </Box>
 
         <Box 

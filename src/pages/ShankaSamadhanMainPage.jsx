@@ -21,34 +21,18 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 const shankaSamadhanCategories = [
   { 
     id: 1, 
-    title: "सारी क्लिप्स", 
+    title: "क्लिप्स", 
     icon: <VideoLibraryIcon sx={{ fontSize: "48px" }} />,
     description: "सभी शंका समाधान वीडियो देखें",
     color: "#FF6B6B",
-    route: "/shanka-samadhan/all-clips"
+    route: "/shanka-samadhan/clips"
   },
   { 
     id: 2, 
-    title: "नई क्लिप्स", 
-    icon: <FiberNewIcon sx={{ fontSize: "48px" }} />,
-    description: "नवीनतम शंका समाधान वीडियो",
-    color: "#4ECDC4",
-    route: "/shanka-samadhan/new-clips"
-  },
-  { 
-    id: 3, 
-    title: "लोकप्रिय क्लिप्स", 
-    icon: <TrendingUpIcon sx={{ fontSize: "48px" }} />,
-    description: "सबसे ज्यादा देखे गए वीडियो",
-    color: "#95E1D3",
-    route: "/shanka-samadhan/popular-clips"
-  },
-  { 
-    id: 4, 
     title: "सभी शंका समाधान", 
     icon: <ListAltIcon sx={{ fontSize: "48px" }} />,
     description: "प्रश्नों की पूरी सूची देखें",
-    color: "#F38181",
+    color: "#4ECDC4",
     route: "/shanka-samadhan/all-questions"
   }
 ];

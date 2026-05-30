@@ -17,9 +17,8 @@ import Brightness7Icon from "@mui/icons-material/Brightness7"; // For the center
 const QUICK_LINKS = [
   { label: "प्रवचन", icon: <VolumeUpOutlinedIcon fontSize="large" /> },
   { label: "शंका समाधान", icon: <ForumOutlinedIcon fontSize="large" /> },
-  { label: "भावना योग", icon: <SelfImprovementIcon fontSize="large" /> },
+  // { label: "भावना योग", icon: <SelfImprovementIcon fontSize="large" /> },
   { label: "गुणायतन", icon: <TempleHinduOutlinedIcon fontSize="large" /> },
-  { label: "पाठशाला", icon: <MenuBookOutlinedIcon fontSize="large" /> },
   { label: "कहानियाँ", icon: <AutoStoriesOutlinedIcon fontSize="large" /> },
 ];
 
@@ -37,8 +36,6 @@ export default function QuickLinks() {
       navigate("/bhavana-yog");
     } else if (label === "गुणायतन") {
       navigate("/gunayatan");
-    } else if (label === "पाठशाला") {
-      navigate("/pathshala");
     }
   };
 
@@ -77,7 +74,7 @@ export default function QuickLinks() {
           gridTemplateColumns: { 
             xs: "repeat(2, 1fr)", 
             sm: "repeat(3, 1fr)", 
-            md: "repeat(6, 1fr)" 
+            md: "repeat(4, 1fr)" 
           },
           gap: { xs: 2, sm: 3, md: 4 },
           maxWidth: "1200px",

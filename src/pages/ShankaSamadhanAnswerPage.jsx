@@ -1,14 +1,40 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
-import { getAnswerBySlug } from '../data/shankaAnswersData';
+import apiService from '../services/apiService';
+import { API_ENDPOINTS } from '../config/api';
 import './ShankaSamadhanAnswer.css';
 
 const ShankaSamadhanAnswerPage = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
+  const [answer, setAnswer] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const answer = getAnswerBySlug(slug);
+  useEffect(() => {
+    fetchAnswer();
+  }, [slug]);
+
+  const fetchAnswer = async () => {
+    try {
+      const data = await apiService.get(API_ENDPOINTS.shankaSamadhan.getBySlug(slug));
+      setAnswer(data);
+    } catch (error) {
+      console.error('Error fetching answer:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="shanka-answer-page">
+        <div className="shanka-answer-container">
+          <p style={{ textAlign: 'center', padding: '50px' }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!answer) {
     return (
@@ -48,7 +74,7 @@ const ShankaSamadhanAnswerPage = () => {
           {/* Question Header */}
           <div className="answer-header">
             <h1 className="answer-question">{answer.question}</h1>
-            <p className="answer-subtitle">{answer.subtitle}</p>
+            <p className="answer-subtitle">{answer.category}</p>
           </div>
 
           {/* Divider */}
@@ -56,7 +82,7 @@ const ShankaSamadhanAnswerPage = () => {
 
           {/* Answer Content */}
           <div className="answer-content">
-            {answer.content.split('\n\n').map((paragraph, index) => (
+            {answer.answer.split('\n\n').map((paragraph, index) => (
               <p key={index} className="answer-paragraph">
                 {paragraph}
               </p>

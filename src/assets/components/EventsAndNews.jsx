@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -13,7 +14,8 @@ import {
   ArrowForward as ArrowForwardIcon
 } from "@mui/icons-material";
 
-import { getLatestNews } from "../../data/newsData";
+import apiService from "../../services/apiService";
+import { API_ENDPOINTS } from "../../config/api";
 
 // Animation for the live location marker
 const pulseAnimation = keyframes`
@@ -25,7 +27,47 @@ const pulseAnimation = keyframes`
 export default function EventsAndNews() {
   const navigate = useNavigate();
   
-  const newsData = getLatestNews(5);
+  const [newsData, setNewsData] = useState([]);
+  const [location, setLocation] = useState({
+    address: 'आगरा, उत्तर प्रदेश',
+    addressEnglish: '(Agra, Uttar Pradesh, India)'
+  });
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    fetchLocation();
+    fetchEvents();
+    fetchLatestNews();
+  }, []);
+
+  const fetchLatestNews = async () => {
+    try {
+      const data = await apiService.get(`${API_ENDPOINTS.news.latest}?limit=5`);
+      setNewsData(data);
+    } catch (error) {
+      console.error('Error fetching latest news:', error);
+    }
+  };
+
+  const fetchLocation = async () => {
+    try {
+      const data = await apiService.get(API_ENDPOINTS.location.getAll);
+      if (data) {
+        setLocation(data);
+      }
+    } catch (error) {
+      console.error('Error fetching location:', error);
+    }
+  };
+
+  const fetchEvents = async () => {
+    try {
+      const data = await apiService.get(API_ENDPOINTS.events.getActive);
+      setEvents(data);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    }
+  };
 
   const handleViewAll = () => {
     navigate("/news-media");
@@ -33,6 +75,15 @@ export default function EventsAndNews() {
 
   const handleNewsClick = (id) => {
     navigate(`/news/${id}`);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('hi-IN', { 
+      day: 'numeric',
+      month: 'long', 
+      year: 'numeric'
+    });
   };
 
   return (
@@ -104,10 +155,10 @@ export default function EventsAndNews() {
             </Typography>
           </Box>
           <Typography variant="h5" sx={{ fontWeight: 700, fontFamily: "system-ui, sans-serif", mb: 1 }}>
-            आगरा, उत्तर प्रदेश
+            {location.address}
           </Typography>
           <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
-            (Agra, Uttar Pradesh, India)
+            {location.addressEnglish}
           </Typography>
         </Paper>
 
@@ -128,28 +179,43 @@ export default function EventsAndNews() {
             Upcoming Events
           </Typography>
           
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {["भावना योग शिविर - आपके शहर में (Register)", "Weekly Online भावना योग"].map((event, index) => (
-              <Box 
-                key={index} 
-                sx={{ 
-                  display: "flex", 
-                  alignItems: "center", 
-                  p: 2, 
-                  backgroundColor: "#FFF8E1", 
-                  borderRadius: "12px",
-                  transition: "transform 0.2s ease",
-                  "&:hover": { transform: "translateX(5px)", backgroundColor: "#FFE0B2" },
-                  cursor: "pointer"
-                }}
-              >
-                <Box sx={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#E65100", mr: 2 }} />
-                <Typography variant="body1" sx={{ color: "#424242", fontWeight: 500 }}>
-                  {event}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
+          {events.length === 0 ? (
+            <Box sx={{ textAlign: 'center', py: 3 }}>
+              <Typography variant="body2" color="text.secondary">
+                No upcoming events at the moment
+              </Typography>
+            </Box>
+          ) : (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {events.map((event) => (
+                <Box 
+                  key={event._id} 
+                  sx={{ 
+                    display: "flex", 
+                    alignItems: "flex-start", 
+                    p: 2, 
+                    backgroundColor: "#FFF8E1", 
+                    borderRadius: "12px",
+                    transition: "transform 0.2s ease",
+                    "&:hover": { transform: "translateX(5px)", backgroundColor: "#FFE0B2" },
+                    cursor: "pointer"
+                  }}
+                >
+                  <Box sx={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#E65100", mr: 2, mt: 1, flexShrink: 0 }} />
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body1" sx={{ color: "#424242", fontWeight: 500 }}>
+                      {event.title}
+                    </Typography>
+                    {event.description && (
+                      <Typography variant="body2" sx={{ color: "#757575", mt: 0.5, fontSize: "0.85rem" }}>
+                        {event.description}
+                      </Typography>
+                    )}
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          )}
         </Paper>
 
         {/* NEWS FEED */}
@@ -238,8 +304,8 @@ export default function EventsAndNews() {
           >
             {newsData.map((item, index) => (
               <Box 
-                key={item.id} 
-                onClick={() => handleNewsClick(item.id)}
+                key={item._id} 
+                onClick={() => handleNewsClick(item._id)}
                 sx={{ 
                   display: "flex", 
                   flexDirection: "column",
@@ -261,7 +327,7 @@ export default function EventsAndNews() {
                 }}
               >
                 <Chip 
-                  label={item.date} 
+                  label={formatDate(item.date)} 
                   size="small" 
                   sx={{ 
                     background: "linear-gradient(135deg, #FF9800, #E65100)",

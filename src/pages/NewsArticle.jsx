@@ -1,15 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaArrowLeft, FaCalendarAlt, FaTag } from 'react-icons/fa';
-import { getNewsById } from '../data/newsData';
+import { FaArrowLeft, FaCalendarAlt, FaTag, FaEye } from 'react-icons/fa';
+import apiService from '../services/apiService';
+import { API_ENDPOINTS } from '../config/api';
 import './NewsArticle.css';
 
 const NewsArticle = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const news = getNewsById(id);
+  const [news, setNews] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  if (!news) {
+  useEffect(() => {
+    fetchNews();
+  }, [id]);
+
+  const fetchNews = async () => {
+    try {
+      setLoading(true);
+      const data = await apiService.get(`${API_ENDPOINTS.news.getAll}/${id}`);
+      setNews(data);
+    } catch (error) {
+      console.error('Error fetching news:', error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('hi-IN', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
+  const getCategoryLabel = (category) => {
+    const labels = {
+      general: 'सामान्य',
+      event: 'कार्यक्रम',
+      announcement: 'घोषणा',
+      media: 'मीडिया'
+    };
+    return labels[category] || category;
+  };
+
+  if (loading) {
+    return (
+      <div className="news-article-page">
+        <div className="article-container">
+          <div style={{ textAlign: 'center', padding: '100px 20px' }}>
+            <div className="loading-spinner"></div>
+            <p>समाचार लोड हो रहा है...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !news) {
     return (
       <div className="news-article-page">
         <div className="article-container">
@@ -38,60 +90,48 @@ const NewsArticle = () => {
         <article className="article-content">
           
           {/* Hero Image */}
-          <div className="article-hero-image">
-            <img 
-              src={news.image} 
-              alt={news.title}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
-            />
-          </div>
+          {news.image && (
+            <div className="article-hero-image">
+              <img 
+                src={`${import.meta.env.VITE_API_URL}${news.image}`}
+                alt={news.title}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
+            </div>
+          )}
 
           {/* Article Meta */}
           <div className="article-meta">
             <span className="article-category">
-              <FaTag /> {news.category}
+              <FaTag /> {getCategoryLabel(news.category)}
             </span>
             <span className="article-date">
-              <FaCalendarAlt /> {news.date}
+              <FaCalendarAlt /> {formatDate(news.date)}
+            </span>
+            <span className="article-views">
+              <FaEye /> {news.views || 0} बार देखा गया
             </span>
           </div>
 
           {/* Article Title */}
           <h1 className="article-title">{news.title}</h1>
 
-          {/* Article Body */}
-          <div className="article-body">
+          {/* Article Excerpt */}
+          {news.excerpt && (
             <p className="article-intro">
               {news.excerpt}
             </p>
+          )}
 
-            <p>
-              आचार्य श्री निर्भय सागर जी महाराज के दिव्य आशीर्वाद से यह पावन कार्यक्रम अत्यंत भव्य रूप से संपन्न हुआ। हजारों श्रद्धालुओं ने गुरुवर के दर्शन और आशीर्वाद प्राप्त किया। इस अवसर पर गुरुवर ने जैन धर्म के मूल सिद्धांतों पर प्रकाश डाला और श्रद्धालुओं को जीवन में धर्म को अपनाने का संदेश दिया।
-            </p>
-
-            <h2>कार्यक्रम की मुख्य बातें</h2>
-            <p>
-              इस धार्मिक आयोजन में गुरुवर ने विशेष रूप से युवा पीढ़ी को संबोधित करते हुए कहा कि आधुनिक जीवन की चुनौतियों के बीच भी धर्म और संस्कारों को बनाए रखना अत्यंत आवश्यक है। उन्होंने बताया कि जैन धर्म के सिद्धांत न केवल आध्यात्मिक विकास में सहायक हैं, बल्कि व्यावहारिक जीवन में भी मार्गदर्शन प्रदान करते हैं।
-            </p>
-
-            <p>
-              कार्यक्रम के दौरान श्रद्धालुओं ने गुरुवर से अपनी जिज्ञासाओं का समाधान प्राप्त किया। गुरुवर ने सभी प्रश्नों का अत्यंत सरल और स्पष्ट उत्तर देते हुए श्रद्धालुओं को जीवन में सकारात्मक बदलाव लाने के लिए प्रेरित किया।
-            </p>
-
-            <h2>समाज सेवा का संदेश</h2>
-            <p>
-              गुरुवर ने समाज सेवा के महत्व पर भी प्रकाश डाला। उन्होंने कहा कि सच्ची भक्ति वही है जो समाज के कल्याण में परिवर्तित हो। जरूरतमंदों की सहायता करना, शिक्षा का प्रसार करना और पर्यावरण की रक्षा करना भी धर्म का ही अंग है।
-            </p>
-
-            <p>
-              कार्यक्रम के समापन पर गुरुवर ने सभी श्रद्धालुओं को आशीर्वाद देते हुए कहा कि जीवन में सदैव सत्य, अहिंसा और करुणा का पालन करें। यही मार्ग मोक्ष की ओर ले जाता है।
-            </p>
-
-          </div>
+          {/* Article Body */}
+          <div 
+            className="article-body"
+            dangerouslySetInnerHTML={{ __html: news.content }}
+          />
 
         </article>
 

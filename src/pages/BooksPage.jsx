@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -6,37 +7,31 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DownloadIcon from "@mui/icons-material/Download";
+import axios from "axios";
 
-const booksData = [
-  { id: 1, title: "जैन धर्म के मूल सिद्धांत", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 2, title: "अहिंसा का महत्व", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 3, title: "आत्मा और कर्म", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 4, title: "ध्यान और साधना", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 5, title: "जीवन दर्शन", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 6, title: "धर्म और समाज", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 7, title: "आध्यात्मिक यात्रा", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 8, title: "सत्य की खोज", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 9, title: "मोक्ष मार्ग", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 10, title: "जैन दर्शन", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 11, title: "कर्म सिद्धांत", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" },
-  { id: 12, title: "आत्म चिंतन", author: "आचार्य श्री निर्भय सागर जी", placeholder: true, downloadUrl: "" }
-];
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function BooksPage() {
-  // Function to handle book download
-  const handleDownload = (book) => {
-    if (book.downloadUrl && book.downloadUrl !== "") {
-      // If download URL exists, create a temporary link and trigger download
-      const link = document.createElement('a');
-      link.href = book.downloadUrl;
-      link.download = `${book.title}.pdf`; // You can change the extension based on file type
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      // If no download URL, show alert (you can replace this with a toast notification)
-      alert(`${book.title} की डाउनलोड लिंक अभी उपलब्ध नहीं है।`);
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const { data } = await axios.get(`${API_URL}/api/books`);
+      setBooks(data);
+    } catch (error) {
+      console.error('Failed to fetch books:', error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleDownload = (book) => {
+    window.open(`${API_URL}/uploads/books/${book.pdfFile}`, '_blank');
   };
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#FAFAFA", py: { xs: 4, md: 8 } }}>
@@ -89,6 +84,11 @@ export default function BooksPage() {
         </Box>
 
         {/* Books Grid */}
+        {loading ? (
+          <Typography variant="h6" sx={{ textAlign: 'center', py: 4 }}>Loading...</Typography>
+        ) : books.length === 0 ? (
+          <Typography variant="h6" sx={{ textAlign: 'center', py: 4 }}>No books available</Typography>
+        ) : (
         <Box 
           sx={{ 
             display: "grid",
@@ -102,9 +102,9 @@ export default function BooksPage() {
             mb: 6
           }}
         >
-          {booksData.map((book) => (
+          {books.map((book) => (
             <Card
-              key={book.id}
+              key={book._id}
               elevation={0}
               sx={{
                 borderRadius: "16px",
@@ -124,38 +124,19 @@ export default function BooksPage() {
                 }
               }}
             >
-              {/* Book Cover Placeholder */}
+              {/* Book Cover */}
               <Box 
                 sx={{ 
                   position: "relative",
                   aspectRatio: "3/4",
-                  backgroundColor: "#E0E0E0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  gap: 2,
-                  p: 3
+                  overflow: "hidden"
                 }}
               >
-                <MenuBookIcon 
-                  className="book-icon"
-                  sx={{ 
-                    fontSize: "64px", 
-                    color: "#9E9E9E",
-                    transition: "all 0.3s ease"
-                  }} 
+                <img
+                  src={`${API_URL}/uploads/books/${book.coverImage}`}
+                  alt={book.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
-                    color: "#757575",
-                    textAlign: "center",
-                    fontWeight: 600
-                  }}
-                >
-                  पुस्तक कवर
-                </Typography>
               </Box>
 
               <CardContent sx={{ p: 3 }}>
@@ -180,10 +161,25 @@ export default function BooksPage() {
                   variant="body2" 
                   sx={{ 
                     color: "#757575",
-                    mb: 2
+                    mb: 1
                   }}
                 >
                   {book.author}
+                </Typography>
+
+                {/* Description */}
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    color: "#666",
+                    mb: 2,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {book.description}
                 </Typography>
 
                 {/* Download Button */}
@@ -213,6 +209,7 @@ export default function BooksPage() {
             </Card>
           ))}
         </Box>
+        )}
 
         {/* Bottom Info Section */}
         <Box 

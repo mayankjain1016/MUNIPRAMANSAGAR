@@ -1,39 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaNewspaper, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
-import newsData from '../data/newsData';
+import { FaNewspaper, FaCalendarAlt, FaArrowRight, FaEye } from 'react-icons/fa';
+import apiService from '../services/apiService';
+import { API_ENDPOINTS } from '../config/api';
 import './NewsMedia.css';
 
 const NewsMediaPage = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchNews();
+  }, []);
+
+  const fetchNews = async () => {
+    try {
+      setLoading(true);
+      const data = await apiService.get(API_ENDPOINTS.news.published);
+      setNews(data);
+    } catch (error) {
+      console.error('Error fetching news:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const categories = [
     { id: 'all', name: 'सभी समाचार' },
-    { id: 'latest', name: 'नवीनतम समाचार' },
-    { id: 'popular', name: 'लोकप्रिय समाचार' },
-    { id: 'special', name: 'विशेष समाचार' }
+    { id: 'general', name: 'सामान्य समाचार' },
+    { id: 'event', name: 'कार्यक्रम समाचार' },
+    { id: 'announcement', name: 'घोषणाएं' },
+    { id: 'media', name: 'मीडिया' }
   ];
 
   const filteredNews = selectedCategory === 'all' 
-    ? newsData 
-    : newsData.filter(news => {
-        if (selectedCategory === 'latest') {
-          // Show latest 6 news items
-          return newsData.indexOf(news) < 6;
-        } else if (selectedCategory === 'popular') {
-          // Show popular news (you can add a 'popular' field to newsData)
-          return news.views > 1000; // Example logic
-        } else if (selectedCategory === 'special') {
-          // Show special news (you can add a 'special' field to newsData)
-          return news.featured === true; // Example logic
-        }
-        return news.category === selectedCategory;
-      });
+    ? news 
+    : news.filter(item => item.category === selectedCategory);
 
   const handleNewsClick = (id) => {
     navigate(`/news/${id}`);
   };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('hi-IN', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="news-media-page">
+        <div className="news-container">
+          <div style={{ textAlign: 'center', padding: '100px 20px' }}>
+            <div className="loading-spinner"></div>
+            <p>समाचार लोड हो रहे हैं...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="news-media-page">
@@ -68,46 +98,73 @@ const NewsMediaPage = () => {
 
         {/* News Grid */}
         <section className="news-grid-section">
-          <div className="news-grid">
-            {filteredNews.map((news) => (
-              <div 
-                key={news.id} 
-                className="news-card"
-                onClick={() => handleNewsClick(news.id)}
-              >
-                {/* Image */}
-                <div className="news-image-placeholder">
-                  <img 
-                    src={news.image} 
-                    alt={news.title}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
-                  />
-                </div>
-
-                {/* News Content */}
-                <div className="news-card-content">
-                  <div className="news-card-header">
-                    <span className="news-date">
-                      <FaCalendarAlt /> {news.date}
-                    </span>
+          {filteredNews.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+              <FaNewspaper style={{ fontSize: '64px', color: '#ccc', marginBottom: '20px' }} />
+              <h3>कोई समाचार उपलब्ध नहीं है</h3>
+              <p>इस श्रेणी में अभी कोई समाचार नहीं है।</p>
+            </div>
+          ) : (
+            <div className="news-grid">
+              {filteredNews.map((newsItem) => (
+                <div 
+                  key={newsItem._id} 
+                  className="news-card"
+                  onClick={() => handleNewsClick(newsItem._id)}
+                >
+                  {/* Image */}
+                  <div className="news-image-placeholder">
+                    {newsItem.image ? (
+                      <img 
+                        src={`${import.meta.env.VITE_API_URL}${newsItem.image}`}
+                        alt={newsItem.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                    ) : (
+                      <div style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white'
+                      }}>
+                        <FaNewspaper style={{ fontSize: '48px' }} />
+                      </div>
+                    )}
                   </div>
 
-                  <h3 className="news-card-title">{news.title}</h3>
-                  <p className="news-card-excerpt">{news.excerpt}</p>
+                  {/* News Content */}
+                  <div className="news-card-content">
+                    <div className="news-card-header">
+                      <span className="news-date">
+                        <FaCalendarAlt /> {formatDate(newsItem.date)}
+                      </span>
+                      <span className="news-views">
+                        <FaEye /> {newsItem.views || 0}
+                      </span>
+                    </div>
 
-                  <div className="news-card-footer">
-                    <span className="read-more">
-                      पूरा पढ़ें <FaArrowRight />
-                    </span>
+                    <h3 className="news-card-title">{newsItem.title}</h3>
+                    <p className="news-card-excerpt">
+                      {newsItem.excerpt || newsItem.content.replace(/<[^>]*>/g, '').substring(0, 150)}...
+                    </p>
+
+                    <div className="news-card-footer">
+                      <span className="read-more">
+                        पूरा पढ़ें <FaArrowRight />
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* Info Section */}

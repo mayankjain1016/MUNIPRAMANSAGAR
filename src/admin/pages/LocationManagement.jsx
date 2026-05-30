@@ -1,0 +1,90 @@
+import { useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Paper,
+  Alert,
+} from '@mui/material';
+import { Save } from '@mui/icons-material';
+import apiService from '../../services/apiService';
+import { API_ENDPOINTS } from '../../config/api';
+
+export default function LocationManagement() {
+  const [location, setLocation] = useState({
+    address: '',
+    addressEnglish: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    fetchLocation();
+  }, []);
+
+  const fetchLocation = async () => {
+    try {
+      const data = await apiService.get(API_ENDPOINTS.location.getAll);
+      setLocation(data);
+    } catch (error) {
+      console.error('Error fetching location:', error);
+    }
+  };
+
+  const handleSave = async () => {
+    setLoading(true);
+    setSuccess(false);
+    try {
+      await apiService.put(API_ENDPOINTS.location.getAll, location);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (error) {
+      console.error('Error saving location:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Box>
+      <Typography variant="h4" sx={{ mb: 3 }}>Location Management</Typography>
+      
+      {success && (
+        <Alert severity="success" sx={{ mb: 3 }}>
+          Location updated successfully!
+        </Alert>
+      )}
+
+      <Paper sx={{ p: 3 }}>
+        <TextField
+          fullWidth
+          label="Address (Hindi)"
+          value={location.address}
+          onChange={(e) => setLocation({ ...location, address: e.target.value })}
+          margin="normal"
+          multiline
+          rows={2}
+        />
+        <TextField
+          fullWidth
+          label="Address (English)"
+          value={location.addressEnglish}
+          onChange={(e) => setLocation({ ...location, addressEnglish: e.target.value })}
+          margin="normal"
+          multiline
+          rows={2}
+        />
+        <Button
+          variant="contained"
+          startIcon={<Save />}
+          onClick={handleSave}
+          disabled={loading}
+          sx={{ mt: 2 }}
+        >
+          {loading ? 'Saving...' : 'Save Location'}
+        </Button>
+      </Paper>
+    </Box>
+  );
+}

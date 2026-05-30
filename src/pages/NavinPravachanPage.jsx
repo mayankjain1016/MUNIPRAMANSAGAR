@@ -1,138 +1,127 @@
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-
-const videoPlaceholders = [
-  { id: 1, title: "Video 1", description: "Latest spiritual discourse" },
-  { id: 2, title: "Video 2", description: "Divine teachings and wisdom" },
-  { id: 3, title: "Video 3", description: "Spiritual guidance session" },
-  { id: 4, title: "Video 4", description: "Enlightening pravachan" },
-  { id: 5, title: "Video 5", description: "Sacred discourse" },
-  { id: 6, title: "Video 6", description: "Spiritual knowledge sharing" }
-];
+import { useState, useEffect } from 'react';
+import { Box, Container, Typography, Grid, Card, CardMedia, CardContent, Chip, CircularProgress } from '@mui/material';
+import { PlayCircleFilled, Visibility } from '@mui/icons-material';
+import { pravachanService } from '../services/pravachanService';
 
 export default function NavinPravachanPage() {
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
+  const fetchVideos = async () => {
+    try {
+      const data = await pravachanService.getAllPravachans('navin');
+      setVideos(data);
+    } catch (error) {
+      console.error('Error fetching videos:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVideoClick = async (video) => {
+    await pravachanService.incrementViews(video._id);
+    window.open(video.videoUrl, '_blank');
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+        <CircularProgress sx={{ color: '#FF6B6B' }} />
+      </Box>
+    );
+  }
+
   return (
-    <Box sx={{ minHeight: "100vh", backgroundColor: "#FAFAFA", py: { xs: 4, md: 8 } }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#FAFAFA', py: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
-        
-        {/* Page Header */}
-        <Box sx={{ textAlign: "center", mb: { xs: 6, md: 8 } }}>
-          <Typography 
-            variant="h2" 
-            component="h1"
-            sx={{ 
-              fontWeight: 800, 
-              color: "#333333",
-              mb: 2,
-              fontSize: { xs: "2rem", md: "3rem" },
-              letterSpacing: "-0.5px"
-            }}
-          >
+        <Box sx={{ textAlign: 'center', mb: 6 }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, color: '#333', mb: 2 }}>
             नवीन प्रवचन
           </Typography>
-          <Typography 
-            variant="h6" 
-            sx={{ 
-              color: "#757575",
-              fontWeight: 400,
-              maxWidth: "600px",
-              mx: "auto"
-            }}
-          >
-            इस महीने के प्रवचन
+          <Typography variant="h6" sx={{ color: '#757575' }}>
+            इस महीने के प्रवचन देखें
           </Typography>
         </Box>
 
-        {/* Video Cards Grid */}
-        <Box 
-          sx={{ 
-            display: "grid",
-            gridTemplateColumns: { 
-              xs: "1fr", 
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)" 
-            },
-            gap: { xs: 3, md: 4 },
-            mb: 6
-          }}
-        >
-          {videoPlaceholders.map((video) => (
-            <Card
-              key={video.id}
-              elevation={0}
-              sx={{
-                borderRadius: "16px",
-                border: "1px solid rgba(0,0,0,0.06)",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                cursor: "pointer",
-                overflow: "hidden",
-                "&:hover": {
-                  transform: "translateY(-8px)",
-                  boxShadow: "0 16px 40px rgba(230, 81, 0, 0.15)",
-                  borderColor: "rgba(230, 81, 0, 0.2)",
-                  "& .youtube-icon": {
-                    transform: "scale(1.1)",
-                    color: "#FF0000"
+        <Grid container spacing={3}>
+          {videos.map((video) => (
+            <Grid item xs={12} sm={6} md={4} key={video._id}>
+              <Card
+                onClick={() => handleVideoClick(video)}
+                sx={{
+                  cursor: 'pointer',
+                  borderRadius: 3,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 12px 24px rgba(0,0,0,0.15)'
                   }
-                }
-              }}
-            >
-              {/* Video Thumbnail Placeholder */}
-              <Box 
-                sx={{ 
-                  position: "relative",
-                  aspectRatio: "16/9",
-                  backgroundColor: "#E0E0E0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
                 }}
               >
-                <YouTubeIcon 
-                  className="youtube-icon"
-                  sx={{ 
-                    fontSize: "64px", 
-                    color: "#9E9E9E",
-                    transition: "all 0.3s ease"
-                  }} 
-                />
-              </Box>
-
-              <CardContent sx={{ p: 3 }}>
-                {/* Video Title */}
-                <Typography 
-                  variant="h6" 
-                  component="h3"
-                  sx={{ 
-                    fontWeight: 600,
-                    color: "#333333",
-                    mb: 1,
-                    fontSize: "1.1rem"
-                  }}
-                >
-                  {video.title}
-                </Typography>
-
-                {/* Video Description */}
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
-                    color: "#757575",
-                    lineHeight: 1.6
-                  }}
-                >
-                  {video.description}
-                </Typography>
-              </CardContent>
-            </Card>
+                <Box sx={{ position: 'relative' }}>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={video.thumbnail || 'https://via.placeholder.com/400x200'}
+                    alt={video.title}
+                  />
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'rgba(0,0,0,0.3)',
+                      opacity: 0,
+                      transition: 'opacity 0.3s',
+                      '&:hover': { opacity: 1 }
+                    }}
+                  >
+                    <PlayCircleFilled sx={{ fontSize: 64, color: 'white' }} />
+                  </Box>
+                  {video.duration && (
+                    <Chip
+                      label={video.duration}
+                      size="small"
+                      sx={{
+                        position: 'absolute',
+                        bottom: 8,
+                        right: 8,
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        color: 'white'
+                      }}
+                    />
+                  )}
+                </Box>
+                <CardContent>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }} noWrap>
+                    {video.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    {video.description?.substring(0, 100)}...
+                  </Typography>
+                  <Chip icon={<Visibility />} label={`${video.views} views`} size="small" />
+                </CardContent>
+              </Card>
+            </Grid>
           ))}
-        </Box>
+        </Grid>
 
+        {videos.length === 0 && (
+          <Box sx={{ textAlign: 'center', py: 8 }}>
+            <Typography variant="h6" color="text.secondary">
+              कोई प्रवचन उपलब्ध नहीं है
+            </Typography>
+          </Box>
+        )}
       </Container>
     </Box>
   );
