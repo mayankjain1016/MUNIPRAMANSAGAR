@@ -88,7 +88,7 @@ export default function PravachanManagement() {
       handleClose();
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Operation failed');
+      setError(err.message || 'Operation failed');
     }
   };
 

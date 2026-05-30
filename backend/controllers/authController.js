@@ -8,6 +8,17 @@ const generateToken = (id) => {
   });
 };
 
+// Set token in httpOnly cookie
+const setTokenCookie = (res, token) => {
+  res.cookie('adminToken', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    path: '/'
+  });
+};
+
 // @desc    Register admin
 // @route   POST /api/auth/register
 // @access  Public (should be protected in production)
@@ -29,12 +40,14 @@ export const registerAdmin = async (req, res) => {
     });
 
     if (admin) {
+      const token = generateToken(admin._id);
+      setTokenCookie(res, token);
+      
       res.status(201).json({
         _id: admin._id,
         username: admin.username,
         email: admin.email,
         role: admin.role,
-        token: generateToken(admin._id),
       });
     }
   } catch (error) {
@@ -52,16 +65,35 @@ export const loginAdmin = async (req, res) => {
     const admin = await Admin.findOne({ email });
 
     if (admin && (await admin.matchPassword(password))) {
+      const token = generateToken(admin._id);
+      setTokenCookie(res, token);
+      
       res.json({
         _id: admin._id,
         username: admin.username,
         email: admin.email,
         role: admin.role,
-        token: generateToken(admin._id),
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
     }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// @desc    Logout admin
+// @route   POST /api/auth/logout
+// @access  Private
+export const logoutAdmin = async (req, res) => {
+  try {
+    res.clearCookie('adminToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/'
+    });
+    res.json({ message: 'Logged out successfully' });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -101,7 +133,6 @@ export const updateAdminProfile = async (req, res) => {
         username: updatedAdmin.username,
         email: updatedAdmin.email,
         role: updatedAdmin.role,
-        token: generateToken(updatedAdmin._id),
       });
     } else {
       res.status(404).json({ message: 'Admin not found' });

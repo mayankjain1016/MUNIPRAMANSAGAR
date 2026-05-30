@@ -1,15 +1,7 @@
 import API_BASE_URL from '../config/api';
 
 class ApiService {
-  getAuthHeaders() {
-    const adminInfo = localStorage.getItem('adminInfo');
-    if (adminInfo) {
-      const { token } = JSON.parse(adminInfo);
-      return {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      };
-    }
+  getHeaders() {
     return {
       'Content-Type': 'application/json',
     };
@@ -19,7 +11,8 @@ class ApiService {
     try {
       const response = await fetch(url, {
         method: 'GET',
-        headers: this.getAuthHeaders(),
+        credentials: 'include', // Cookies are automatically sent
+        headers: this.getHeaders(),
       });
       
       if (!response.ok) {
@@ -37,7 +30,8 @@ class ApiService {
     try {
       const response = await fetch(url, {
         method: 'POST',
-        headers: this.getAuthHeaders(),
+        credentials: 'include', // Cookies are automatically sent
+        headers: this.getHeaders(),
         body: JSON.stringify(data),
       });
       
@@ -56,7 +50,8 @@ class ApiService {
     try {
       const response = await fetch(url, {
         method: 'PUT',
-        headers: this.getAuthHeaders(),
+        credentials: 'include', // Cookies are automatically sent
+        headers: this.getHeaders(),
         body: JSON.stringify(data),
       });
       
@@ -75,7 +70,8 @@ class ApiService {
     try {
       const response = await fetch(url, {
         method: 'DELETE',
-        headers: this.getAuthHeaders(),
+        credentials: 'include', // Cookies are automatically sent
+        headers: this.getHeaders(),
       });
       
       if (!response.ok) {
@@ -85,6 +81,26 @@ class ApiService {
       return await response.json();
     } catch (error) {
       console.error('API DELETE Error:', error);
+      throw error;
+    }
+  }
+
+  async patch(url, data = {}) {
+    try {
+      const response = await fetch(url, {
+        method: 'PATCH',
+        credentials: 'include', // Cookies are automatically sent
+        headers: this.getHeaders(),
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('API PATCH Error:', error);
       throw error;
     }
   }

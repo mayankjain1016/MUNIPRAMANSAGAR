@@ -11,9 +11,12 @@ import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
+// Public read routes
 router.get('/active', getActiveEvents);
-router.get('/', protect, getAllEvents);
+router.get('/', getAllEvents);
 router.get('/:id', getEventById);
+
+// Protected write routes
 router.post('/', protect, createEvent);
 router.put('/:id', protect, updateEvent);
 router.delete('/:id', protect, deleteEvent);

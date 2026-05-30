@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
@@ -5,26 +6,63 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import featuredVideoService from "../../services/featuredVideoService";
 
-// Upgraded data structure with actual YouTube video links
-const vids = [
+// Fallback videos in case API fails
+const fallbackVids = [
   { 
     title: "सोमशर्म से मुनि बनने की कहानी | Jain Pathshala by Pramanik Samooh", 
     videoId: "41qcbxa1yDU",
-    url: "https://youtu.be/41qcbxa1yDU?si=XYOBivF_CFfgbUM5"
+    youtubeUrl: "https://youtu.be/41qcbxa1yDU?si=XYOBivF_CFfgbUM5"
   },
   { 
     title: "महिला सशक्तिकरण का अर्थ क्या है? | Best of Shanka Samadhan", 
     videoId: "tAyDxsBAHjY",
-    url: "https://youtu.be/tAyDxsBAHjY?si=3P3tTQVrse8n0aZW"
+    youtubeUrl: "https://youtu.be/tAyDxsBAHjY?si=3P3tTQVrse8n0aZW"
   },
 ];
 
 export default function TrendingVideos() {
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchFeaturedVideos();
+  }, []);
+
+  const fetchFeaturedVideos = async () => {
+    try {
+      const data = await featuredVideoService.getAllFeaturedVideos();
+      if (data && data.length > 0) {
+        setVideos(data);
+      } else {
+        setVideos(fallbackVids);
+      }
+    } catch (error) {
+      console.error('Failed to fetch featured videos:', error);
+      setVideos(fallbackVids);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getVideoUrl = (video) => {
+    return video.youtubeUrl;
+  };
+
+  if (loading) {
+    return (
+      <Box component="section" sx={{ width: "100%", py: { xs: 6, md: 8 }, backgroundColor: "#FAFAFA", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "400px" }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <Box component="section" sx={{ width: "100%", py: { xs: 6, md: 8 }, backgroundColor: "#FAFAFA" }}>
       
@@ -53,7 +91,7 @@ export default function TrendingVideos() {
           width: "100%"
         }}
       >
-        {vids.map((video, index) => (
+        {videos.map((video, index) => (
           <Card 
             key={index} 
             elevation={0}
@@ -75,13 +113,13 @@ export default function TrendingVideos() {
             }}
           >
             {/* CardActionArea makes the entire card a clickable button with a ripple effect */}
-            <CardActionArea component="a" href={video.url} target="_blank" rel="noopener noreferrer">
+            <CardActionArea component="a" href={getVideoUrl(video)} target="_blank" rel="noopener noreferrer">
               
               {/* Thumbnail Container */}
               <Box sx={{ position: "relative", aspectRatio: "16/9" }}>
                 <CardMedia
                   component="img"
-                  image={`https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`}
+                  image={video.thumbnail || `https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`}
                   alt={video.title}
                   sx={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />

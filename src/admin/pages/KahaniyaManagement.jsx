@@ -5,7 +5,6 @@ import {
   CardMedia, Grid, Alert, Switch, FormControlLabel
 } from '@mui/material';
 import { Add, Edit, Delete, DragIndicator } from '@mui/icons-material';
-import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -30,13 +29,20 @@ export default function KahaniyaManagement() {
 
   const fetchVideos = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const { data } = await axios.get(`${API_URL}/kahaniya/admin`, {
-        headers: { Authorization: `Bearer ${token}` }
+      const response = await fetch(`${API_URL}/kahaniya/admin`, {
+        credentials: 'include', // Send cookies
+        headers: { 'Content-Type': 'application/json' }
       });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status}`);
+      }
+      
+      const data = await response.json();
       setVideos(data);
     } catch (err) {
       setError('Failed to fetch videos');
+      console.error(err);
     }
   };
 
@@ -89,36 +95,49 @@ export default function KahaniyaManagement() {
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
-      if (editMode) {
-        await axios.put(`${API_URL}/kahaniya/${currentId}`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setSuccess('Video updated successfully');
-      } else {
-        await axios.post(`${API_URL}/kahaniya`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setSuccess('Video added successfully');
+      const response = editMode
+        ? await fetch(`${API_URL}/kahaniya/${currentId}`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          })
+        : await fetch(`${API_URL}/kahaniya`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || 'Operation failed');
       }
+
+      setSuccess(editMode ? 'Video updated successfully' : 'Video created successfully');
       fetchVideos();
       handleClose();
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Operation failed');
+      setError(err.message || 'Operation failed');
     }
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this video?')) {
       try {
-        const token = localStorage.getItem('adminToken');
-        await axios.delete(`${API_URL}/kahaniya/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
+        const response = await fetch(`${API_URL}/kahaniya/${id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' }
         });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete');
+        }
+
         setSuccess('Video deleted successfully');
         fetchVideos();
-        setTimeout(() => setSuccess(''), 3000);
       } catch (err) {
         setError('Failed to delete video');
       }
