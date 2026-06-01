@@ -116,7 +116,7 @@ const NewsMediaPage = () => {
                   <div className="news-image-placeholder">
                     {newsItem.image ? (
                       <img 
-                        src={`${import.meta.env.VITE_API_URL}${newsItem.image}`}
+                        src={`${import.meta.env.VITE_API_BASE_URL}${newsItem.image}`}
                         alt={newsItem.title}
                         style={{
                           width: '100%',

@@ -3,7 +3,7 @@ import { Box, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActio
 import { Add, Edit, Delete, CloudUpload, PictureAsPdf } from '@mui/icons-material';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 export default function BookManagement() {
   const [books, setBooks] = useState([]);

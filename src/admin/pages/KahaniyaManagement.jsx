@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { Add, Edit, Delete, DragIndicator } from '@mui/icons-material';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 export default function KahaniyaManagement() {
   const [videos, setVideos] = useState([]);

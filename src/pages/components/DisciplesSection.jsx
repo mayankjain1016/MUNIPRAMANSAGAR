@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Card, CardMedia, CardContent, CircularProgress } from '@mui/material';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 export default function DisciplesSection() {
   const [disciples, setDisciples] = useState([]);

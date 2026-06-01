@@ -93,7 +93,7 @@ const NewsArticle = () => {
           {news.image && (
             <div className="article-hero-image">
               <img 
-                src={`${import.meta.env.VITE_API_URL}${news.image}`}
+                src={`${import.meta.env.VITE_API_BASE_URL}${news.image}`}
                 alt={news.title}
                 style={{
                   width: '100%',

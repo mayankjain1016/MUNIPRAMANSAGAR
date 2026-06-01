@@ -69,7 +69,7 @@ export default function NewsManagement() {
         ...newsItem,
         date: new Date(newsItem.date).toISOString().split('T')[0],
       });
-      setImagePreview(newsItem.image ? `${import.meta.env.VITE_API_URL}${newsItem.image}` : '');
+      setImagePreview(newsItem.image ? `${import.meta.env.VITE_API_BASE_URL}${newsItem.image}` : '');
       setEditMode(true);
     } else {
       setCurrentNews({
@@ -187,7 +187,7 @@ export default function NewsManagement() {
             {item.image && (
               <Box
                 component="img"
-                src={`${import.meta.env.VITE_API_URL}${item.image}`}
+                src={`${import.meta.env.VITE_API_BASE_URL}${item.image}`}
                 alt={item.title}
                 sx={{
                   height: 200,
