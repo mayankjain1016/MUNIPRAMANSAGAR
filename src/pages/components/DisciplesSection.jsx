@@ -82,7 +82,7 @@ export default function DisciplesSection() {
                 <CardMedia
                   component="img"
                   height="250"
-                  image={disciple.image}
+                  image={disciple.image.startsWith('http') ? disciple.image : `http://localhost:5000${disciple.image}`}
                   alt={disciple.name}
                   sx={{ objectFit: 'cover' }}
                 />

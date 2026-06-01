@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft, FaCalendarAlt, FaTag, FaEye } from 'react-icons/fa';
 import apiService from '../services/apiService';
-import { API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS, SERVER_BASE_URL } from '../config/api';
 import './NewsArticle.css';
 
 const NewsArticle = () => {
@@ -19,7 +19,7 @@ const NewsArticle = () => {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const data = await apiService.get(`${API_ENDPOINTS.news.getAll}/${id}`);
+      const data = await apiService.get(API_ENDPOINTS.news.getById(id));
       setNews(data);
     } catch (error) {
       console.error('Error fetching news:', error);
@@ -93,7 +93,7 @@ const NewsArticle = () => {
           {news.image && (
             <div className="article-hero-image">
               <img 
-                src={`${import.meta.env.VITE_API_BASE_URL}${news.image}`}
+                src={`${SERVER_BASE_URL}${news.image}`}
                 alt={news.title}
                 style={{
                   width: '100%',

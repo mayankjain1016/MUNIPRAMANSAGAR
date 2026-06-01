@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import { Edit, Delete, Add, CloudUpload, Close } from '@mui/icons-material';
 import apiService from '../../services/apiService';
-import { API_ENDPOINTS } from '../../config/api';
+import { API_ENDPOINTS, SERVER_BASE_URL } from '../../config/api';
 
 export default function GalleryManagement() {
   const [galleries, setGalleries] = useState([]);
@@ -40,7 +40,7 @@ export default function GalleryManagement() {
   });
   const [editMode, setEditMode] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  const API_URL = SERVER_BASE_URL;
 
   useEffect(() => {
     fetchGalleries();
@@ -96,16 +96,13 @@ export default function GalleryManagement() {
         return;
       }
 
-      const token = localStorage.getItem('token');
       const url = editMode 
         ? `${API_URL}/api/gallery/${currentGallery._id}` 
         : `${API_URL}/api/gallery`;
       
       const response = await fetch(url, {
         method: editMode ? 'PUT' : 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
+        credentials: 'include',
         body: formData
       });
 
@@ -166,12 +163,9 @@ export default function GalleryManagement() {
         formData.append('images', file);
       });
 
-      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/api/gallery/${selectedGallery._id}/images`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
+        credentials: 'include',
         body: formData
       });
 
@@ -363,7 +357,7 @@ export default function GalleryManagement() {
             value={currentGallery.date}
             onChange={(e) => setCurrentGallery({ ...currentGallery, date: e.target.value })}
             margin="normal"
-            InputLabelProps={{ shrink: true }}
+            slotProps={{ inputLabel: { shrink: true } }}
           />
           
           <Box sx={{ mt: 3, mb: 2 }}>

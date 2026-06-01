@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaNewspaper, FaCalendarAlt, FaArrowRight, FaEye } from 'react-icons/fa';
 import apiService from '../services/apiService';
-import { API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS, SERVER_BASE_URL } from '../config/api';
 import './NewsMedia.css';
 
 const NewsMediaPage = () => {
@@ -116,7 +116,7 @@ const NewsMediaPage = () => {
                   <div className="news-image-placeholder">
                     {newsItem.image ? (
                       <img 
-                        src={`${import.meta.env.VITE_API_BASE_URL}${newsItem.image}`}
+                        src={`${SERVER_BASE_URL}${newsItem.image}`}
                         alt={newsItem.title}
                         style={{
                           width: '100%',

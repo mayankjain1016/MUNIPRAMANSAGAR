@@ -28,11 +28,12 @@ class ApiService {
 
   async post(url, data) {
     try {
+      const isFormData = data instanceof FormData;
       const response = await fetch(url, {
         method: 'POST',
-        credentials: 'include', // Cookies are automatically sent
-        headers: this.getHeaders(),
-        body: JSON.stringify(data),
+        credentials: 'include',
+        headers: isFormData ? {} : this.getHeaders(),
+        body: isFormData ? data : JSON.stringify(data),
       });
       
       if (!response.ok) {
@@ -48,11 +49,12 @@ class ApiService {
 
   async put(url, data) {
     try {
+      const isFormData = data instanceof FormData;
       const response = await fetch(url, {
         method: 'PUT',
-        credentials: 'include', // Cookies are automatically sent
-        headers: this.getHeaders(),
-        body: JSON.stringify(data),
+        credentials: 'include',
+        headers: isFormData ? {} : this.getHeaders(),
+        body: isFormData ? data : JSON.stringify(data),
       });
       
       if (!response.ok) {

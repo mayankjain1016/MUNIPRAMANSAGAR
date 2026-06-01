@@ -103,7 +103,7 @@ export default function AdminLayout() {
           minHeight: 80,
         }}
       >
-        <Stack direction="row" spacing={2} alignItems="center">
+        <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
           <Box
             sx={{
               width: 48,
@@ -164,10 +164,14 @@ export default function AdminLayout() {
                 </ListItemIcon>
                 <ListItemText
                   primary={item.text}
-                  primaryTypographyProps={{
-                    fontSize: '0.9rem',
-                    fontWeight: isActive ? 600 : 500,
-                    color: isActive ? '#f97316' : '#475569',
+                  slotProps={{
+                    primary: {
+                      sx: {
+                        fontSize: '0.9rem',
+                        fontWeight: isActive ? 600 : 500,
+                        color: isActive ? '#f97316' : '#475569',
+                      }
+                    }
                   }}
                 />
               </ListItemButton>
@@ -220,7 +224,7 @@ export default function AdminLayout() {
           </Box>
 
           {/* User Menu */}
-          <Stack direction="row" spacing={2} alignItems="center">
+          <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
             <Chip
               label={admin?.role || 'Admin'}
               size="small"

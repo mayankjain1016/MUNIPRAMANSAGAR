@@ -7,8 +7,9 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
+import Grid from "@mui/material/Grid";
 import apiService from '../services/apiService';
-import { API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS, SERVER_BASE_URL } from '../config/api';
 
 export default function GalleryPage() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export default function GalleryPage() {
     navigate(`/gallery/${galleryId}`);
   };
 
-  const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  const API_URL = SERVER_BASE_URL;
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#FAFAFA", py: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
@@ -77,22 +78,10 @@ export default function GalleryPage() {
             कोई गैलरी उपलब्ध नहीं है
           </Typography>
         ) : (
-          <Box 
-            sx={{ 
-              display: "grid", 
-              gridTemplateColumns: { 
-                xs: "1fr", 
-                sm: "repeat(2, 1fr)", 
-                md: "repeat(3, 1fr)",
-                lg: "repeat(4, 1fr)" 
-              },
-              gap: { xs: 3, md: 4 },
-              mb: 6
-            }}
-          >
+          <Grid container spacing={3}>
             {galleries.map((gallery) => (
-              <Card 
-                key={gallery._id} 
+              <Grid item xs={12} sm={6} md={4} lg={3} key={gallery._id}>
+                <Card 
                 elevation={0}
                 onClick={() => handleGalleryClick(gallery._id)}
                 sx={{ 
@@ -150,8 +139,9 @@ export default function GalleryPage() {
                   </Typography>
                 </CardContent>
               </Card>
+              </Grid>
             ))}
-          </Box>
+          </Grid>
         )}
 
       </Container>

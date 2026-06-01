@@ -6,25 +6,36 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Get all galleries
+// Get all galleries (admin gets all, public gets only published)
 export const getAllGalleries = async (req, res) => {
   try {
-    const galleries = await Gallery.find({ isPublished: true }).sort({ date: -1 });
+    const isAdmin = req.user ? true : false;
+    const query = isAdmin ? {} : { isPublished: true };
+    const galleries = await Gallery.find(query).sort({ date: -1 });
     res.json(galleries);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get gallery by ID
+// Get gallery by ID (admin gets any, public gets only published)
 export const getGalleryById = async (req, res) => {
   try {
-    const gallery = await Gallery.findById(req.params.id);
+    const isAdmin = req.user ? true : false;
+    const query = isAdmin 
+      ? { _id: req.params.id } 
+      : { _id: req.params.id, isPublished: true };
+    
+    const gallery = await Gallery.findOne(query);
     if (!gallery) {
       return res.status(404).json({ message: 'Gallery not found' });
     }
-    gallery.views += 1;
-    await gallery.save();
+    
+    if (!isAdmin) {
+      gallery.views += 1;
+      await gallery.save();
+    }
+    
     res.json(gallery);
   } catch (error) {
     res.status(500).json({ message: error.message });

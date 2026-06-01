@@ -1,4 +1,10 @@
 import Disciple from '../models/Disciple.js';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const getAllDisciples = async (req, res) => {
   try {
@@ -11,7 +17,9 @@ export const getAllDisciples = async (req, res) => {
 
 export const createDisciple = async (req, res) => {
   try {
-    const { name, title, image, description, order } = req.body;
+    const { name, title, description, order } = req.body;
+    const image = req.file ? `/uploads/disciples/${req.file.filename}` : req.body.image;
+    
     const disciple = new Disciple({ name, title, image, description, category: 'शिष्य', order });
     await disciple.save();
     res.status(201).json(disciple);
@@ -22,7 +30,19 @@ export const createDisciple = async (req, res) => {
 
 export const updateDisciple = async (req, res) => {
   try {
-    const disciple = await Disciple.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updateData = { ...req.body };
+    if (req.file) {
+      updateData.image = `/uploads/disciples/${req.file.filename}`;
+      
+      // Delete old image
+      const oldDisciple = await Disciple.findById(req.params.id);
+      if (oldDisciple?.image?.startsWith('/uploads/disciples/')) {
+        const oldPath = path.join(__dirname, '..', oldDisciple.image);
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      }
+    }
+    
+    const disciple = await Disciple.findByIdAndUpdate(req.params.id, updateData, { new: true });
     if (!disciple) {
       return res.status(404).json({ message: 'Disciple not found' });
     }
@@ -34,10 +54,18 @@ export const updateDisciple = async (req, res) => {
 
 export const deleteDisciple = async (req, res) => {
   try {
-    const disciple = await Disciple.findByIdAndDelete(req.params.id);
+    const disciple = await Disciple.findById(req.params.id);
     if (!disciple) {
       return res.status(404).json({ message: 'Disciple not found' });
     }
+    
+    // Delete image file
+    if (disciple.image?.startsWith('/uploads/disciples/')) {
+      const imagePath = path.join(__dirname, '..', disciple.image);
+      if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
+    }
+    
+    await Disciple.findByIdAndDelete(req.params.id);
     res.json({ message: 'Disciple deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });

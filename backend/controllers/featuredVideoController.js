@@ -27,10 +27,11 @@ export const getFeaturedVideoByPosition = async (req, res) => {
 // Create or update featured video (admin)
 export const upsertFeaturedVideo = async (req, res) => {
   try {
-    const { position, title, youtubeUrl } = req.body;
+    const position = parseInt(req.params.position);
+    const { title, youtubeUrl } = req.body;
 
-    if (!position || !title || !youtubeUrl) {
-      return res.status(400).json({ message: 'Position, title, and youtubeUrl are required' });
+    if (!title || !youtubeUrl) {
+      return res.status(400).json({ message: 'Title and youtubeUrl are required' });
     }
 
     if (position !== 1 && position !== 2) {

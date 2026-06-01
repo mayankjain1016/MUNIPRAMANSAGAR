@@ -9,7 +9,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DownloadIcon from "@mui/icons-material/Download";
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 export default function BooksPage() {
   const [books, setBooks] = useState([]);
@@ -21,7 +21,7 @@ export default function BooksPage() {
 
   const fetchBooks = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/books`);
+      const { data } = await axios.get(`${API_URL}/books`);
       setBooks(data);
     } catch (error) {
       console.error('Failed to fetch books:', error);
@@ -31,7 +31,7 @@ export default function BooksPage() {
   };
 
   const handleDownload = (book) => {
-    window.open(`${API_URL}/uploads/books/${book.pdfFile}`, '_blank');
+    window.open(`http://localhost:5000/uploads/books/${book.pdfFile}`, '_blank');
   };
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#FAFAFA", py: { xs: 4, md: 8 } }}>
@@ -133,7 +133,7 @@ export default function BooksPage() {
                 }}
               >
                 <img
-                  src={`${API_URL}/uploads/books/${book.coverImage}`}
+                  src={`http://localhost:5000/uploads/books/${book.coverImage}`}
                   alt={book.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

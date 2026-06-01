@@ -3,7 +3,7 @@ import { Box, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActio
 import { Add, Edit, Delete, CloudUpload, PictureAsPdf } from '@mui/icons-material';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 export default function BookManagement() {
   const [books, setBooks] = useState([]);
@@ -13,6 +13,7 @@ export default function BookManagement() {
   const [formData, setFormData] = useState({ title: '', author: 'आचार्य श्री निर्भय सागर जी', description: '', order: 0 });
   const [coverImage, setCoverImage] = useState(null);
   const [pdfFile, setPdfFile] = useState(null);
+  const [coverPreview, setCoverPreview] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function BookManagement() {
 
   const fetchBooks = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/books`);
+      const { data } = await axios.get(`${API_URL}/books`);
       setBooks(data);
     } catch (err) {
       setError('Failed to fetch books');
@@ -33,10 +34,12 @@ export default function BookManagement() {
       setEditMode(true);
       setCurrentBook(book);
       setFormData({ title: book.title, author: book.author, description: book.description, order: book.order });
+      setCoverPreview(`http://localhost:5000/uploads/books/${book.coverImage}`);
     } else {
       setEditMode(false);
       setCurrentBook(null);
       setFormData({ title: '', author: 'आचार्य श्री निर्भय सागर जी', description: '', order: 0 });
+      setCoverPreview('');
     }
     setCoverImage(null);
     setPdfFile(null);
@@ -46,11 +49,19 @@ export default function BookManagement() {
   const handleClose = () => {
     setOpen(false);
     setError('');
+    setCoverPreview('');
+  };
+
+  const handleCoverChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCoverImage(file);
+      setCoverPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem('token');
       const data = new FormData();
       data.append('title', formData.title);
       data.append('author', formData.author);
@@ -61,16 +72,18 @@ export default function BookManagement() {
       if (pdfFile) data.append('pdfFile', pdfFile);
 
       if (editMode) {
-        await axios.put(`${API_URL}/api/books/${currentBook._id}`, data, {
-          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
+        await axios.put(`${API_URL}/books/${currentBook._id}`, data, {
+          withCredentials: true,
+          headers: { 'Content-Type': 'multipart/form-data' }
         });
       } else {
         if (!coverImage || !pdfFile) {
           setError('Cover image and PDF file are required');
           return;
         }
-        await axios.post(`${API_URL}/api/books`, data, {
-          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
+        await axios.post(`${API_URL}/books`, data, {
+          withCredentials: true,
+          headers: { 'Content-Type': 'multipart/form-data' }
         });
       }
       
@@ -84,9 +97,8 @@ export default function BookManagement() {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this book?')) return;
     try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`${API_URL}/api/books/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
+      await axios.delete(`${API_URL}/books/${id}`, {
+        withCredentials: true
       });
       fetchBooks();
     } catch (err) {
@@ -159,7 +171,7 @@ export default function BookManagement() {
               <CardMedia
                 component="img"
                 height="320"
-                image={`${API_URL}/uploads/books/${book.coverImage}`}
+                image={`http://localhost:5000/uploads/books/${book.coverImage}`}
                 alt={book.title}
                 sx={{ objectFit: 'cover' }}
               />
@@ -208,7 +220,7 @@ export default function BookManagement() {
                   </Box>
                   <IconButton 
                     size="small" 
-                    href={`${API_URL}/uploads/books/${book.pdfFile}`} 
+                    href={`http://localhost:5000/uploads/books/${book.pdfFile}`} 
                     target="_blank"
                     sx={{
                       color: '#10b981',
@@ -278,9 +290,18 @@ export default function BookManagement() {
             }} 
             startIcon={<CloudUpload />}
           >
-            Upload Cover Image {coverImage && '✓'}
-            <input type="file" hidden accept="image/*" onChange={(e) => setCoverImage(e.target.files[0])} />
+            {coverImage ? coverImage.name : (editMode ? 'Change Cover Image' : 'Upload Cover Image')}
+            <input type="file" hidden accept="image/*" onChange={handleCoverChange} />
           </Button>
+          {coverPreview && (
+            <Box sx={{ mt: 2, textAlign: 'center' }}>
+              <img 
+                src={coverPreview} 
+                alt="Cover Preview" 
+                style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px' }} 
+              />
+            </Box>
+          )}
           <Button 
             variant="outlined" 
             component="label" 
@@ -299,9 +320,14 @@ export default function BookManagement() {
             }} 
             startIcon={<PictureAsPdf />}
           >
-            Upload PDF {pdfFile && '✓'}
+            {pdfFile ? pdfFile.name : (editMode ? 'Change PDF File' : 'Upload PDF File')}
             <input type="file" hidden accept="application/pdf" onChange={(e) => setPdfFile(e.target.files[0])} />
           </Button>
+          {editMode && currentBook && !pdfFile && (
+            <Typography variant="caption" sx={{ display: 'block', mt: 1, color: '#64748b' }}>
+              Current PDF: {currentBook.pdfFile}
+            </Typography>
+          )}
         </DialogContent>
         <DialogActions sx={{ p: 3 }}>
           <Button 

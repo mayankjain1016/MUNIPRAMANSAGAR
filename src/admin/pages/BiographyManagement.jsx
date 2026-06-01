@@ -25,7 +25,9 @@ export default function BiographyManagement() {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        history: false,
+      }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Image,
       Link.configure({ openOnClick: false }),

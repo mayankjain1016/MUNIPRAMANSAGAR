@@ -1,4 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const SERVER_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
 
 export const API_ENDPOINTS = {
   // Location endpoints
@@ -20,6 +21,9 @@ export const API_ENDPOINTS = {
     published: `${API_BASE_URL}/news/published`,
     getAll: `${API_BASE_URL}/news/all`,
     getById: (id) => `${API_BASE_URL}/news/${id}`,
+    create: `${API_BASE_URL}/news`,
+    update: (id) => `${API_BASE_URL}/news/${id}`,
+    delete: (id) => `${API_BASE_URL}/news/${id}`,
   },
   
   // Gallery endpoints
@@ -45,4 +49,5 @@ export const API_ENDPOINTS = {
   },
 };
 
+export { SERVER_BASE_URL };
 export default API_BASE_URL;

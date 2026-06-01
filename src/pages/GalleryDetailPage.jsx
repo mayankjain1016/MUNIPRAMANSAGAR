@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { ArrowBack, Close, NavigateBefore, NavigateNext } from '@mui/icons-material';
 import apiService from '../services/apiService';
-import { API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS, SERVER_BASE_URL } from '../config/api';
 
 export default function GalleryDetailPage() {
   const { id } = useParams();
@@ -25,6 +25,17 @@ export default function GalleryDetailPage() {
   useEffect(() => {
     fetchGallery();
   }, [id]);
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (!selectedImage) return;
+      if (e.key === 'ArrowRight') handleNext();
+      if (e.key === 'ArrowLeft') handlePrev();
+      if (e.key === 'Escape') handleClose();
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [selectedImage, currentIndex]);
 
   const fetchGallery = async () => {
     try {
@@ -44,6 +55,7 @@ export default function GalleryDetailPage() {
 
   const handleClose = () => {
     setSelectedImage(null);
+    setCurrentIndex(0);
   };
 
   const handleNext = () => {
@@ -74,7 +86,7 @@ export default function GalleryDetailPage() {
     );
   }
 
-  const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  const API_URL = SERVER_BASE_URL;
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#FAFAFA', py: { xs: 4, md: 8 } }}>
@@ -97,7 +109,10 @@ export default function GalleryDetailPage() {
           </Typography>
         </Box>
 
-        <ImageList variant="masonry" cols={3} gap={16}>
+        <ImageList variant="masonry" cols={3} gap={16} sx={{ 
+          '@media (max-width: 900px)': { columnCount: 2 },
+          '@media (max-width: 600px)': { columnCount: 1 }
+        }}>
           {gallery.images.map((image, index) => (
             <ImageListItem
               key={image._id}
@@ -106,15 +121,19 @@ export default function GalleryDetailPage() {
                 cursor: 'pointer',
                 borderRadius: '12px',
                 overflow: 'hidden',
-                transition: 'transform 0.3s',
-                '&:hover': { transform: 'scale(1.02)' }
+                transition: 'all 0.3s ease',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                '&:hover': { 
+                  transform: 'scale(1.02)',
+                  boxShadow: '0 8px 24px rgba(230, 81, 0, 0.2)'
+                }
               }}
             >
               <img
                 src={`${API_URL}${image.url}`}
                 alt={image.caption || gallery.title}
                 loading="lazy"
-                style={{ borderRadius: '12px' }}
+                style={{ borderRadius: '12px', display: 'block', width: '100%' }}
               />
             </ImageListItem>
           ))}
@@ -123,45 +142,91 @@ export default function GalleryDetailPage() {
         <Dialog
           open={!!selectedImage}
           onClose={handleClose}
-          maxWidth="lg"
+          maxWidth="xl"
           fullWidth
-          PaperProps={{ sx: { backgroundColor: 'rgba(0,0,0,0.95)' } }}
+          PaperProps={{ 
+            sx: { 
+              backgroundColor: 'rgba(0,0,0,0.95)',
+              m: 2
+            } 
+          }}
         >
           <IconButton
             onClick={handleClose}
-            sx={{ position: 'absolute', top: 16, right: 16, color: 'white', zIndex: 1 }}
+            sx={{ 
+              position: 'absolute', 
+              top: 8, 
+              right: 8, 
+              color: 'white', 
+              zIndex: 2,
+              backgroundColor: 'rgba(255,255,255,0.1)',
+              '&:hover': { backgroundColor: 'rgba(255,255,255,0.2)' }
+            }}
           >
             <Close />
           </IconButton>
 
           {selectedImage && (
-            <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', p: 4 }}>
-              <IconButton
-                onClick={handlePrev}
-                sx={{ position: 'absolute', left: 16, color: 'white' }}
-              >
-                <NavigateBefore fontSize="large" />
-              </IconButton>
+            <Box sx={{ 
+              position: 'relative', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              minHeight: '80vh',
+              p: { xs: 2, md: 4 }
+            }}>
+              {gallery.images.length > 1 && (
+                <>
+                  <IconButton
+                    onClick={handlePrev}
+                    sx={{ 
+                      position: 'absolute', 
+                      left: { xs: 8, md: 16 }, 
+                      color: 'white',
+                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      '&:hover': { backgroundColor: 'rgba(255,255,255,0.2)' },
+                      zIndex: 1
+                    }}
+                  >
+                    <NavigateBefore fontSize="large" />
+                  </IconButton>
 
-              <Box sx={{ textAlign: 'center' }}>
+                  <IconButton
+                    onClick={handleNext}
+                    sx={{ 
+                      position: 'absolute', 
+                      right: { xs: 8, md: 16 }, 
+                      color: 'white',
+                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      '&:hover': { backgroundColor: 'rgba(255,255,255,0.2)' },
+                      zIndex: 1
+                    }}
+                  >
+                    <NavigateNext fontSize="large" />
+                  </IconButton>
+                </>
+              )}
+
+              <Box sx={{ textAlign: 'center', maxWidth: '100%' }}>
                 <img
                   src={`${API_URL}${selectedImage.url}`}
                   alt={selectedImage.caption}
-                  style={{ maxWidth: '100%', maxHeight: '70vh', borderRadius: '8px' }}
+                  style={{ 
+                    maxWidth: '100%', 
+                    maxHeight: '75vh', 
+                    borderRadius: '8px',
+                    objectFit: 'contain'
+                  }}
                 />
                 {selectedImage.caption && (
-                  <Typography variant="body1" sx={{ color: 'white', mt: 2 }}>
+                  <Typography variant="body1" sx={{ color: 'white', mt: 2, px: 2 }}>
                     {selectedImage.caption}
                   </Typography>
                 )}
+                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)', mt: 1, display: 'block' }}>
+                  {currentIndex + 1} / {gallery.images.length}
+                </Typography>
               </Box>
-
-              <IconButton
-                onClick={handleNext}
-                sx={{ position: 'absolute', right: 16, color: 'white' }}
-              >
-                <NavigateNext fontSize="large" />
-              </IconButton>
             </Box>
           )}
         </Dialog>

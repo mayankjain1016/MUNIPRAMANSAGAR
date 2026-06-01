@@ -5,14 +5,25 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Storage configuration
-const storage = multer.diskStorage({
+// Storage configuration for gallery
+const galleryStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, '../uploads/gallery'));
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     cb(null, 'gallery-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+// Storage configuration for disciples
+const discipleStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, '../uploads/disciples'));
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'disciple-' + uniqueSuffix + path.extname(file.originalname));
   }
 });
 
@@ -31,7 +42,13 @@ const fileFilter = (req, file, cb) => {
 
 // Upload middleware
 export const uploadGallery = multer({
-  storage: storage,
+  storage: galleryStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: fileFilter
+});
+
+export const uploadDisciple = multer({
+  storage: discipleStorage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
   fileFilter: fileFilter
 });

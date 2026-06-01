@@ -14,10 +14,11 @@ export default function DiscipleManagement() {
   const [message, setMessage] = useState({ type: '', text: '' });
   const [openDialog, setOpenDialog] = useState(false);
   const [editingDisciple, setEditingDisciple] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     title: '',
-    image: '',
     description: '',
     order: 0
   });
@@ -44,19 +45,21 @@ export default function DiscipleManagement() {
       setFormData({
         name: disciple.name,
         title: disciple.title,
-        image: disciple.image,
         description: disciple.description || '',
         order: disciple.order
       });
+      setImagePreview(disciple.image);
+      setImageFile(null);
     } else {
       setEditingDisciple(null);
       setFormData({
         name: '',
         title: '',
-        image: '',
         description: '',
         order: 0
       });
+      setImagePreview('');
+      setImageFile(null);
     }
     setOpenDialog(true);
   };
@@ -64,27 +67,48 @@ export default function DiscipleManagement() {
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setEditingDisciple(null);
+    setImageFile(null);
+    setImagePreview('');
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!imageFile && !editingDisciple) {
+      setMessage({ type: 'error', text: 'Please select an image' });
+      return;
+    }
+    
     setLoading(true);
     setMessage({ type: '', text: '' });
 
     try {
-      const token = localStorage.getItem('token');
       const url = editingDisciple 
         ? `${API_URL}/disciples/${editingDisciple._id}` 
         : `${API_URL}/disciples`;
       const method = editingDisciple ? 'PUT' : 'POST';
 
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('order', formData.order);
+      if (imageFile) {
+        formDataToSend.append('image', imageFile);
+      }
+
       const response = await fetch(url, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(formData)
+        credentials: 'include',
+        body: formDataToSend
       });
 
       if (response.ok) {
@@ -92,7 +116,8 @@ export default function DiscipleManagement() {
         fetchDisciples();
         handleCloseDialog();
       } else {
-        setMessage({ type: 'error', text: 'Failed to save शिष्य' });
+        const error = await response.json();
+        setMessage({ type: 'error', text: error.message || 'Failed to save शिष्य' });
       }
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
@@ -105,19 +130,17 @@ export default function DiscipleManagement() {
     if (!window.confirm('Are you sure you want to delete this शिष्य?')) return;
 
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/disciples/${id}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        credentials: 'include'
       });
 
       if (response.ok) {
         setMessage({ type: 'success', text: 'शिष्य deleted successfully!' });
         fetchDisciples();
       } else {
-        setMessage({ type: 'error', text: 'Failed to delete शिष्य' });
+        const error = await response.json();
+        setMessage({ type: 'error', text: error.message || 'Failed to delete शिष्य' });
       }
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
@@ -191,7 +214,7 @@ export default function DiscipleManagement() {
               <CardMedia
                 component="img"
                 height="220"
-                image={disciple.image}
+                image={disciple.image.startsWith('http') ? disciple.image : `http://localhost:5000${disciple.image}`}
                 alt={disciple.name}
                 sx={{ objectFit: 'cover' }}
               />
@@ -285,15 +308,41 @@ export default function DiscipleManagement() {
               sx={{ mb: 2 }}
               placeholder="e.g., वरिष्ठ शिष्य"
             />
-            <TextField
-              fullWidth
-              label="Image URL"
-              value={formData.image}
-              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              required
-              sx={{ mb: 2 }}
-              placeholder="/src/assets/disciple.jpg"
-            />
+            
+            <Box sx={{ mb: 2 }}>
+              <Button
+                variant="outlined"
+                component="label"
+                fullWidth
+                sx={{ 
+                  py: 1.5,
+                  borderColor: '#e2e8f0',
+                  color: '#64748b',
+                  textTransform: 'none',
+                  '&:hover': {
+                    borderColor: '#f97316',
+                    backgroundColor: '#fff7ed'
+                  }
+                }}
+              >
+                {imageFile ? imageFile.name : 'Upload Image'}
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </Button>
+              {imagePreview && (
+                <Box sx={{ mt: 2, textAlign: 'center' }}>
+                  <img 
+                    src={imagePreview.startsWith('http') || imagePreview.startsWith('blob:') ? imagePreview : `http://localhost:5000${imagePreview}`} 
+                    alt="Preview" 
+                    style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px' }} 
+                  />
+                </Box>
+              )}
+            </Box>
             <TextField
               fullWidth
               label="Description (Optional)"

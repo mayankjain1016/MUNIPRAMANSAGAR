@@ -35,6 +35,6 @@ export const pravachanService = {
   // Increment views
   incrementViews: async (id) => {
     const url = `${API_BASE_URL}/pravachan/${id}/views`;
-    return await apiService.put(url, {});
+    return await apiService.patch(url, {});
   }
 };

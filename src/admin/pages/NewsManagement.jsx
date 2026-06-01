@@ -28,7 +28,7 @@ import {
 import { Edit, Delete, Add, Image as ImageIcon, Save, Cancel } from '@mui/icons-material';
 import WordPadEditor from '../components/WordPadEditor';
 import apiService from '../../services/apiService';
-import { API_ENDPOINTS } from '../../config/api';
+import { API_ENDPOINTS, SERVER_BASE_URL } from '../../config/api';
 
 export default function NewsManagement() {
   const [news, setNews] = useState([]);
@@ -69,7 +69,7 @@ export default function NewsManagement() {
         ...newsItem,
         date: new Date(newsItem.date).toISOString().split('T')[0],
       });
-      setImagePreview(newsItem.image ? `${import.meta.env.VITE_API_BASE_URL}${newsItem.image}` : '');
+      setImagePreview(newsItem.image ? `${SERVER_BASE_URL}${newsItem.image}` : '');
       setEditMode(true);
     } else {
       setCurrentNews({
@@ -121,13 +121,9 @@ export default function NewsManagement() {
       }
 
       if (editMode) {
-        await apiService.put(`${API_ENDPOINTS.news.getAll}/${currentNews._id}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await apiService.put(API_ENDPOINTS.news.update(currentNews._id), formData);
       } else {
-        await apiService.post(API_ENDPOINTS.news.getAll, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await apiService.post(API_ENDPOINTS.news.create, formData);
       }
       
       fetchNews();
@@ -143,10 +139,11 @@ export default function NewsManagement() {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this news article?')) {
       try {
-        await apiService.delete(`${API_ENDPOINTS.news.getAll}/${id}`);
+        await apiService.delete(API_ENDPOINTS.news.delete(id));
         fetchNews();
       } catch (error) {
         console.error('Error deleting news:', error);
+        alert('Failed to delete news article. Please try again.');
       }
     }
   };
@@ -187,7 +184,7 @@ export default function NewsManagement() {
             {item.image && (
               <Box
                 component="img"
-                src={`${import.meta.env.VITE_API_BASE_URL}${item.image}`}
+                src={`${SERVER_BASE_URL}${item.image}`}
                 alt={item.title}
                 sx={{
                   height: 200,
@@ -373,7 +370,13 @@ export default function NewsManagement() {
       )}
 
       {/* Create/Edit Dialog */}
-      <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
+      <Dialog 
+        open={open} 
+        onClose={handleClose} 
+        maxWidth="lg" 
+        fullWidth
+        disableScrollLock
+      >
         <DialogTitle>
           {editMode ? 'Edit News Article' : 'Create News Article'}
         </DialogTitle>
