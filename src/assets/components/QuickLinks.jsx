@@ -12,6 +12,7 @@ import TempleHinduOutlinedIcon from "@mui/icons-material/TempleHinduOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
 import Brightness7Icon from "@mui/icons-material/Brightness7"; // For the center star
 
 // 1. Cleaner data structure passing the icon component directly
@@ -22,6 +23,7 @@ const QUICK_LINKS = [
   { label: "तपोवन तीर्थ सागर", icon: <TempleHinduOutlinedIcon fontSize="large" /> },
   { label: "साहित्य", icon: <AutoStoriesOutlinedIcon fontSize="large" /> },
   { label: "पाठशाला", icon: <SchoolOutlinedIcon fontSize="large" /> },
+  { label: "संत की अदालत", icon: <GavelOutlinedIcon fontSize="large" /> },
 ];
 
 export default function QuickLinks() {
@@ -40,6 +42,8 @@ export default function QuickLinks() {
       navigate("/gunayatan");
     } else if (label === "पाठशाला") {
       navigate("/pathshala");
+    } else if (label === "संत की अदालत") {
+      navigate("/sant-ki-adalat");
     }
   };
 
