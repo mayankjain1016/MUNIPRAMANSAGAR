@@ -75,7 +75,7 @@ export default function Navbar() {
                 fontFamily: "system-ui, -apple-system, sans-serif"
               }}
             >
-              आचार्य श्री निर्भय सागर जी
+              वैज्ञानिक संत 108 आचार्य श्री निर्भय सागर जी महाराज
             </Typography>
           </a>
 
