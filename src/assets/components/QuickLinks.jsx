@@ -18,7 +18,7 @@ const QUICK_LINKS = [
   { label: "प्रवचन", icon: <VolumeUpOutlinedIcon fontSize="large" /> },
   { label: "शंका समाधान", icon: <ForumOutlinedIcon fontSize="large" /> },
   // { label: "भावना योग", icon: <SelfImprovementIcon fontSize="large" /> },
-  { label: "गुणायतन", icon: <TempleHinduOutlinedIcon fontSize="large" /> },
+  { label: "गुणायतपोवन तीर्थ सागरतन", icon: <TempleHinduOutlinedIcon fontSize="large" /> },
   { label: "कहानियाँ", icon: <AutoStoriesOutlinedIcon fontSize="large" /> },
 ];
 
@@ -34,7 +34,7 @@ export default function QuickLinks() {
       navigate("/kahaniya");
     } else if (label === "भावना योग") {
       navigate("/bhavana-yog");
-    } else if (label === "गुणायतन") {
+    } else if (label === "गुणायतपोवन तीर्थ सागरतन") {
       navigate("/gunayatan");
     }
   };
