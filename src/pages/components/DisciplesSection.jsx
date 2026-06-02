@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Card, CardMedia, CardContent, CircularProgress } from '@mui/material';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
 
 export default function DisciplesSection() {
   const [disciples, setDisciples] = useState([]);
@@ -82,7 +83,7 @@ export default function DisciplesSection() {
                 <CardMedia
                   component="img"
                   height="250"
-                  image={disciple.image.startsWith('http') ? disciple.image : `http://localhost:5000${disciple.image}`}
+                  image={disciple.image.startsWith('http') ? disciple.image : `${BASE_URL}${disciple.image}`}
                   alt={disciple.name}
                   sx={{ objectFit: 'cover' }}
                 />

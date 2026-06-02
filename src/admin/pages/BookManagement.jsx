@@ -4,6 +4,7 @@ import { Add, Edit, Delete, CloudUpload, PictureAsPdf } from '@mui/icons-materia
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
 
 export default function BookManagement() {
   const [books, setBooks] = useState([]);
@@ -36,7 +37,7 @@ export default function BookManagement() {
       setEditMode(true);
       setCurrentBook(book);
       setFormData({ title: book.title, author: book.author, description: book.description, order: book.order });
-      setCoverPreview(`http://localhost:5000/uploads/books/${book.coverImage}`);
+      setCoverPreview(`${BASE_URL}/uploads/books/${book.coverImage}`);
     } else {
       setEditMode(false);
       setCurrentBook(null);
@@ -189,7 +190,7 @@ export default function BookManagement() {
               <CardMedia
                 component="img"
                 height="320"
-                image={`http://localhost:5000/uploads/books/${book.coverImage}`}
+                image={`${BASE_URL}/uploads/books/${book.coverImage}`}
                 alt={book.title}
                 sx={{ objectFit: 'cover' }}
               />
@@ -238,7 +239,7 @@ export default function BookManagement() {
                   </Box>
                   <IconButton 
                     size="small" 
-                    href={`http://localhost:5000/uploads/books/${book.pdfFile}`} 
+                    href={`${BASE_URL}/uploads/books/${book.pdfFile}`} 
                     target="_blank"
                     sx={{
                       color: '#10b981',

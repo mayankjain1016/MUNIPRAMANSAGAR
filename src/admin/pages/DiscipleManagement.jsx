@@ -7,6 +7,7 @@ import {
 import { Add, Edit, Delete, Close } from '@mui/icons-material';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
 
 export default function DiscipleManagement() {
   const [disciples, setDisciples] = useState([]);
@@ -214,7 +215,7 @@ export default function DiscipleManagement() {
               <CardMedia
                 component="img"
                 height="220"
-                image={disciple.image.startsWith('http') ? disciple.image : `http://localhost:5000${disciple.image}`}
+                image={disciple.image.startsWith('http') ? disciple.image : `${BASE_URL}${disciple.image}`}
                 alt={disciple.name}
                 sx={{ objectFit: 'cover' }}
               />
@@ -336,7 +337,7 @@ export default function DiscipleManagement() {
               {imagePreview && (
                 <Box sx={{ mt: 2, textAlign: 'center' }}>
                   <img 
-                    src={imagePreview.startsWith('http') || imagePreview.startsWith('blob:') ? imagePreview : `http://localhost:5000${imagePreview}`} 
+                    src={imagePreview.startsWith('http') || imagePreview.startsWith('blob:') ? imagePreview : `${BASE_URL}${imagePreview}`} 
                     alt="Preview" 
                     style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px' }} 
                   />
