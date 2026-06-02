@@ -11,6 +11,7 @@ import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
 import TempleHinduOutlinedIcon from "@mui/icons-material/TempleHinduOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import Brightness7Icon from "@mui/icons-material/Brightness7"; // For the center star
 
 // 1. Cleaner data structure passing the icon component directly
@@ -20,6 +21,7 @@ const QUICK_LINKS = [
   // { label: "भावना योग", icon: <SelfImprovementIcon fontSize="large" /> },
   { label: "तपोवन तीर्थ सागर", icon: <TempleHinduOutlinedIcon fontSize="large" /> },
   { label: "साहित्य", icon: <AutoStoriesOutlinedIcon fontSize="large" /> },
+  { label: "पाठशाला", icon: <SchoolOutlinedIcon fontSize="large" /> },
 ];
 
 export default function QuickLinks() {
@@ -36,6 +38,8 @@ export default function QuickLinks() {
       navigate("/bhavana-yog");
     } else if (label === "तपोवन तीर्थ सागर") {
       navigate("/gunayatan");
+    } else if (label === "पाठशाला") {
+      navigate("/pathshala");
     }
   };
 
