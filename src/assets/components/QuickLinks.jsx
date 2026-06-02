@@ -34,7 +34,7 @@ export default function QuickLinks() {
       navigate("/kahaniya");
     } else if (label === "भावना योग") {
       navigate("/bhavana-yog");
-    } else if (label === "गुणायतपोवन तीर्थ सागरतन") {
+    } else if (label === "तपोवन तीर्थ सागरतन") {
       navigate("/gunayatan");
     }
   };
