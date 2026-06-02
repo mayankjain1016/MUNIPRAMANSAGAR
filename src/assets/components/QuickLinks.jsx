@@ -18,7 +18,7 @@ const QUICK_LINKS = [
   { label: "प्रवचन", icon: <VolumeUpOutlinedIcon fontSize="large" /> },
   { label: "शंका समाधान", icon: <ForumOutlinedIcon fontSize="large" /> },
   // { label: "भावना योग", icon: <SelfImprovementIcon fontSize="large" /> },
-  { label: "गुणायतपोवन तीर्थ सागरतन", icon: <TempleHinduOutlinedIcon fontSize="large" /> },
+  { label: "तपोवन तीर्थ सागरतन", icon: <TempleHinduOutlinedIcon fontSize="large" /> },
   { label: "कहानियाँ", icon: <AutoStoriesOutlinedIcon fontSize="large" /> },
 ];
 
