@@ -19,7 +19,7 @@ const QUICK_LINKS = [
   { label: "शंका समाधान", icon: <ForumOutlinedIcon fontSize="large" /> },
   // { label: "भावना योग", icon: <SelfImprovementIcon fontSize="large" /> },
   { label: "तपोवन तीर्थ सागर", icon: <TempleHinduOutlinedIcon fontSize="large" /> },
-  { label: "कहानियाँ", icon: <AutoStoriesOutlinedIcon fontSize="large" /> },
+  { label: "साहित्य", icon: <AutoStoriesOutlinedIcon fontSize="large" /> },
 ];
 
 export default function QuickLinks() {
@@ -30,7 +30,7 @@ export default function QuickLinks() {
       navigate("/pravachan");
     } else if (label === "शंका समाधान") {
       navigate("/shanka-samadhan");
-    } else if (label === "कहानियाँ") {
+    } else if (label === "साहित्य") {
       navigate("/kahaniya");
     } else if (label === "भावना योग") {
       navigate("/bhavana-yog");
