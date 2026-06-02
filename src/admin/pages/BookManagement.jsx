@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Card, CardMedia, CardContent, Typography, IconButton, Grid, Alert } from '@mui/material';
+import { Box, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Card, CardMedia, CardContent, Typography, IconButton, Grid, Alert, LinearProgress } from '@mui/material';
 import { Add, Edit, Delete, CloudUpload, PictureAsPdf } from '@mui/icons-material';
 import axios from 'axios';
 
@@ -15,6 +15,8 @@ export default function BookManagement() {
   const [pdfFile, setPdfFile] = useState(null);
   const [coverPreview, setCoverPreview] = useState('');
   const [error, setError] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
     fetchBooks();
@@ -47,9 +49,11 @@ export default function BookManagement() {
   };
 
   const handleClose = () => {
+    if (uploading) return;
     setOpen(false);
     setError('');
     setCoverPreview('');
+    setUploadProgress(0);
   };
 
   const handleCoverChange = (e) => {
@@ -62,6 +66,10 @@ export default function BookManagement() {
 
   const handleSubmit = async () => {
     try {
+      setError('');
+      setUploading(true);
+      setUploadProgress(0);
+
       const data = new FormData();
       data.append('title', formData.title);
       data.append('author', formData.author);
@@ -71,26 +79,36 @@ export default function BookManagement() {
       if (coverImage) data.append('coverImage', coverImage);
       if (pdfFile) data.append('pdfFile', pdfFile);
 
+      const config = {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setUploadProgress(percentCompleted);
+        }
+      };
+
       if (editMode) {
-        await axios.put(`${API_URL}/books/${currentBook._id}`, data, {
-          withCredentials: true,
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await axios.put(`${API_URL}/books/${currentBook._id}`, data, config);
       } else {
         if (!coverImage || !pdfFile) {
           setError('Cover image and PDF file are required');
+          setUploading(false);
           return;
         }
-        await axios.post(`${API_URL}/books`, data, {
-          withCredentials: true,
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await axios.post(`${API_URL}/books`, data, config);
       }
       
       fetchBooks();
       handleClose();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to save book');
+      const errorMsg = err.response?.status === 413 
+        ? 'File too large! Please reduce PDF size or contact admin to increase server limit.'
+        : err.response?.data?.message || 'Failed to save book';
+      setError(errorMsg);
+    } finally {
+      setUploading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -241,6 +259,31 @@ export default function BookManagement() {
           {editMode ? 'Edit Book' : 'Add Book'}
         </DialogTitle>
         <DialogContent>
+          {uploading && (
+            <Box sx={{ mb: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography variant="body2" sx={{ color: '#64748b', fontWeight: 600 }}>
+                  Uploading... {uploadProgress}%
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#64748b' }}>
+                  {pdfFile && `${(pdfFile.size / (1024 * 1024)).toFixed(2)} MB`}
+                </Typography>
+              </Box>
+              <LinearProgress 
+                variant="determinate" 
+                value={uploadProgress} 
+                sx={{
+                  height: 8,
+                  borderRadius: 4,
+                  backgroundColor: '#e2e8f0',
+                  '& .MuiLinearProgress-bar': {
+                    backgroundColor: '#f97316',
+                    borderRadius: 4,
+                  }
+                }}
+              />
+            </Box>
+          )}
           <TextField
             fullWidth
             label="Title"
@@ -332,6 +375,7 @@ export default function BookManagement() {
         <DialogActions sx={{ p: 3 }}>
           <Button 
             onClick={handleClose}
+            disabled={uploading}
             sx={{
               color: '#64748b',
               textTransform: 'none',
@@ -343,6 +387,7 @@ export default function BookManagement() {
           <Button 
             onClick={handleSubmit} 
             variant="contained"
+            disabled={uploading}
             sx={{
               backgroundColor: '#f97316',
               color: '#ffffff',
@@ -352,10 +397,14 @@ export default function BookManagement() {
               '&:hover': {
                 backgroundColor: '#ea580c',
                 boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+              },
+              '&:disabled': {
+                backgroundColor: '#cbd5e1',
+                color: '#ffffff',
               }
             }}
           >
-            Save
+            {uploading ? 'Uploading...' : 'Save'}
           </Button>
         </DialogActions>
       </Dialog>
