@@ -11,6 +11,7 @@ import ShankaSamadhanMainPage from "./pages/ShankaSamadhanMainPage";
 import ShankaSamadhanClipsPage from "./pages/ShankaSamadhanClipsPage";
 import ShankaSamadhanPage from "./pages/ShankaSamadhanPage";
 import KahaniyaPage from "./pages/KahaniyaPage";
+import SantKiAdalatPage from "./pages/SantKiAdalatPage";
 import BhavanaYogPage from "./pages/BhavanaYogPage";
 import GalleryPage from "./pages/GalleryPage";
 import GalleryDetailPage from "./pages/GalleryDetailPage";
@@ -35,6 +36,7 @@ import GalleryManagement from "./admin/pages/GalleryManagement";
 import PravachanManagement from "./admin/pages/PravachanManagement";
 import ShankaSamadhanManagement from "./admin/pages/ShankaSamadhanManagement";
 import KahaniyaManagement from "./admin/pages/KahaniyaManagement";
+import SantKiAdalatManagement from "./admin/pages/SantKiAdalatManagement";
 import BiographyManagement from "./admin/pages/BiographyManagement";
 import DiscipleManagement from "./admin/pages/DiscipleManagement";
 import BookManagement from "./admin/pages/BookManagement";
@@ -72,6 +74,7 @@ export default function App() {
             <Route path="pravachan" element={<PravachanManagement />} />
             <Route path="shanka-samadhan" element={<ShankaSamadhanManagement />} />
             <Route path="kahaniya" element={<KahaniyaManagement />} />
+            <Route path="sant-ki-adalat" element={<SantKiAdalatManagement />} />
           </Route>
 
           {/* Public Routes */}
@@ -93,6 +96,7 @@ export default function App() {
                   <Route path="/shanka-samadhan/:slug" element={<ShankaSamadhanAnswerPage />} />
                   <Route path="/shanka-samadhan/answer/:answerId" element={<ShankaSamadhanAnswerPage />} />
                   <Route path="/kahaniya" element={<KahaniyaPage />} />
+                  <Route path="/sant-ki-adalat" element={<SantKiAdalatPage />} />
                   <Route path="/bhavana-yog" element={<BhavanaYogPage />} />
                   <Route path="/gallery" element={<GalleryPage />} />
                   <Route path="/gallery/:id" element={<GalleryDetailPage />} />

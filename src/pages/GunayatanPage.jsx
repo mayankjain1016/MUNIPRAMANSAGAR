@@ -1,100 +1,70 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GiPeaceDove, GiScales, GiOpenPalm, GiLotusFlower, GiYinYang } from 'react-icons/gi';
-import './Gunayatan.css';
-import gunayatanImg from '../assets/Gunayatan_img.jpeg';
-import gunaytan1 from '../assets/Gunayatan/gunaytan1.jpeg';
-import gunaytan2 from '../assets/Gunayatan/gunaytan2.jpeg';
-import gunaytan3 from '../assets/Gunayatan/gunaytan3.jpeg';
-import gunaytan4 from '../assets/Gunayatan/gunaytan4.jpeg';
-import gunaytan5 from '../assets/Gunayatan/gunaytan5.jpeg';
+import './Gunayatan.css'; 
 
-const GunayatanPage = () => {
+// आपके द्वारा दिए गए पाथ के अनुसार सिंगल इमेज इम्पोर्ट
+import tapovanImg from '../assets/components/Tapovan/image.jpg';
+
+const TapovanPage = () => {
   const navigate = useNavigate();
 
-  const principles = [
+  const miracles = [
     {
-      title: 'अहिंसा',
-      description: 'अहिंसा का अर्थ है किसी भी जीव को विचार, वाणी या कर्म से हानि न पहुँचाना।',
-      icon: <GiPeaceDove />,
-    },
-    {
-      title: 'सत्य',
-      description: 'सत्य का अर्थ है सच्चाई और ईमानदारी के साथ जीवन जीना।',
+      title: 'वजन का अतिशय',
+      description: 'क्रेन से प्रतिमा उठाते समय मीटर में प्रतिमा जी के वजन (लगभग 500 टन) की कोई रिकॉर्डिंग नहीं आई।',
       icon: <GiScales />,
     },
     {
-      title: 'अपरिग्रह',
-      description: 'अपरिग्रह का अर्थ है आवश्यकता से अधिक संग्रह न करना।',
+      title: 'जल प्रस्फुटन',
+      description: 'जहाँ पर्वत के नीचे 200 फीट पर पानी नहीं है, वहीं पहाड़ी पर मात्र 120 फीट पर तेज धार से पानी प्रस्फुटित हुआ।',
       icon: <GiOpenPalm />,
     },
     {
-      title: 'क्षमा',
-      description: 'क्षमा मन को शांत और निर्मल बनाती है।',
+      title: 'छाया रहित',
+      description: 'भगवान पद्मप्रभु की इस विशाल और चमत्कारी प्रतिमा की कोई छाया नहीं पड़ती है।',
       icon: <GiLotusFlower />,
     },
     {
-      title: 'संयम',
-      description: 'संयम जीवन को अनुशासित और श्रेष्ठ बनाता है।',
+      title: 'पक्षियों का न बैठना',
+      description: 'इस पवित्र और अतिशयकारी प्रतिमा पर कभी भी पक्षी नहीं बैठते हैं।',
+      icon: <GiPeaceDove />,
+    },
+    {
+      title: 'वर्षा का चमत्कार',
+      description: 'प्रतिमा स्थापना के समय शहर में घनघोर बारिश हुई, लेकिन क्षेत्र पर प्रतिमा स्थापित होने के बाद ही जलवृष्टि हुई।',
       icon: <GiYinYang />,
     },
   ];
 
   const importance = [
-    { title: 'आत्मिक शांति', desc: 'गुणायतन व्यक्ति को शांति और स्थिरता प्रदान करता है।' },
-    { title: 'धर्म और संस्कार', desc: 'यह स्थान धार्मिक मूल्यों को जीवन में अपनाने की प्रेरणा देता है।' },
-    { title: 'साधना का मार्ग', desc: 'यह ध्यान और आत्मचिंतन के लिए श्रेष्ठ वातावरण प्रदान करता है।' },
-    { title: 'सकारात्मक जीवन', desc: 'यह नकारात्मकता को दूर करके सकारात्मक सोच विकसित करता है।' },
-    { title: 'गुरु मार्गदर्शन', desc: 'यह संतों और आचार्यों के माध्यम से जीवन को दिशा देता है।' },
+    { title: 'धर्म का हृदय स्थल', desc: 'बुंदेलखंड में जिन धर्म अनुयायियों के लिए यह नगर और तीर्थ हृदय स्थल के समान है।' },
+    { title: 'सुगम आवागमन', desc: 'सागर रेलवे स्टेशन से 14 किमी और बस स्टैंड से 11 किमी की दूरी पर स्थित, जहाँ से कई प्रमुख शहरों के रास्ते मिलते हैं।' },
+    { title: 'प्राकृतिक सौंदर्य', desc: 'जमीन से 20 मीटर ऊंचाई पर स्थित यह पहाड़ी कोयल, मयूर और ठंडी बयार से सुसज्जित है।' },
+    { title: 'आत्मिक एकाग्रता', desc: 'सूर्योदय और सूर्यास्त का दृश्य चित्त को एकाग्र कर आत्मा को आनंद विभोर कर देता है।' },
+    { title: 'विशालता का प्रतीक', desc: 'यह विश्व की सबसे बड़ी पद्मासन पद्मप्रभु भगवान की त्रिभुवन मोहिनी प्रतिमा का स्थान है।' },
   ];
 
   const experiences = [
-    'ध्यान और आत्मचिंतन',
-    'धार्मिक प्रवचन',
-    'जैन साहित्य अध्ययन',
-    'संस्कार शिक्षा',
-    'सेवा और समर्पण',
-    'आत्मिक शुद्धि',
-  ];
-
-  const galleryItems = [
-    {
-      image: gunaytan1,
-      title: 'गुणायतन',
-      description: 'गुणायतन वह पवित्र स्थल है, जहाँ पंचायतन शैली का दिव्य जिनमंदिर पाँच वेदियों से अलंकृत एक महान वास्तुशिल्प प्रस्तुत करता है।'
-    },
-    {
-      image: gunaytan2,
-      title: 'अनुभव केंद्र',
-      description: 'जैन धर्म की गहराई को आधुनिक तकनीक के माध्यम से आत्मा तक पहुँचाने वाला एक अद्वितीय अनुभव केंद्र।'
-    },
-    {
-      image: gunaytan3,
-      title: 'सहस्रकूट जिनालय',
-      description: 'हजारों जिनबिंबों से सुसज्जित, दर्शन और भक्ति का केंद्र, सहस्रकूट जिनालय श्रद्धा में विशेष स्थान रखता है।'
-    },
-    {
-      image: gunaytan4,
-      title: 'साधना वसतिका',
-      description: 'साधना एवं साधु वसतिका एक शांत स्थान है, जहाँ तप, स्वाध्याय और मौन साधना के लिए पूर्ण वातावरण मिलता है।'
-    },
-    {
-      image: gunaytan5,
-      title: 'आतिथ्य निवास',
-      description: 'श्रद्धालुओं के लिए सुव्यवस्थित आवास स्थल, जहाँ शांत वातावरण और आधुनिक सुविधाएँ उपलब्ध हैं।'
-    }
+    'प्राकृतिक ठंडी बयार',
+    'सूर्योदय और सूर्यास्त का मनोरम दृश्य',
+    'पक्षियों का मधुर कलरव',
+    'आत्मिक शांति और एकाग्रता',
+    'भगवान पद्मप्रभु के दर्शन',
+    'अतिशयों का साक्षात अनुभव',
   ];
 
   return (
     <div className="gunayatan-page">
-      {/* Hero Section */}
-      <section className="gunayatan-hero" style={{ backgroundImage: `url(${gunayatanImg})` }}>
+      {/* Hero Section - Using the single image as background */}
+      <section className="gunayatan-hero" style={{ backgroundImage: `url(${tapovanImg})` }}>
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          <h1 className="hero-title">गुणायतन</h1>
-          <p className="hero-subtitle">आत्मिक गुणों, साधना और शांति का पवित्र केंद्र</p>
+          <h1 className="hero-title">तपोवन तीर्थ क्षेत्र</h1>
+          <p className="hero-subtitle">विश्व की सबसे बड़ी पद्मासन पद्मप्रभु भगवान की प्रतिमा का पावन स्थल</p>
           <p className="hero-description">
-            गुणायतन एक ऐसा पवित्र स्थान है जहाँ मनुष्य अपने जीवन में सद्गुणों, संयम, साधना और आत्मिक शांति को अनुभव करता है।
+            बहेरिया तिगड्डा, सिद्ध गुवा, सागर (मध्य प्रदेश) में स्थित तपोवन एक ऐसा अतिशयकारी क्षेत्र है, 
+            जहाँ प्रकृति और धर्म का अद्भुत संगम आत्मा को आनंद विभोर कर देता है।
           </p>
         </div>
       </section>
@@ -103,55 +73,47 @@ const GunayatanPage = () => {
       <section className="gunayatan-section">
         <div className="section-container">
           <div className="content-card">
-            <h2 className="section-heading">गुणायतन क्या है?</h2>
+            <h2 className="section-heading">तपोवन तीर्थ की परिकल्पना और संकल्प</h2>
             <p className="section-text">
-              गुणायतन शब्द दो भावों से मिलकर बना है — "गुण" और "आयतन"। गुण का अर्थ है अच्छे संस्कार, सदाचार, करुणा, अहिंसा, संयम और आत्मिक पवित्रता। आयतन का अर्थ है स्थान या आधार। इस प्रकार गुणायतन का अर्थ है ऐसा पवित्र स्थान जहाँ आत्मा के गुणों का विकास हो।
+              इस तीर्थ के निर्माण का प्रसंग अत्यंत रोचक है। मकरोनिया में आचार्य श्री विद्यासागर जी महाराज के सानिध्य में 
+              हो रहे पंच कल्याणक में पवन जी की तीव्र इच्छा सौधर्म इंद्र बनने की थी। बोली न मिल पाने के कारण मायूस पवन जी 
+              ने घर आकर स्वयं एक विशाल मंदिर निर्माण और पंच कल्याणक करवाने का शुभ विचार किया।
             </p>
             <p className="section-text">
-              जैन धर्म में गुणों का बहुत बड़ा महत्व है। मनुष्य का जीवन तभी सफल माना जाता है जब वह अपने अंदर अहिंसा, सत्य, अपरिग्रह, क्षमा, विनय और संयम जैसे गुणों को विकसित करता है। गुणायतन इन्हीं दिव्य गुणों की साधना और अनुभव का केंद्र है।
+              अपने पिता हुकुमचंद जी, भाई शरद, भरत, अजय, पत्नी मणि जैन, पुत्र समीर एवं अन्य परिजनों की सहर्ष स्वीकृति के बाद, 
+              उन्होंने यह संकल्प लिया। लगभग 500 टन के एक विशाल पाषाण खंड को 112 पहियों के ट्राले में लाकर 
+              भगवान पद्मप्रभु की इस त्रिभुवन मोहिनी प्रतिमा का निर्माण तन्मयता से किया गया।
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* About Section 2 */}
-      <section className="gunayatan-section alt-bg">
-        <div className="section-container">
-          <h2 className="section-heading">गुणायतन का वास्तविक अर्थ</h2>
-          <p className="section-text">
-            गुणायतन का अर्थ है — गुणों का निवास स्थान। यह वह स्थान है जहाँ व्यक्ति अपने अंदर छिपे हुए अच्छे गुणों को पहचानता है और उन्हें अपने आचरण में उतारने का प्रयास करता है। यहाँ धर्म केवल पढ़ने या सुनने की वस्तु नहीं रहता, बल्कि जीवन जीने का तरीका बन जाता है।
-          </p>
-          <p className="section-text">
-            यह स्थान हमें यह सिखाता है कि वास्तविक सुंदरता बाहरी चीजों में नहीं, बल्कि हमारे विचारों, व्यवहार और आत्मा की पवित्रता में होती है।
-          </p>
         </div>
       </section>
 
       {/* Acharya Section */}
-      <section className="gunayatan-section">
+      <section className="gunayatan-section alt-bg">
         <div className="section-container">
-          <div className="content-card">
-            <h2 className="section-heading">आचार्य श्री निर्भय सागर जी महाराज का मार्गदर्शन</h2>
-            <p className="section-text">
-              आचार्य श्री निर्भय सागर जी महाराज का जीवन संयम, साधना और आत्मकल्याण का प्रेरणादायक उदाहरण है। उनके उपदेश मनुष्य को सरल जीवन, पवित्र विचार और धर्ममय आचरण की ओर प्रेरित करते हैं।
-            </p>
-            <p className="section-text">
-              गुणायतन जैसे पवित्र विचारों का उद्देश्य भी यही है कि व्यक्ति अपने अंदर के दोषों को कम करे और गुणों को बढ़ाए। आचार्य श्री का मार्गदर्शन हमें यह समझाता है कि जीवन का वास्तविक उद्देश्य केवल भौतिक सफलता नहीं, बल्कि आत्मा की शुद्धि और मोक्ष मार्ग की ओर बढ़ना है।
-            </p>
-          </div>
+          <h2 className="section-heading">आचार्य श्री निर्भय सागर जी महाराज का आशीर्वाद</h2>
+          <p className="section-text">
+            संकल्प लेने के उपरांत परिवार ने आचार्य श्री निर्भय सागर जी महाराज के पाद मूल में जाकर अपना प्रयोजन बताया 
+            और आचार्य श्री ने उन्हें हृदय से आशीर्वाद दिया। 
+          </p>
+          <p className="section-text">
+            श्रमण संतों की दृष्टि दूरदर्शिता लिए होती है। वैज्ञानिक संत आचार्य श्री निर्भय सागर जी महाराज ही वे संत हैं, 
+            जिन्होंने अपनी क्षुल्लक और ऐलक अवस्था में ही इस पहाड़ी को भविष्य के एक महान तीर्थ के रूप में देख लिया था। 
+            उन्होंने स्वयं तपोवन क्षेत्र में अनेक चमत्कार और अतिशय देखे हैं।
+          </p>
         </div>
       </section>
 
-      {/* Jain Principles Section */}
-      <section className="gunayatan-section alt-bg">
+      {/* Miracles Section */}
+      <section className="gunayatan-section">
         <div className="section-container">
-          <h2 className="section-heading centered">जैन धर्म के मूल सिद्धांत</h2>
+          <h2 className="section-heading centered">तपोवन तीर्थ के अद्भुत अतिशय</h2>
           <div className="principles-grid">
-            {principles.map((principle, index) => (
+            {miracles.map((miracle, index) => (
               <div className="principle-card" key={index}>
-                <div className="principle-icon">{principle.icon}</div>
-                <h3 className="principle-title">{principle.title}</h3>
-                <p className="principle-desc">{principle.description}</p>
+                <div className="principle-icon">{miracle.icon}</div>
+                <h3 className="principle-title">{miracle.title}</h3>
+                <p className="principle-desc">{miracle.description}</p>
               </div>
             ))}
           </div>
@@ -159,9 +121,9 @@ const GunayatanPage = () => {
       </section>
 
       {/* Importance Section */}
-      <section className="gunayatan-section">
+      <section className="gunayatan-section alt-bg">
         <div className="section-container">
-          <h2 className="section-heading centered">गुणायतन का महत्व</h2>
+          <h2 className="section-heading centered">तपोवन तीर्थ का महत्व एवं भौगोलिक स्थिति</h2>
           <div className="importance-grid">
             {importance.map((item, index) => (
               <div className="importance-card" key={index}>
@@ -174,9 +136,9 @@ const GunayatanPage = () => {
       </section>
 
       {/* Experience Section */}
-      <section className="gunayatan-section alt-bg">
+      <section className="gunayatan-section">
         <div className="section-container">
-          <h2 className="section-heading centered">गुणायतन में क्या अनुभव किया जा सकता है?</h2>
+          <h2 className="section-heading centered">तपोवन में क्या अनुभव किया जा सकता है?</h2>
           <div className="experience-grid">
             {experiences.map((exp, index) => (
               <div className="experience-card" key={index}>
@@ -187,36 +149,17 @@ const GunayatanPage = () => {
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="gunayatan-section">
-        <div className="section-container">
-          <h2 className="section-heading centered">गुणायतन की झलकियाँ</h2>
-          <div className="gallery-grid">
-            {galleryItems.map((item, index) => (
-              <div className="gallery-item" key={index}>
-                <div className="image-container">
-                  <img src={item.image} alt={item.title} className="gallery-img" />
-                </div>
-                <div className="card-content">
-                  <p className="card-description">{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Final Quote Section */}
-      <section className="final-quote-section">
+      <section className="final-quote-section alt-bg">
         <div className="section-container">
           <div className="final-quote-content">
             <div className="final-quote-box">
               <p className="final-quote-text">
-                ""सच्ची शांति बाहर की वस्तुओं में नहीं, अपने भीतर के निर्मल भावों में मिलती है।
-
-                धर्म केवल पूजा का विषय नहीं, बल्कि जीवन जीने की पवित्र कला है।
-
-                गुणायतन हमें यह प्रेरणा देता है कि हम अपने जीवन में अच्छे विचार, पवित्र आचरण और धर्ममय जीवन को अपनाएँ।""
+                "कहते हैं जहाँ अतिशय और चमत्कार हो, वहाँ जनमानस स्वतः आकर्षित होते हैं।
+                तपोवन की भूमि का 50% चमत्कार तो स्वयं इस भूमि की पवित्रता में है।
+                
+                जिन धर्म महान है, जिन धर्म की महिमा महान है... 
+                और तपोवन तीर्थ का अतिशय भी महान है।"
               </p>
             </div>
           </div>
@@ -226,4 +169,4 @@ const GunayatanPage = () => {
   );
 };
 
-export default GunayatanPage;
+export default TapovanPage;
