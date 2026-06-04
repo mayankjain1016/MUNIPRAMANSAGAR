@@ -34,6 +34,14 @@ const pravachanSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
+  },
+  isLive: {
+    type: Boolean,
+    default: false
+  },
+  liveVideoUrl: {
+    type: String,
+    trim: true
   }
 }, {
   timestamps: true

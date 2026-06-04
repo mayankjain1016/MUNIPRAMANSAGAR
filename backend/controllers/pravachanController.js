@@ -109,3 +109,51 @@ export const incrementViews = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Get live video
+export const getLiveVideo = async (req, res) => {
+  try {
+    const liveVideo = await Pravachan.findOne({ isLive: true, isActive: true });
+    res.json(liveVideo);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Set live video
+export const setLiveVideo = async (req, res) => {
+  try {
+    const { liveVideoUrl } = req.body;
+    
+    // Unset any existing live video
+    await Pravachan.updateMany({ isLive: true }, { isLive: false, liveVideoUrl: null });
+    
+    // Set new live video
+    const pravachan = await Pravachan.findByIdAndUpdate(
+      req.params.id,
+      { isLive: true, liveVideoUrl },
+      { new: true }
+    );
+    
+    if (!pravachan) return res.status(404).json({ message: 'Pravachan not found' });
+    res.json(pravachan);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Unset live video
+export const unsetLiveVideo = async (req, res) => {
+  try {
+    const pravachan = await Pravachan.findByIdAndUpdate(
+      req.params.id,
+      { isLive: false, liveVideoUrl: null },
+      { new: true }
+    );
+    
+    if (!pravachan) return res.status(404).json({ message: 'Pravachan not found' });
+    res.json(pravachan);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, Button, Dialog, DialogTitle, DialogContent,
   DialogActions, TextField, MenuItem, IconButton, Card, CardContent,
-  CardMedia, Grid, Chip, Alert, FormControlLabel, Switch
+  CardMedia, Grid, Chip, Alert, FormControlLabel, Switch, Badge
 } from '@mui/material';
-import { Add, Edit, Delete, Visibility, CloudUpload } from '@mui/icons-material';
+import { Add, Edit, Delete, Visibility, CloudUpload, LiveTv } from '@mui/icons-material';
 import { pravachanService } from '../../services/pravachanService';
 
 const CATEGORIES = [
@@ -17,6 +17,9 @@ const CATEGORIES = [
 export default function PravachanManagement() {
   const [pravachans, setPravachans] = useState([]);
   const [open, setOpen] = useState(false);
+  const [liveDialogOpen, setLiveDialogOpen] = useState(false);
+  const [selectedPravachan, setSelectedPravachan] = useState(null);
+  const [liveUrl, setLiveUrl] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [error, setError] = useState('');
@@ -166,6 +169,37 @@ export default function PravachanManagement() {
     }
   };
 
+  const handleLiveDialogOpen = (pravachan) => {
+    setSelectedPravachan(pravachan);
+    setLiveUrl(pravachan.liveVideoUrl || pravachan.videoUrl);
+    setLiveDialogOpen(true);
+  };
+
+  const handleSetLive = async () => {
+    try {
+      await pravachanService.setLiveVideo(selectedPravachan._id, liveUrl);
+      setSuccess('Live video set successfully');
+      fetchPravachans();
+      setLiveDialogOpen(false);
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err) {
+      setError('Failed to set live video');
+    }
+  };
+
+  const handleUnsetLive = async (id) => {
+    if (window.confirm('Stop live streaming?')) {
+      try {
+        await pravachanService.unsetLiveVideo(id);
+        setSuccess('Live streaming stopped');
+        fetchPravachans();
+        setTimeout(() => setSuccess(''), 3000);
+      } catch (err) {
+        setError('Failed to stop live video');
+      }
+    }
+  };
+
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4, flexWrap: 'wrap', gap: 2 }}>
@@ -251,6 +285,26 @@ export default function PravachanManagement() {
                 sx={{ objectFit: 'cover' }}
               />
               <CardContent sx={{ p: 3 }}>
+                {pravachan.isLive && (
+                  <Chip
+                    icon={<LiveTv />}
+                    label="LIVE"
+                    size="small"
+                    sx={{
+                      position: 'absolute',
+                      top: 16,
+                      right: 16,
+                      backgroundColor: '#ef4444',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      animation: 'pulse 2s ease-in-out infinite',
+                      '@keyframes pulse': {
+                        '0%, 100%': { opacity: 1 },
+                        '50%': { opacity: 0.8 }
+                      }
+                    }}
+                  />
+                )}
                 <Typography variant="h6" sx={{ 
                   fontWeight: 600, 
                   mb: 1.5,
@@ -300,6 +354,29 @@ export default function PravachanManagement() {
                     }}
                   />
                   <Box sx={{ display: 'flex', gap: 0.5 }}>
+                    {pravachan.isLive ? (
+                      <IconButton
+                        size="small"
+                        onClick={() => handleUnsetLive(pravachan._id)}
+                        sx={{
+                          color: '#ef4444',
+                          '&:hover': { backgroundColor: '#fee2e2' }
+                        }}
+                      >
+                        <LiveTv fontSize="small" />
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        size="small"
+                        onClick={() => handleLiveDialogOpen(pravachan)}
+                        sx={{
+                          color: '#10b981',
+                          '&:hover': { backgroundColor: '#d1fae5' }
+                        }}
+                      >
+                        <LiveTv fontSize="small" />
+                      </IconButton>
+                    )}
                     <IconButton 
                       size="small" 
                       onClick={() => handleOpen(pravachan)}
@@ -462,6 +539,64 @@ export default function PravachanManagement() {
             }}
           >
             {editMode ? 'Update' : 'Create'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Live Video Dialog */}
+      <Dialog open={liveDialogOpen} onClose={() => setLiveDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontWeight: 600, color: '#0f172a' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <LiveTv sx={{ color: '#ef4444' }} />
+            Go Live
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+            <Alert severity="info" sx={{ borderRadius: 2 }}>
+              Set this pravachan as live. It will be displayed prominently on the Pravachan page.
+            </Alert>
+            <TextField
+              label="Live Video URL"
+              fullWidth
+              value={liveUrl}
+              onChange={(e) => setLiveUrl(e.target.value)}
+              placeholder="https://www.youtube.com/watch?v=..."
+              required
+            />
+            <Typography variant="caption" sx={{ color: '#64748b' }}>
+              This URL will be used for the live stream. If not specified, the regular video URL will be used.
+            </Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ p: 3 }}>
+          <Button
+            onClick={() => setLiveDialogOpen(false)}
+            sx={{
+              color: '#64748b',
+              textTransform: 'none',
+              fontWeight: 600,
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleSetLive}
+            variant="contained"
+            startIcon={<LiveTv />}
+            sx={{
+              backgroundColor: '#ef4444',
+              color: '#ffffff',
+              textTransform: 'none',
+              fontWeight: 600,
+              boxShadow: 'none',
+              '&:hover': {
+                backgroundColor: '#dc2626',
+                boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
+              }
+            }}
+          >
+            Go Live
           </Button>
         </DialogActions>
       </Dialog>

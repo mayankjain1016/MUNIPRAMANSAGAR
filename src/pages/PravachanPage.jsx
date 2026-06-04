@@ -1,10 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import { Alert } from "@mui/material";
+import { pravachanService } from "../services/pravachanService";
 
 // Icons
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -12,6 +15,7 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import GridViewIcon from "@mui/icons-material/GridView";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import LiveTvIcon from "@mui/icons-material/LiveTv";
 
 const PRAVACHAN_FEATURES = [
   {
@@ -46,6 +50,33 @@ const PRAVACHAN_FEATURES = [
 
 export default function PravachanPage() {
   const navigate = useNavigate();
+  const [liveVideo, setLiveVideo] = useState(null);
+
+  useEffect(() => {
+    fetchLiveVideo();
+  }, []);
+
+  const fetchLiveVideo = async () => {
+    try {
+      const data = await pravachanService.getLiveVideo();
+      setLiveVideo(data);
+    } catch (error) {
+      console.error('Failed to fetch live video:', error);
+    }
+  };
+
+  const extractVideoId = (url) => {
+    if (!url) return null;
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+      /^([a-zA-Z0-9_-]{11})$/
+    ];
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) return match[1];
+    }
+    return null;
+  };
 
   const handleCardClick = (route) => {
     navigate(route);
@@ -82,6 +113,98 @@ export default function PravachanPage() {
             आचार्य श्री निर्भय सागर जी
           </Typography>
         </Box>
+
+        {/* Live Video Section */}
+        {liveVideo && (
+          <Card
+            elevation={0}
+            sx={{
+              mb: 6,
+              borderRadius: "20px",
+              border: "2px solid #ef4444",
+              boxShadow: "0 12px 32px rgba(239, 68, 68, 0.2)",
+              background: "linear-gradient(135deg, #fff5f5 0%, #ffffff 100%)",
+              overflow: "hidden"
+            }}
+          >
+            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+                <Box
+                  sx={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 1,
+                    backgroundColor: "#ef4444",
+                    color: "#ffffff",
+                    px: 2,
+                    py: 1,
+                    borderRadius: "50px",
+                    animation: "pulse 2s ease-in-out infinite",
+                    "@keyframes pulse": {
+                      "0%, 100%": { opacity: 1 },
+                      "50%": { opacity: 0.8 }
+                    }
+                  }}
+                >
+                  <LiveTvIcon sx={{ fontSize: 20 }} />
+                  <Typography sx={{ fontWeight: 700, fontSize: "0.9rem" }}>
+                    LIVE NOW
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                  color: "#333333",
+                  mb: 3,
+                  fontSize: { xs: "1.5rem", md: "2rem" }
+                }}
+              >
+                {liveVideo.title}
+              </Typography>
+
+              <Box
+                sx={{
+                  position: "relative",
+                  paddingBottom: "56.25%",
+                  height: 0,
+                  overflow: "hidden",
+                  borderRadius: "12px",
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.1)"
+                }}
+              >
+                <iframe
+                  src={`https://www.youtube.com/embed/${extractVideoId(liveVideo.liveVideoUrl || liveVideo.videoUrl)}?autoplay=0`}
+                  title={liveVideo.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    border: "none"
+                  }}
+                />
+              </Box>
+
+              {liveVideo.description && (
+                <Typography
+                  sx={{
+                    color: "#666666",
+                    mt: 3,
+                    lineHeight: 1.7
+                  }}
+                >
+                  {liveVideo.description}
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Feature Cards Grid */}
         <Box 

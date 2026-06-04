@@ -36,5 +36,23 @@ export const pravachanService = {
   incrementViews: async (id) => {
     const url = `${API_BASE_URL}/pravachan/${id}/views`;
     return await apiService.patch(url, {});
+  },
+
+  // Get live video
+  getLiveVideo: async () => {
+    const url = `${API_BASE_URL}/pravachan/live/current`;
+    return await apiService.get(url);
+  },
+
+  // Set live video (admin)
+  setLiveVideo: async (id, liveVideoUrl) => {
+    const url = `${API_BASE_URL}/pravachan/${id}/live`;
+    return await apiService.patch(url, { liveVideoUrl });
+  },
+
+  // Unset live video (admin)
+  unsetLiveVideo: async (id) => {
+    const url = `${API_BASE_URL}/pravachan/${id}/unlive`;
+    return await apiService.patch(url, {});
   }
 };
