@@ -129,7 +129,7 @@ export default function BooksPage() {
               <Box 
                 sx={{ 
                   position: "relative",
-                  aspectRatio: "3/4",
+                  aspectRatio: "2/3",
                   overflow: "hidden"
                 }}
               >

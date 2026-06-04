@@ -73,6 +73,8 @@ export default function DisciplesSection() {
               <Card 
                 sx={{ 
                   height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
                   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                   '&:hover': {
                     transform: 'translateY(-8px)',
@@ -82,10 +84,13 @@ export default function DisciplesSection() {
               >
                 <CardMedia
                   component="img"
-                  height="250"
                   image={disciple.image.startsWith('http') ? disciple.image : `${BASE_URL}${disciple.image}`}
                   alt={disciple.name}
-                  sx={{ objectFit: 'cover' }}
+                  sx={{ 
+                    width: '100%',
+                    height: 300,
+                    objectFit: 'cover'
+                  }}
                 />
                 <CardContent>
                   <Typography 
