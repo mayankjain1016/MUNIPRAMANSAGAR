@@ -5,8 +5,20 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import DisciplesSection from './components/DisciplesSection';
+import Bioimg1 from '../assets/Bioimg1.jpeg';
+import Bioimg2 from '../assets/Bioimg2.jpeg';
+import Bioimg3 from '../assets/Bioimg3.jpeg';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+
+const getImageUrl = (path) => {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  if (path.includes('Bioimg1')) return Bioimg1;
+  if (path.includes('Bioimg2')) return Bioimg2;
+  if (path.includes('Bioimg3')) return Bioimg3;
+  return path;
+};
 
 export default function BiographyPage() {
   const [biography, setBiography] = useState(null);
@@ -65,7 +77,7 @@ export default function BiographyPage() {
             overflow: "hidden",
             boxShadow: "0 20px 50px rgba(230, 81, 0, 0.08)",
             height: { xs: "300px", sm: "400px", md: "500px", lg: "600px" },
-            backgroundImage: `url(${biography.heroImage})`,
+            backgroundImage: `url(${getImageUrl(biography.heroImage)})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             display: "flex",
