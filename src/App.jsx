@@ -36,6 +36,7 @@ import GalleryManagement from "./admin/pages/GalleryManagement";
 import PravachanManagement from "./admin/pages/PravachanManagement";
 import ShankaSamadhanManagement from "./admin/pages/ShankaSamadhanManagement";
 import KahaniyaManagement from "./admin/pages/KahaniyaManagement";
+import PathshalaManagement from "./admin/pages/PathshalaManagement";
 import SantKiAdalatManagement from "./admin/pages/SantKiAdalatManagement";
 import BiographyManagement from "./admin/pages/BiographyManagement";
 import DiscipleManagement from "./admin/pages/DiscipleManagement";
@@ -74,6 +75,7 @@ export default function App() {
             <Route path="pravachan" element={<PravachanManagement />} />
             <Route path="shanka-samadhan" element={<ShankaSamadhanManagement />} />
             <Route path="kahaniya" element={<KahaniyaManagement />} />
+            <Route path="pathshala" element={<PathshalaManagement />} />
             <Route path="sant-ki-adalat" element={<SantKiAdalatManagement />} />
           </Route>
 

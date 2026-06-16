@@ -37,6 +37,7 @@ import {
   Person as PersonIcon,
   Group as GroupIcon,
   MenuBook as BookIcon,
+  School as SchoolIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
 
@@ -54,6 +55,7 @@ const menuItems = [
   { text: 'Gallery', icon: <GalleryIcon />, path: '/admin/gallery' },
   { text: 'Pravachan', icon: <VideoIcon />, path: '/admin/pravachan' },
   { text: 'Kahaniya', icon: <StoriesIcon />, path: '/admin/kahaniya' },
+  { text: 'Pathshala', icon: <SchoolIcon />, path: '/admin/pathshala' },
   { text: 'Shanka Samadhan', icon: <QuestionIcon />, path: '/admin/shanka-samadhan' },
 ];
 
