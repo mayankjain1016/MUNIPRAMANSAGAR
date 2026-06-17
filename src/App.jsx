@@ -10,7 +10,7 @@ import PravachanMalaPage from "./pages/PravachanMalaPage";
 import ShankaSamadhanMainPage from "./pages/ShankaSamadhanMainPage";
 import ShankaSamadhanClipsPage from "./pages/ShankaSamadhanClipsPage";
 import ShankaSamadhanPage from "./pages/ShankaSamadhanPage";
-import KahaniyaPage from "./pages/KahaniyaPage";
+import SahityaPage from "./pages/SahityaPage";
 import SantKiAdalatPage from "./pages/SantKiAdalatPage";
 import BhavanaYogPage from "./pages/BhavanaYogPage";
 import GalleryPage from "./pages/GalleryPage";
@@ -21,7 +21,8 @@ import NewsMediaPage from "./pages/NewsMediaPage";
 import NewsArticle from "./pages/NewsArticle";
 import GunayatanPage from "./pages/GunayatanPage";
 import BiographyPage from "./pages/BiographyPage";
-import ShankaSamadhanAnswerPage from "./pages/ShankaSamadhanAnswerPage";
+import ShankaSamadhanAnswerPage from "./pages/ShankaSamadhanAnswerPage";4
+import PathshalaPage from "./pages/PathshalaPage"
 
 // Admin imports
 import { AuthProvider } from "./context/AuthContext";
@@ -35,7 +36,7 @@ import NewsManagement from "./admin/pages/NewsManagement";
 import GalleryManagement from "./admin/pages/GalleryManagement";
 import PravachanManagement from "./admin/pages/PravachanManagement";
 import ShankaSamadhanManagement from "./admin/pages/ShankaSamadhanManagement";
-import KahaniyaManagement from "./admin/pages/KahaniyaManagement";
+import SahityaManagement from "./admin/pages/SahityaManagement";
 import PathshalaManagement from "./admin/pages/PathshalaManagement";
 import SantKiAdalatManagement from "./admin/pages/SantKiAdalatManagement";
 import BiographyManagement from "./admin/pages/BiographyManagement";
@@ -74,7 +75,7 @@ export default function App() {
             <Route path="gallery" element={<GalleryManagement />} />
             <Route path="pravachan" element={<PravachanManagement />} />
             <Route path="shanka-samadhan" element={<ShankaSamadhanManagement />} />
-            <Route path="kahaniya" element={<KahaniyaManagement />} />
+            <Route path="sahitya" element={<SahityaManagement />} />
             <Route path="pathshala" element={<PathshalaManagement />} />
             <Route path="sant-ki-adalat" element={<SantKiAdalatManagement />} />
           </Route>
@@ -97,7 +98,7 @@ export default function App() {
                   <Route path="/shanka-samadhan/all-questions" element={<ShankaSamadhanPage />} />
                   <Route path="/shanka-samadhan/:slug" element={<ShankaSamadhanAnswerPage />} />
                   <Route path="/shanka-samadhan/answer/:answerId" element={<ShankaSamadhanAnswerPage />} />
-                  <Route path="/kahaniya" element={<KahaniyaPage />} />
+                  <Route path="/sahitya" element={<SahityaPage />} />
                   <Route path="/sant-ki-adalat" element={<SantKiAdalatPage />} />
                   <Route path="/bhavana-yog" element={<BhavanaYogPage />} />
                   <Route path="/gallery" element={<GalleryPage />} />
@@ -108,6 +109,9 @@ export default function App() {
                   <Route path="/news/:id" element={<NewsArticle />} />
                   <Route path="/gunayatan" element={<GunayatanPage />} />
                   <Route path="/biography" element={<BiographyPage />} />
+                  <Route path="/pathshala" element={<PathshalaPage />} />
+
+
                 </Routes>
                 <Footer />
                 <button

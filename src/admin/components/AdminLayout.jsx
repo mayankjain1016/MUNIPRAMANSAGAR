@@ -54,7 +54,7 @@ const menuItems = [
   { text: 'News', icon: <ArticleIcon />, path: '/admin/news' },
   { text: 'Gallery', icon: <GalleryIcon />, path: '/admin/gallery' },
   { text: 'Pravachan', icon: <VideoIcon />, path: '/admin/pravachan' },
-  { text: 'Kahaniya', icon: <StoriesIcon />, path: '/admin/kahaniya' },
+  { text: 'Sahitya (साहित्य)', icon: <StoriesIcon />, path: '/admin/sahitya' },
   { text: 'Pathshala', icon: <SchoolIcon />, path: '/admin/pathshala' },
   { text: 'Shanka Samadhan', icon: <QuestionIcon />, path: '/admin/shanka-samadhan' },
 ];
