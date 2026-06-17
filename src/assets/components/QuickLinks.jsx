@@ -35,7 +35,7 @@ export default function QuickLinks() {
     } else if (label === "शंका समाधान") {
       navigate("/shanka-samadhan");
     } else if (label === "साहित्य") {
-      navigate("/kahaniya");
+      navigate("/sahitya");
     } else if (label === "भावना योग") {
       navigate("/bhavana-yog");
     } else if (label === "तपोवन तीर्थ सागर") {
