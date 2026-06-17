@@ -74,3 +74,13 @@ export const shankaSamadhanService = {
     return await apiService.get(`${API_ENDPOINTS.shankaSamadhan.search}?q=${query}`);
   },
 };
+
+export const liveVideoService = {
+  async getLiveStatus() {
+    return await apiService.get(API_ENDPOINTS.liveVideo.get);
+  },
+
+  async updateLiveStatus(data) {
+    return await apiService.put(API_ENDPOINTS.liveVideo.update, data);
+  },
+};

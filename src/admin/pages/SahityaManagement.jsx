@@ -1,146 +1,127 @@
 import { useState, useEffect } from 'react';
-import {
-  Box, Container, Typography, Button, Dialog, DialogTitle, DialogContent,
-  DialogActions, TextField, IconButton, Card, CardContent,
-  CardMedia, Grid, Alert, Switch, FormControlLabel
-} from '@mui/material';
-import { Add, Edit, Delete, DragIndicator } from '@mui/icons-material';
+import { Box, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Card, CardMedia, CardContent, Typography, IconButton, Grid, Alert, LinearProgress } from '@mui/material';
+import { Add, Edit, Delete, CloudUpload, PictureAsPdf } from '@mui/icons-material';
+import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
 
 export default function SahityaManagement() {
-  const [videos, setVideos] = useState([]);
+  const [books, setBooks] = useState([]);
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [currentId, setCurrentId] = useState(null);
+  const [currentBook, setCurrentBook] = useState(null);
+  const [formData, setFormData] = useState({ title: '', author: 'आचार्य श्री निर्भय सागर जी', description: '', order: 0 });
+  const [coverImage, setCoverImage] = useState(null);
+  const [pdfFile, setPdfFile] = useState(null);
+  const [coverPreview, setCoverPreview] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    youtubeUrl: '',
-    order: 0,
-    isActive: true
-  });
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
-    fetchVideos();
+    fetchBooks();
   }, []);
 
-  const fetchVideos = async () => {
+  const fetchBooks = async () => {
     try {
-      const response = await fetch(`${API_URL}/sahitya/admin`, {
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      setVideos(data);
+      const { data } = await axios.get(`${API_URL}/sahitya`);
+      setBooks(data);
     } catch (err) {
-      setError('Failed to fetch videos');
-      console.error(err);
+      setError('Failed to fetch books');
     }
   };
 
-  const extractVideoId = (url) => {
-    const patterns = [
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-      /^([a-zA-Z0-9_-]{11})$/
-    ];
-    for (const pattern of patterns) {
-      const match = url.match(pattern);
-      if (match) return match[1];
-    }
-    return null;
-  };
-
-  const getThumbnail = (url) => {
-    const videoId = extractVideoId(url);
-    return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '';
-  };
-
-  const handleOpen = (video = null) => {
-    if (video) {
+  const handleOpen = (book = null) => {
+    if (book) {
       setEditMode(true);
-      setCurrentId(video._id);
-      setFormData({
-        title: video.title,
-        description: video.description,
-        youtubeUrl: video.youtubeUrl,
-        order: video.order,
-        isActive: video.isActive
-      });
+      setCurrentBook(book);
+      setFormData({ title: book.title, author: book.author, description: book.description, order: book.order });
+      setCoverPreview(`${BASE_URL}/uploads/sahitya/${book.coverImage}`);
     } else {
       setEditMode(false);
-      setCurrentId(null);
-      setFormData({
-        title: '',
-        description: '',
-        youtubeUrl: '',
-        order: videos.length,
-        isActive: true
-      });
+      setCurrentBook(null);
+      setFormData({ title: '', author: 'आचार्य श्री निर्भय सागर जी', description: '', order: 0 });
+      setCoverPreview('');
     }
+    setCoverImage(null);
+    setPdfFile(null);
     setOpen(true);
   };
 
   const handleClose = () => {
+    if (uploading) return;
     setOpen(false);
     setError('');
+    setCoverPreview('');
+    setUploadProgress(0);
+  };
+
+  const handleCoverChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCoverImage(file);
+      setCoverPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSubmit = async () => {
     try {
-      const response = editMode
-        ? await fetch(`${API_URL}/sahitya/${currentId}`, {
-            method: 'PUT',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-          })
-        : await fetch(`${API_URL}/sahitya`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-          });
+      setError('');
+      setUploading(true);
+      setUploadProgress(0);
 
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.message || 'Operation failed');
+      const data = new FormData();
+      data.append('title', formData.title);
+      data.append('author', formData.author);
+      data.append('description', formData.description);
+      data.append('order', formData.order);
+      
+      if (coverImage) data.append('coverImage', coverImage);
+      if (pdfFile) data.append('pdfFile', pdfFile);
+
+      const config = {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setUploadProgress(percentCompleted);
+        }
+      };
+
+      if (editMode) {
+        await axios.put(`${API_URL}/sahitya/${currentBook._id}`, data, config);
+      } else {
+        if (!coverImage || !pdfFile) {
+          setError('Cover image and PDF file are required');
+          setUploading(false);
+          return;
+        }
+        await axios.post(`${API_URL}/sahitya`, data, config);
       }
-
-      setSuccess(editMode ? 'Video updated successfully' : 'Video created successfully');
-      fetchVideos();
+      
+      fetchBooks();
       handleClose();
-      setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError(err.message || 'Operation failed');
+      const errorMsg = err.response?.status === 413 
+        ? 'File too large! Please reduce PDF size or contact admin to increase server limit.'
+        : err.response?.data?.message || 'Failed to save book';
+      setError(errorMsg);
+    } finally {
+      setUploading(false);
+      setUploadProgress(0);
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this video?')) {
-      try {
-        const response = await fetch(`${API_URL}/sahitya/${id}`, {
-          method: 'DELETE',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' }
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to delete');
-        }
-
-        setSuccess('Video deleted successfully');
-        fetchVideos();
-      } catch (err) {
-        setError('Failed to delete video');
-      }
+    if (!window.confirm('Are you sure you want to delete this book?')) return;
+    try {
+      await axios.delete(`${API_URL}/sahitya/${id}`, {
+        withCredentials: true
+      });
+      fetchBooks();
+    } catch (err) {
+      setError('Failed to delete book');
     }
   };
 
@@ -152,7 +133,7 @@ export default function SahityaManagement() {
             साहित्य Management
           </Typography>
           <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.9rem' }}>
-            Manage literature videos and content
+            Manage books and PDF files
           </Typography>
         </Box>
         <Button 
@@ -174,7 +155,7 @@ export default function SahityaManagement() {
             }
           }}
         >
-          Add Video
+          Add Book
         </Button>
       </Box>
 
@@ -187,33 +168,17 @@ export default function SahityaManagement() {
             backgroundColor: '#fef2f2',
             border: '1px solid #fecaca',
             color: '#991b1b',
-          }} 
-          onClose={() => setError('')}
+          }}
         >
           {error}
         </Alert>
       )}
-      {success && (
-        <Alert 
-          severity="success" 
-          sx={{ 
-            mb: 3,
-            borderRadius: 2,
-            backgroundColor: '#f0fdf4',
-            border: '1px solid #bbf7d0',
-            color: '#166534',
-          }} 
-          onClose={() => setSuccess('')}
-        >
-          {success}
-        </Alert>
-      )}
 
       <Grid container spacing={3}>
-        {videos.map((video) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
+        {books.map((book) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={book._id}>
             <Card elevation={0} sx={{ 
-              opacity: video.isActive ? 1 : 0.6,
+              height: '100%',
               border: '1px solid #e2e8f0',
               borderRadius: 3,
               transition: 'all 0.2s ease',
@@ -224,35 +189,17 @@ export default function SahityaManagement() {
             }}>
               <CardMedia
                 component="img"
-                height="180"
-                image={getThumbnail(video.youtubeUrl)}
-                alt={video.title}
+                height="320"
+                image={`${BASE_URL}/uploads/sahitya/${book.coverImage}`}
+                alt={book.title}
                 sx={{ objectFit: 'cover' }}
               />
               <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
-                  <DragIndicator sx={{ color: '#94a3b8', fontSize: 18 }} />
-                  <Typography variant="caption" sx={{ color: '#64748b', fontWeight: 500 }}>
-                    Order: {video.order}
-                  </Typography>
-                  {!video.isActive && (
-                    <Typography variant="caption" sx={{ ml: 'auto', color: '#ef4444', fontWeight: 600 }}>
-                      Inactive
-                    </Typography>
-                  )}
-                </Box>
-                <Typography variant="h6" sx={{ 
-                  fontWeight: 600,
-                  mb: 1.5,
-                  color: '#0f172a',
-                  fontSize: '1rem',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical',
-                }}>
-                  {video.title}
+                <Typography variant="h6" sx={{ fontWeight: 600, color: '#0f172a', mb: 1, fontSize: '1rem' }}>
+                  {book.title}
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#64748b', mb: 1, fontSize: '0.85rem' }}>
+                  {book.author}
                 </Typography>
                 <Typography variant="body2" sx={{ 
                   color: '#64748b', 
@@ -265,28 +212,41 @@ export default function SahityaManagement() {
                   lineHeight: 1.5,
                   fontSize: '0.85rem',
                 }}>
-                  {video.description?.substring(0, 80)}...
+                  {book.description}
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-end' }}>
+                <Box sx={{ display: 'flex', gap: 1, justifyContent: 'space-between' }}>
+                  <Box sx={{ display: 'flex', gap: 0.5 }}>
+                    <IconButton 
+                      size="small" 
+                      onClick={() => handleOpen(book)}
+                      sx={{
+                        color: '#3b82f6',
+                        '&:hover': { backgroundColor: '#eff6ff' }
+                      }}
+                    >
+                      <Edit fontSize="small" />
+                    </IconButton>
+                    <IconButton 
+                      size="small" 
+                      onClick={() => handleDelete(book._id)}
+                      sx={{
+                        color: '#ef4444',
+                        '&:hover': { backgroundColor: '#fef2f2' }
+                      }}
+                    >
+                      <Delete fontSize="small" />
+                    </IconButton>
+                  </Box>
                   <IconButton 
                     size="small" 
-                    onClick={() => handleOpen(video)}
+                    href={`${BASE_URL}/uploads/sahitya/${book.pdfFile}`} 
+                    target="_blank"
                     sx={{
-                      color: '#3b82f6',
-                      '&:hover': { backgroundColor: '#eff6ff' }
+                      color: '#10b981',
+                      '&:hover': { backgroundColor: '#f0fdf4' }
                     }}
                   >
-                    <Edit fontSize="small" />
-                  </IconButton>
-                  <IconButton 
-                    size="small" 
-                    onClick={() => handleDelete(video._id)}
-                    sx={{
-                      color: '#ef4444',
-                      '&:hover': { backgroundColor: '#fef2f2' }
-                    }}
-                  >
-                    <Delete fontSize="small" />
+                    <PictureAsPdf fontSize="small" />
                   </IconButton>
                 </Box>
               </CardContent>
@@ -297,69 +257,126 @@ export default function SahityaManagement() {
 
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ fontWeight: 600, color: '#0f172a' }}>
-          {editMode ? 'Edit Video' : 'Add New Video'}
+          {editMode ? 'Edit Book' : 'Add Book'}
         </DialogTitle>
         <DialogContent>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
-            <TextField
-              label="Title"
-              fullWidth
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              required
-            />
-            <TextField
-              label="YouTube URL"
-              fullWidth
-              value={formData.youtubeUrl}
-              onChange={(e) => setFormData({ ...formData, youtubeUrl: e.target.value })}
-              placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."
-              required
-              helperText="Thumbnail will be automatically extracted from YouTube"
-            />
-            {formData.youtubeUrl && extractVideoId(formData.youtubeUrl) && (
-              <Box sx={{ textAlign: 'center' }}>
-                <img 
-                  src={getThumbnail(formData.youtubeUrl)} 
-                  alt="Preview" 
-                  style={{ maxWidth: '100%', borderRadius: 12, border: '1px solid #e2e8f0' }}
-                />
-                <Typography variant="caption" sx={{ color: '#64748b', display: 'block', mt: 1 }}>
-                  Thumbnail Preview
+          {uploading && (
+            <Box sx={{ mb: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography variant="body2" sx={{ color: '#64748b', fontWeight: 600 }}>
+                  Uploading... {uploadProgress}%
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#64748b' }}>
+                  {pdfFile && `${(pdfFile.size / (1024 * 1024)).toFixed(2)} MB`}
                 </Typography>
               </Box>
-            )}
-            <TextField
-              label="Description"
-              fullWidth
-              multiline
-              rows={3}
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              required
-            />
-            <TextField
-              label="Order"
-              type="number"
-              fullWidth
-              value={formData.order}
-              onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
-              helperText="Lower numbers appear first"
-            />
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={formData.isActive}
-                  onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                />
+              <LinearProgress 
+                variant="determinate" 
+                value={uploadProgress} 
+                sx={{
+                  height: 8,
+                  borderRadius: 4,
+                  backgroundColor: '#e2e8f0',
+                  '& .MuiLinearProgress-bar': {
+                    backgroundColor: '#f97316',
+                    borderRadius: 4,
+                  }
+                }}
+              />
+            </Box>
+          )}
+          <TextField
+            fullWidth
+            label="Title"
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            label="Author"
+            value={formData.author}
+            onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            label="Description"
+            value={formData.description}
+            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            margin="normal"
+            multiline
+            rows={3}
+          />
+          <TextField
+            fullWidth
+            label="Order"
+            type="number"
+            value={formData.order}
+            onChange={(e) => setFormData({ ...formData, order: e.target.value })}
+            margin="normal"
+          />
+          <Button 
+            variant="outlined" 
+            component="label" 
+            fullWidth 
+            sx={{ 
+              mt: 2,
+              borderColor: '#e2e8f0',
+              color: '#64748b',
+              textTransform: 'none',
+              py: 1.5,
+              '&:hover': {
+                borderColor: '#f97316',
+                backgroundColor: '#fff7ed',
+                color: '#f97316',
               }
-              label="Active"
-            />
-          </Box>
+            }} 
+            startIcon={<CloudUpload />}
+          >
+            {coverImage ? coverImage.name : (editMode ? 'Change Cover Image' : 'Upload Cover Image')}
+            <input type="file" hidden accept="image/*" onChange={handleCoverChange} />
+          </Button>
+          {coverPreview && (
+            <Box sx={{ mt: 2, textAlign: 'center' }}>
+              <img 
+                src={coverPreview} 
+                alt="Cover Preview" 
+                style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px' }} 
+              />
+            </Box>
+          )}
+          <Button 
+            variant="outlined" 
+            component="label" 
+            fullWidth 
+            sx={{ 
+              mt: 2,
+              borderColor: '#e2e8f0',
+              color: '#64748b',
+              textTransform: 'none',
+              py: 1.5,
+              '&:hover': {
+                borderColor: '#f97316',
+                backgroundColor: '#fff7ed',
+                color: '#f97316',
+              }
+            }} 
+            startIcon={<PictureAsPdf />}
+          >
+            {pdfFile ? pdfFile.name : (editMode ? 'Change PDF File' : 'Upload PDF File')}
+            <input type="file" hidden accept="application/pdf" onChange={(e) => setPdfFile(e.target.files[0])} />
+          </Button>
+          {editMode && currentBook && !pdfFile && (
+            <Typography variant="caption" sx={{ display: 'block', mt: 1, color: '#64748b' }}>
+              Current PDF: {currentBook.pdfFile}
+            </Typography>
+          )}
         </DialogContent>
         <DialogActions sx={{ p: 3 }}>
           <Button 
             onClick={handleClose}
+            disabled={uploading}
             sx={{
               color: '#64748b',
               textTransform: 'none',
@@ -371,6 +388,7 @@ export default function SahityaManagement() {
           <Button 
             onClick={handleSubmit} 
             variant="contained"
+            disabled={uploading}
             sx={{
               backgroundColor: '#f97316',
               color: '#ffffff',
@@ -380,10 +398,14 @@ export default function SahityaManagement() {
               '&:hover': {
                 backgroundColor: '#ea580c',
                 boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+              },
+              '&:disabled': {
+                backgroundColor: '#cbd5e1',
+                color: '#ffffff',
               }
             }}
           >
-            {editMode ? 'Update' : 'Create'}
+            {uploading ? 'Uploading...' : 'Save'}
           </Button>
         </DialogActions>
       </Dialog>

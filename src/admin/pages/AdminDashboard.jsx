@@ -103,6 +103,7 @@ export default function AdminDashboard() {
 
   const quickActions = [
     { title: 'Homepage Videos', icon: <VideoLibrary />, color: '#f97316', path: '/admin/homepage' },
+    { title: 'Live Video', icon: <VideoLibrary />, color: '#dc2626', path: '/admin/live-video' },
     { title: 'Biography', icon: <Person />, color: '#3b82f6', path: '/admin/biography' },
     { title: 'Disciples', icon: <Group />, color: '#10b981', path: '/admin/disciples' },
     { title: 'Books', icon: <MenuBook />, color: '#8b5cf6', path: '/admin/books' },

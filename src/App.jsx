@@ -16,7 +16,6 @@ import BhavanaYogPage from "./pages/BhavanaYogPage";
 import GalleryPage from "./pages/GalleryPage";
 import GalleryDetailPage from "./pages/GalleryDetailPage";
 import EventDetailPage from "./pages/EventDetailPage";
-import BooksPage from "./pages/BooksPage";
 import NewsMediaPage from "./pages/NewsMediaPage";
 import NewsArticle from "./pages/NewsArticle";
 import GunayatanPage from "./pages/GunayatanPage";
@@ -41,8 +40,8 @@ import PathshalaManagement from "./admin/pages/PathshalaManagement";
 import SantKiAdalatManagement from "./admin/pages/SantKiAdalatManagement";
 import BiographyManagement from "./admin/pages/BiographyManagement";
 import DiscipleManagement from "./admin/pages/DiscipleManagement";
-import BookManagement from "./admin/pages/BookManagement";
 import HomepageManagement from "./admin/pages/HomepageManagement";
+import LiveVideoManagement from "./admin/pages/LiveVideoManagement";
 
 import Footer from "./assets/components/Footer";
 
@@ -66,9 +65,9 @@ export default function App() {
           >
             <Route index element={<AdminDashboard />} />
             <Route path="homepage" element={<HomepageManagement />} />
+            <Route path="live-video" element={<LiveVideoManagement />} />
             <Route path="biography" element={<BiographyManagement />} />
             <Route path="disciples" element={<DiscipleManagement />} />
-            <Route path="books" element={<BookManagement />} />
             <Route path="location" element={<LocationManagement />} />
             <Route path="events" element={<EventManagement />} />
             <Route path="news" element={<NewsManagement />} />
@@ -104,7 +103,6 @@ export default function App() {
                   <Route path="/gallery" element={<GalleryPage />} />
                   <Route path="/gallery/:id" element={<GalleryDetailPage />} />
                   <Route path="/event/:eventId" element={<EventDetailPage />} />
-                  <Route path="/books" element={<BooksPage />} />
                   <Route path="/news-media" element={<NewsMediaPage />} />
                   <Route path="/news/:id" element={<NewsArticle />} />
                   <Route path="/gunayatan" element={<GunayatanPage />} />

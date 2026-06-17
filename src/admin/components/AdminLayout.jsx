@@ -46,9 +46,9 @@ const drawerWidth = 280;
 const menuItems = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin' },
   { text: 'Homepage', icon: <VideoIcon />, path: '/admin/homepage' },
+  { text: 'Live Video', icon: <VideoIcon />, path: '/admin/live-video' },
   { text: 'Biography', icon: <PersonIcon />, path: '/admin/biography' },
   { text: 'Disciples (शिष्य)', icon: <GroupIcon />, path: '/admin/disciples' },
-  { text: 'Books (पुस्तकें)', icon: <BookIcon />, path: '/admin/books' },
   { text: 'Location', icon: <LocationIcon />, path: '/admin/location' },
   { text: 'Events', icon: <EventIcon />, path: '/admin/events' },
   { text: 'News', icon: <ArticleIcon />, path: '/admin/news' },

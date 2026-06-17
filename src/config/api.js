@@ -47,6 +47,12 @@ export const API_ENDPOINTS = {
       getById: (id) => `${API_BASE_URL}/shanka-samadhan/clips/${id}`,
     },
   },
+
+  // Live Video endpoints
+  liveVideo: {
+    get: `${API_BASE_URL}/live-video`,
+    update: `${API_BASE_URL}/live-video`,
+  },
 };
 
 export { SERVER_BASE_URL };

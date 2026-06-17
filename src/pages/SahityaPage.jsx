@@ -1,46 +1,44 @@
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutlined";
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import DownloadIcon from "@mui/icons-material/Download";
+import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
 
 export default function SahityaPage() {
-  const [videos, setVideos] = useState([]);
+  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchVideos();
+    fetchBooks();
   }, []);
 
-  const fetchVideos = async () => {
+  const fetchBooks = async () => {
     try {
       const { data } = await axios.get(`${API_URL}/sahitya`);
-      setVideos(data);
+      setBooks(data);
     } catch (error) {
-      console.error('Failed to fetch videos:', error);
+      console.error('Failed to fetch books:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const getThumbnail = (videoId) => {
-    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-  };
-
-  const openVideo = (url) => {
-    window.open(url, '_blank');
+  const handleDownload = (book) => {
+    window.open(`${BASE_URL}/uploads/sahitya/${book.pdfFile}`, '_blank');
   };
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#FAFAFA", py: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
         
+        {/* Page Header */}
         <Box sx={{ textAlign: "center", mb: { xs: 6, md: 8 } }}>
           <Typography 
             variant="h2" 
@@ -63,10 +61,11 @@ export default function SahityaPage() {
               mx: "auto"
             }}
           >
-            जैन धर्म की प्रेरक कहानियाँ - बच्चों के लिए सरल और रोचक
+            आचार्य श्री निर्भय सागर जी की रचनाएं
           </Typography>
         </Box>
 
+        {/* Info Box */}
         <Box 
           sx={{ 
             backgroundColor: "#FFF8E1", 
@@ -77,14 +76,20 @@ export default function SahityaPage() {
             textAlign: "center"
           }}
         >
-          <Typography variant="body1" sx={{ color: "#E65100", fontWeight: 600, mb: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 1 }}>
-            <MenuBookIcon /> जैन धर्म को सरल तरीके से समझें
+          <Typography variant="body1" sx={{ color: "#E65100", fontWeight: 600, mb: 1 }}>
+            📚 ज्ञान का भंडार
           </Typography>
           <Typography variant="body2" sx={{ color: "#666" }}>
-            ये कहानियाँ बच्चों को अहिंसा, सत्य, अपरिग्रह और जैन संस्कृति की गहरी शिक्षा देती हैं
+            महाराज जी की पुस्तकें जैन धर्म, आध्यात्मिकता और जीवन दर्शन पर आधारित हैं
           </Typography>
         </Box>
 
+        {/* Books Grid */}
+        {loading ? (
+          <Typography variant="h6" sx={{ textAlign: 'center', py: 4 }}>Loading...</Typography>
+        ) : books.length === 0 ? (
+          <Typography variant="h6" sx={{ textAlign: 'center', py: 4 }}>No books available</Typography>
+        ) : (
         <Box 
           sx={{ 
             display: "grid",
@@ -98,98 +103,116 @@ export default function SahityaPage() {
             mb: 6
           }}
         >
-          {loading ? (
-            <Typography>Loading...</Typography>
-          ) : videos.length === 0 ? (
-            <Typography>No videos available</Typography>
-          ) : (
-            videos.map((video) => (
-              <Card
-                key={video._id}
-                elevation={0}
-                onClick={() => openVideo(video.youtubeUrl)}
-                sx={{
-                  borderRadius: "16px",
-                  border: "1px solid rgba(0,0,0,0.06)",
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
-                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                  cursor: "pointer",
-                  "&:hover": {
-                    transform: "translateY(-8px)",
-                    boxShadow: "0 16px 40px rgba(230, 81, 0, 0.15)",
-                    borderColor: "rgba(230, 81, 0, 0.2)",
-                    "& .play-icon": {
-                      transform: "scale(1.2)",
-                      color: "#FF0000"
-                    }
+          {books.map((book) => (
+            <Card
+              key={book._id}
+              elevation={0}
+              sx={{
+                borderRadius: "16px",
+                border: "1px solid rgba(0,0,0,0.06)",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                cursor: "pointer",
+                overflow: "hidden",
+                "&:hover": {
+                  transform: "translateY(-8px)",
+                  boxShadow: "0 16px 40px rgba(230, 81, 0, 0.15)",
+                  borderColor: "rgba(230, 81, 0, 0.2)",
+                  "& .book-icon": {
+                    transform: "scale(1.1)",
+                    color: "#E65100"
                   }
+                }
+              }}
+            >
+              {/* Book Cover */}
+              <Box 
+                sx={{ 
+                  position: "relative",
+                  aspectRatio: "2/3",
+                  overflow: "hidden"
                 }}
               >
-                <Box 
+                <img
+                  src={`${BASE_URL}/uploads/sahitya/${book.coverImage}`}
+                  alt={book.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </Box>
+
+              <CardContent sx={{ p: 3 }}>
+                {/* Book Title */}
+                <Typography 
+                  variant="h6" 
+                  component="h3"
                   sx={{ 
-                    position: "relative",
-                    aspectRatio: "16/9",
-                    overflow: "hidden",
-                    backgroundImage: `url(${getThumbnail(video.videoId)})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
+                    fontWeight: 700,
+                    color: "#333333",
+                    mb: 1,
+                    fontSize: "1.1rem",
+                    lineHeight: 1.3,
+                    minHeight: "50px"
                   }}
                 >
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      inset: 0,
-                      backgroundColor: "rgba(0,0,0,0.3)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      opacity: 0,
-                      transition: "opacity 0.3s",
-                      "&:hover": { opacity: 1 }
-                    }}
-                  >
-                    <PlayCircleOutlineIcon 
-                      className="play-icon"
-                      sx={{ 
-                        fontSize: "64px", 
-                        color: "white",
-                        transition: "all 0.3s ease"
-                      }} 
-                    />
-                  </Box>
-                </Box>
+                  {book.title}
+                </Typography>
 
-                <CardContent sx={{ p: 3 }}>
-                  <Typography 
-                    variant="h6" 
-                    component="h3"
-                    sx={{ 
-                      fontWeight: 600,
-                      color: "#333333",
-                      mb: 1,
-                      fontSize: "1.1rem"
-                    }}
-                  >
-                    {video.title}
-                  </Typography>
+                {/* Author */}
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    color: "#757575",
+                    mb: 1
+                  }}
+                >
+                  {book.author}
+                </Typography>
 
-                  <Typography 
-                    variant="body2" 
-                    sx={{ 
-                      color: "#757575"
-                    }}
-                  >
-                    {video.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            ))
-          )}
+                {/* Description */}
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    color: "#666",
+                    mb: 2,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {book.description}
+                </Typography>
+
+                {/* Download Button */}
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  startIcon={<DownloadIcon />}
+                  onClick={() => handleDownload(book)}
+                  sx={{
+                    borderColor: "#E0E0E0",
+                    color: "#555555",
+                    borderRadius: "8px",
+                    padding: "8px 16px",
+                    fontWeight: 600,
+                    textTransform: "none",
+                    transition: "all 0.3s ease",
+                    "&:hover": {
+                      borderColor: "#E65100",
+                      backgroundColor: "#FFF3E0",
+                      color: "#E65100"
+                    }
+                  }}
+                >
+                  Download
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
         </Box>
+        )}
 
+        {/* Bottom Info Section */}
         <Box 
           sx={{ 
             textAlign: "center", 
@@ -199,12 +222,12 @@ export default function SahityaPage() {
             boxShadow: "0 4px 16px rgba(0,0,0,0.06)"
           }}
         >
-          <Typography variant="h5" sx={{ fontWeight: 700, color: "#E65100", mb: 2, display: "flex", alignItems: "center", justifyContent: "center", gap: 1 }}>
-            <FavoriteIcon /> जैन धर्म की शिक्षा
+          <Typography variant="h5" sx={{ fontWeight: 700, color: "#E65100", mb: 2 }}>
+            ज्ञान का प्रसार
           </Typography>
           <Typography variant="body1" sx={{ color: "#666", lineHeight: 1.8, maxWidth: "800px", mx: "auto" }}>
-            ये कहानियाँ बच्चों को जैन धर्म के मूल सिद्धांतों - अहिंसा, सत्य, अस्तेय, ब्रह्मचर्य और अपरिग्रह - को सरल और रोचक तरीके से सिखाती हैं। 
-            प्रत्येक कहानी में एक महत्वपूर्ण जीवन पाठ छिपा है जो बच्चों के चरित्र निर्माण में सहायक है।
+            आचार्य श्री निर्भय सागर जी की पुस्तकें जैन धर्म के गहन ज्ञान, आध्यात्मिक मार्गदर्शन और जीवन के व्यावहारिक पहलुओं को सरल भाषा में प्रस्तुत करती हैं। 
+            ये रचनाएं पाठकों को सत्य, अहिंसा और आत्म-साक्षात्कार की ओर प्रेरित करती हैं।
           </Typography>
         </Box>
 

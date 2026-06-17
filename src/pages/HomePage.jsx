@@ -5,6 +5,7 @@ import QuickLinks from "../assets/components/QuickLinks";
 import EventsAndNews from "../assets/components/EventsAndNews";
 import Gallery from "../assets/components/Gallery";
 import TrendingVideos from "../assets/components/TrendingVideos";
+import LiveVideo from "../assets/components/LiveVideo";
 import ShankaSamadhan from "../assets/components/ShankaSamadhan";
 import Subscribe from "../assets/components/Subscribe";
 

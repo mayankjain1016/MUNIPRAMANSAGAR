@@ -40,6 +40,39 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// PDF filter for books
+const pdfFilter = (req, file, cb) => {
+  if (file.fieldname === 'pdfFile') {
+    if (file.mimetype === 'application/pdf') {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only PDF files are allowed!'));
+    }
+  } else if (file.fieldname === 'coverImage') {
+    const allowedTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed for cover!'));
+    }
+  } else {
+    cb(null, true);
+  }
+};
+
+// Storage configuration for sahitya
+const sahityaStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, '../uploads/sahitya'));
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.originalname);
+  }
+});
+
 // Upload middleware
 export const uploadGallery = multer({
   storage: galleryStorage,
@@ -51,4 +84,10 @@ export const uploadDisciple = multer({
   storage: discipleStorage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
   fileFilter: fileFilter
+});
+
+export const uploadSahitya = multer({
+  storage: sahityaStorage,
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
+  fileFilter: pdfFilter
 });

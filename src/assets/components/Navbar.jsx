@@ -16,7 +16,7 @@ const NAV_LINKS = [
   { label: "Home Section", href: "/" },
   { label: "Biography", href: "/biography" },
   { label: "Event Gallery", href: "/gallery" },
-  { label: "Books", href: "/books" },
+  { label: "Sahitya", href: "/sahitya" },
   { label: "News Media", href: "/news-media" }
 ];
 

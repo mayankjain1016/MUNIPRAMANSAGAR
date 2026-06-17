@@ -17,8 +17,8 @@ import pathshalaRoutes from './routes/pathshalaRoutes.js';
 import santKiAdalatRoutes from './routes/santKiAdalatRoutes.js';
 import biographyRoutes from './routes/biographyRoutes.js';
 import discipleRoutes from './routes/discipleRoutes.js';
-import bookRoutes from './routes/bookRoutes.js';
 import featuredVideoRoutes from './routes/featuredVideoRoutes.js';
+import liveVideoRoutes from './routes/liveVideoRoutes.js';
 
 dotenv.config();
 
@@ -57,8 +57,8 @@ app.use('/api/pathshala', pathshalaRoutes);
 app.use('/api/sant-ki-adalat', santKiAdalatRoutes);
 app.use('/api/biography', biographyRoutes);
 app.use('/api/disciples', discipleRoutes);
-app.use('/api/books', bookRoutes);
 app.use('/api/featured-videos', featuredVideoRoutes);
+app.use('/api/live-video', liveVideoRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

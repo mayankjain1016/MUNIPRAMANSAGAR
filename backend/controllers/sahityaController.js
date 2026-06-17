@@ -1,104 +1,98 @@
 import Sahitya from '../models/Sahitya.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// Extract YouTube video ID from URL
-const extractVideoId = (url) => {
-  const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-    /^([a-zA-Z0-9_-]{11})$/
-  ];
-  
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match) return match[1];
-  }
-  return null;
-};
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Get all active sahitya videos
 export const getAllSahitya = async (req, res) => {
   try {
-    const videos = await Sahitya.find({ isActive: true }).sort({ order: 1, createdAt: -1 });
-    res.json(videos);
+    const books = await Sahitya.find().sort({ order: 1, createdAt: -1 });
+    res.json(books);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get all sahitya (admin)
 export const getAllSahityaAdmin = async (req, res) => {
   try {
-    const videos = await Sahitya.find().sort({ order: 1, createdAt: -1 });
-    res.json(videos);
+    const books = await Sahitya.find().sort({ order: 1, createdAt: -1 });
+    res.json(books);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Create new sahitya video
 export const createSahitya = async (req, res) => {
   try {
-    const { title, description, youtubeUrl, order } = req.body;
+    const { title, author, description, order } = req.body;
     
-    const videoId = extractVideoId(youtubeUrl);
-    if (!videoId) {
-      return res.status(400).json({ message: 'Invalid YouTube URL' });
+    if (!req.files || !req.files.coverImage || !req.files.pdfFile) {
+      return res.status(400).json({ message: 'Cover image and PDF file are required' });
     }
 
-    const sahitya = new Sahitya({
+    const book = new Sahitya({
       title,
+      author: author || 'आचार्य श्री निर्भय सागर जी',
       description,
-      youtubeUrl,
-      videoId,
+      coverImage: req.files.coverImage[0].filename,
+      pdfFile: req.files.pdfFile[0].filename,
       order: order || 0
     });
 
-    await sahitya.save();
-    res.status(201).json(sahitya);
+    await book.save();
+    res.status(201).json(book);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
-// Update sahitya video
 export const updateSahitya = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { title, description, youtubeUrl, order, isActive } = req.body;
+    const { title, author, description, order } = req.body;
+    const book = await Sahitya.findById(req.params.id);
     
-    const updateData = { title, description, order, isActive };
-    
-    if (youtubeUrl) {
-      const videoId = extractVideoId(youtubeUrl);
-      if (!videoId) {
-        return res.status(400).json({ message: 'Invalid YouTube URL' });
+    if (!book) return res.status(404).json({ message: 'Book not found' });
+
+    book.title = title || book.title;
+    book.author = author || book.author;
+    book.description = description || book.description;
+    book.order = order !== undefined ? order : book.order;
+
+    if (req.files) {
+      if (req.files.coverImage) {
+        const oldCoverPath = path.join(__dirname, '../uploads/sahitya', book.coverImage);
+        if (fs.existsSync(oldCoverPath)) fs.unlinkSync(oldCoverPath);
+        book.coverImage = req.files.coverImage[0].filename;
       }
-      updateData.youtubeUrl = youtubeUrl;
-      updateData.videoId = videoId;
+      if (req.files.pdfFile) {
+        const oldPdfPath = path.join(__dirname, '../uploads/sahitya', book.pdfFile);
+        if (fs.existsSync(oldPdfPath)) fs.unlinkSync(oldPdfPath);
+        book.pdfFile = req.files.pdfFile[0].filename;
+      }
     }
 
-    const sahitya = await Sahitya.findByIdAndUpdate(id, updateData, { new: true });
-    
-    if (!sahitya) {
-      return res.status(404).json({ message: 'Video not found' });
-    }
-
-    res.json(sahitya);
+    await book.save();
+    res.json(book);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
-// Delete sahitya video
 export const deleteSahitya = async (req, res) => {
   try {
-    const { id } = req.params;
-    const sahitya = await Sahitya.findByIdAndDelete(id);
-    
-    if (!sahitya) {
-      return res.status(404).json({ message: 'Video not found' });
-    }
+    const book = await Sahitya.findById(req.params.id);
+    if (!book) return res.status(404).json({ message: 'Book not found' });
 
-    res.json({ message: 'Video deleted successfully' });
+    const coverPath = path.join(__dirname, '../uploads/sahitya', book.coverImage);
+    const pdfPath = path.join(__dirname, '../uploads/sahitya', book.pdfFile);
+    
+    if (fs.existsSync(coverPath)) fs.unlinkSync(coverPath);
+    if (fs.existsSync(pdfPath)) fs.unlinkSync(pdfPath);
+
+    await Sahitya.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Book deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
