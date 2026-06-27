@@ -41,6 +41,7 @@ export default function VideoCard({ title, description, videoId, youtubeUrl, thu
       elevation={0}
       onClick={handleClick}
       sx={{
+        width: "100%",
         borderRadius: "16px",
         border: "1px solid rgba(0,0,0,0.06)",
         boxShadow: "0 8px 24px rgba(0,0,0,0.06)",

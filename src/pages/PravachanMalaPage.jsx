@@ -23,8 +23,15 @@ export default function PravachanMalaPage() {
   };
 
   const handleVideoClick = async (video) => {
-    await pravachanService.incrementViews(video._id);
-    window.open(video.videoUrl, '_blank');
+    try {
+      await pravachanService.incrementViews(video._id);
+    } catch (error) {
+      console.error('Error incrementing views:', error);
+    }
+    const url = video.videoUrl || video.youtubeUrl;
+    if (url) {
+      window.open(url, '_blank');
+    }
   };
 
   if (loading) {
