@@ -104,14 +104,14 @@ export default function Footer() {
               <Box sx={{ display: "flex", alignItems: "flex-start" }}>
                 <LocationOnOutlinedIcon sx={{ color: "#FFB74D", mr: 1.5, mt: 0.2, fontSize: "20px" }} />
                 <Typography variant="body2" sx={{ color: "#BCAAA4", lineHeight: 1.6 }}>
-                  Gunayatan, Kundkund Marg, <br />
-                  Madhuban, Jharkhand 825329
+                  Tapovan Teerth Sagar, National Highway 44, <br />
+                  Baheria Gadgad, Madhya Pradesh
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <PhoneOutlinedIcon sx={{ color: "#FFB74D", mr: 1.5, fontSize: "20px" }} />
                 <Typography variant="body2" sx={{ color: "#BCAAA4" }}>
-                  +91-7543076063
+                  +91-898904590
                 </Typography>
               </Box>
             </Box>
