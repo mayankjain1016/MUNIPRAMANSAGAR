@@ -68,8 +68,7 @@ const sahityaStorage = multer.diskStorage({
     cb(null, path.join(__dirname, '../uploads/sahitya'));
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.originalname);
+    cb(null, Date.now() + '-' + file.originalname);
   }
 });
 
