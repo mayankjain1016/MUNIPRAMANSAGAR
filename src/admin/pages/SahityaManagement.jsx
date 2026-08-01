@@ -13,7 +13,8 @@ export default function SahityaManagement() {
   const [currentBook, setCurrentBook] = useState(null);
   const [formData, setFormData] = useState({ title: '', author: 'आचार्य श्री निर्भय सागर जी', description: '', order: 0 });
   const [coverImage, setCoverImage] = useState(null);
-  const [pdfFile, setPdfFile] = useState(null);
+  const [pdfFiles, setPdfFiles] = useState([]);
+  const [existingPdfFiles, setExistingPdfFiles] = useState([]);
   const [coverPreview, setCoverPreview] = useState('');
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -37,15 +38,20 @@ export default function SahityaManagement() {
       setEditMode(true);
       setCurrentBook(book);
       setFormData({ title: book.title, author: book.author, description: book.description, order: book.order });
-      setCoverPreview(`${BASE_URL}/uploads/sahitya/${book.coverImage}`);
+      const existing = book.pdfFiles ? [...book.pdfFiles] : [];
+      if (book.pdfFile && !existing.includes(book.pdfFile)) {
+        existing.push(book.pdfFile);
+      }
+      setExistingPdfFiles(existing);
     } else {
       setEditMode(false);
       setCurrentBook(null);
       setFormData({ title: '', author: 'आचार्य श्री निर्भय सागर जी', description: '', order: 0 });
       setCoverPreview('');
+      setExistingPdfFiles([]);
     }
     setCoverImage(null);
-    setPdfFile(null);
+    setPdfFiles([]);
     setOpen(true);
   };
 
@@ -55,6 +61,8 @@ export default function SahityaManagement() {
     setError('');
     setCoverPreview('');
     setUploadProgress(0);
+    setExistingPdfFiles([]);
+    setPdfFiles([]);
   };
 
   const handleCoverChange = (e) => {
@@ -78,7 +86,8 @@ export default function SahityaManagement() {
       data.append('order', formData.order);
       
       if (coverImage) data.append('coverImage', coverImage);
-      if (pdfFile) data.append('pdfFile', pdfFile);
+      pdfFiles.forEach(file => data.append('pdfFiles', file));
+      existingPdfFiles.forEach(file => data.append('existingPdfFiles', file));
 
       const config = {
         withCredentials: true,
@@ -92,8 +101,8 @@ export default function SahityaManagement() {
       if (editMode) {
         await axios.put(`${API_URL}/sahitya/${currentBook._id}`, data, config);
       } else {
-        if (!coverImage || !pdfFile) {
-          setError('Cover image and PDF file are required');
+        if (!coverImage || pdfFiles.length === 0) {
+          setError('Cover image and at least one PDF file are required');
           setUploading(false);
           return;
         }
@@ -236,18 +245,26 @@ export default function SahityaManagement() {
                     >
                       <Delete fontSize="small" />
                     </IconButton>
+                  <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+                    {(() => {
+                      const allPdfs = book.pdfFiles && book.pdfFiles.length > 0 ? book.pdfFiles : (book.pdfFile ? [book.pdfFile] : []);
+                      return allPdfs.map((pdf, idx) => (
+                        <IconButton 
+                          key={idx}
+                          size="small" 
+                          href={`${BASE_URL}/uploads/sahitya/${pdf}`} 
+                          target="_blank"
+                          title={`PDF ${idx + 1}`}
+                          sx={{
+                            color: '#10b981',
+                            '&:hover': { backgroundColor: '#f0fdf4' }
+                          }}
+                        >
+                          <PictureAsPdf fontSize="small" />
+                        </IconButton>
+                      ));
+                    })()}
                   </Box>
-                  <IconButton 
-                    size="small" 
-                    href={`${BASE_URL}/uploads/sahitya/${book.pdfFile}`} 
-                    target="_blank"
-                    sx={{
-                      color: '#10b981',
-                      '&:hover': { backgroundColor: '#f0fdf4' }
-                    }}
-                  >
-                    <PictureAsPdf fontSize="small" />
-                  </IconButton>
                 </Box>
               </CardContent>
             </Card>
@@ -267,7 +284,7 @@ export default function SahityaManagement() {
                   Uploading... {uploadProgress}%
                 </Typography>
                 <Typography variant="body2" sx={{ color: '#64748b' }}>
-                  {pdfFile && `${(pdfFile.size / (1024 * 1024)).toFixed(2)} MB`}
+                  {pdfFiles.length > 0 && `${(pdfFiles.reduce((acc, file) => acc + file.size, 0) / (1024 * 1024)).toFixed(2)} MB`}
                 </Typography>
               </Box>
               <LinearProgress 
@@ -364,13 +381,44 @@ export default function SahityaManagement() {
             }} 
             startIcon={<PictureAsPdf />}
           >
-            {pdfFile ? pdfFile.name : (editMode ? 'Change PDF File' : 'Upload PDF File')}
-            <input type="file" hidden accept="application/pdf" onChange={(e) => setPdfFile(e.target.files[0])} />
+            Upload PDF Files
+            <input type="file" hidden accept="application/pdf" multiple onChange={(e) => setPdfFiles([...pdfFiles, ...Array.from(e.target.files)])} />
           </Button>
-          {editMode && currentBook && !pdfFile && (
-            <Typography variant="caption" sx={{ display: 'block', mt: 1, color: '#64748b' }}>
-              Current PDF: {currentBook.pdfFile}
-            </Typography>
+
+          {pdfFiles.length > 0 && (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="caption" sx={{ color: '#64748b', fontWeight: 600 }}>New PDFs to upload:</Typography>
+              {pdfFiles.map((file, index) => (
+                <Box key={`new-${index}`} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1, p: 1, border: '1px solid #e2e8f0', borderRadius: 1 }}>
+                  <Typography variant="body2" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file.name}</Typography>
+                  <IconButton size="small" onClick={() => {
+                    const newFiles = [...pdfFiles];
+                    newFiles.splice(index, 1);
+                    setPdfFiles(newFiles);
+                  }}>
+                    <Delete fontSize="small" color="error" />
+                  </IconButton>
+                </Box>
+              ))}
+            </Box>
+          )}
+
+          {editMode && existingPdfFiles.length > 0 && (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="caption" sx={{ color: '#64748b', fontWeight: 600 }}>Existing PDFs:</Typography>
+              {existingPdfFiles.map((file, index) => (
+                <Box key={`existing-${index}`} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1, p: 1, border: '1px solid #e2e8f0', borderRadius: 1, bgcolor: '#f8fafc' }}>
+                  <Typography variant="body2" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file}</Typography>
+                  <IconButton size="small" onClick={() => {
+                    const newFiles = [...existingPdfFiles];
+                    newFiles.splice(index, 1);
+                    setExistingPdfFiles(newFiles);
+                  }}>
+                    <Delete fontSize="small" color="error" />
+                  </IconButton>
+                </Box>
+              ))}
+            </Box>
           )}
         </DialogContent>
         <DialogActions sx={{ p: 3 }}>

@@ -5,7 +5,8 @@ const sahityaSchema = new mongoose.Schema({
   author: { type: String, default: 'आचार्य श्री निर्भय सागर जी' },
   description: { type: String, required: true },
   coverImage: { type: String, required: true },
-  pdfFile: { type: String, required: true },
+  pdfFile: { type: String },
+  pdfFiles: [{ type: String }],
   order: { type: Number, default: 0 }
 }, { timestamps: true });
 

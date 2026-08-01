@@ -28,8 +28,15 @@ export const createSahitya = async (req, res) => {
   try {
     const { title, author, description, order } = req.body;
     
-    if (!req.files || !req.files.coverImage || !req.files.pdfFile) {
-      return res.status(400).json({ message: 'Cover image and PDF file are required' });
+    if (!req.files || !req.files.coverImage) {
+      return res.status(400).json({ message: 'Cover image is required' });
+    }
+
+    const pdfFiles = req.files.pdfFiles ? req.files.pdfFiles.map(f => f.filename) : [];
+    const pdfFile = req.files.pdfFile ? req.files.pdfFile[0].filename : undefined;
+
+    if (pdfFiles.length === 0 && !pdfFile) {
+      return res.status(400).json({ message: 'At least one PDF file is required' });
     }
 
     const book = new Sahitya({
@@ -37,7 +44,8 @@ export const createSahitya = async (req, res) => {
       author: author || 'आचार्य श्री निर्भय सागर जी',
       description,
       coverImage: req.files.coverImage[0].filename,
-      pdfFile: req.files.pdfFile[0].filename,
+      pdfFile: pdfFile,
+      pdfFiles: pdfFiles,
       order: order || 0
     });
 
@@ -60,16 +68,48 @@ export const updateSahitya = async (req, res) => {
     book.description = description || book.description;
     book.order = order !== undefined ? order : book.order;
 
+    let retainedPdfs = req.body.existingPdfFiles || [];
+    if (typeof retainedPdfs === 'string') retainedPdfs = [retainedPdfs];
+
     if (req.files) {
       if (req.files.coverImage) {
         const oldCoverPath = path.join(__dirname, '../uploads/sahitya', book.coverImage);
         if (fs.existsSync(oldCoverPath)) fs.unlinkSync(oldCoverPath);
         book.coverImage = req.files.coverImage[0].filename;
       }
+      
+      let newPdfs = [];
+      if (req.files.pdfFiles) {
+        newPdfs = req.files.pdfFiles.map(f => f.filename);
+      }
       if (req.files.pdfFile) {
-        const oldPdfPath = path.join(__dirname, '../uploads/sahitya', book.pdfFile);
-        if (fs.existsSync(oldPdfPath)) fs.unlinkSync(oldPdfPath);
         book.pdfFile = req.files.pdfFile[0].filename;
+      }
+      
+      const allOldPdfs = [...(book.pdfFiles || [])];
+      allOldPdfs.forEach(oldPdf => {
+          if (!retainedPdfs.includes(oldPdf)) {
+              const oldPdfPath = path.join(__dirname, '../uploads/sahitya', oldPdf);
+              if (fs.existsSync(oldPdfPath)) fs.unlinkSync(oldPdfPath);
+          }
+      });
+      
+      book.pdfFiles = [...retainedPdfs, ...newPdfs];
+      
+      if (book.pdfFile && !retainedPdfs.includes(book.pdfFile) && !req.files.pdfFile) {
+          book.pdfFile = undefined;
+      }
+    } else {
+      const allOldPdfs = [...(book.pdfFiles || [])];
+      allOldPdfs.forEach(oldPdf => {
+          if (!retainedPdfs.includes(oldPdf)) {
+              const oldPdfPath = path.join(__dirname, '../uploads/sahitya', oldPdf);
+              if (fs.existsSync(oldPdfPath)) fs.unlinkSync(oldPdfPath);
+          }
+      });
+      book.pdfFiles = retainedPdfs;
+      if (book.pdfFile && !retainedPdfs.includes(book.pdfFile)) {
+          book.pdfFile = undefined;
       }
     }
 
@@ -86,10 +126,15 @@ export const deleteSahitya = async (req, res) => {
     if (!book) return res.status(404).json({ message: 'Book not found' });
 
     const coverPath = path.join(__dirname, '../uploads/sahitya', book.coverImage);
-    const pdfPath = path.join(__dirname, '../uploads/sahitya', book.pdfFile);
-    
     if (fs.existsSync(coverPath)) fs.unlinkSync(coverPath);
-    if (fs.existsSync(pdfPath)) fs.unlinkSync(pdfPath);
+    
+    const allPdfs = [...(book.pdfFiles || [])];
+    if (book.pdfFile && !allPdfs.includes(book.pdfFile)) allPdfs.push(book.pdfFile);
+    
+    allPdfs.forEach(pdf => {
+        const pdfPath = path.join(__dirname, '../uploads/sahitya', pdf);
+        if (fs.existsSync(pdfPath)) fs.unlinkSync(pdfPath);
+    });
 
     await Sahitya.findByIdAndDelete(req.params.id);
     res.json({ message: 'Book deleted successfully' });

@@ -21,8 +21,8 @@ const handleUploadError = (err, req, res, next) => {
   next();
 };
 
-router.post('/', protect, uploadSahitya.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), handleUploadError, createSahitya);
-router.put('/:id', protect, uploadSahitya.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), handleUploadError, updateSahitya);
+router.post('/', protect, uploadSahitya.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }, { name: 'pdfFiles', maxCount: 10 }]), handleUploadError, createSahitya);
+router.put('/:id', protect, uploadSahitya.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }, { name: 'pdfFiles', maxCount: 10 }]), handleUploadError, updateSahitya);
 router.delete('/:id', protect, deleteSahitya);
 
 export default router;

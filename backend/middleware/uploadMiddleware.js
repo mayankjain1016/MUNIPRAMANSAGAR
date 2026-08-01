@@ -42,7 +42,7 @@ const fileFilter = (req, file, cb) => {
 
 // PDF filter for books
 const pdfFilter = (req, file, cb) => {
-  if (file.fieldname === 'pdfFile') {
+  if (file.fieldname === 'pdfFile' || file.fieldname === 'pdfFiles') {
     if (file.mimetype === 'application/pdf') {
       return cb(null, true);
     } else {

@@ -183,29 +183,37 @@ export default function SahityaPage() {
                   {book.description}
                 </Typography>
 
-                {/* Download Button */}
-                <Button
-                  variant="outlined"
-                  fullWidth
-                  startIcon={<DownloadIcon />}
-                  onClick={() => handleDownload(book)}
-                  sx={{
-                    borderColor: "#E0E0E0",
-                    color: "#555555",
-                    borderRadius: "8px",
-                    padding: "8px 16px",
-                    fontWeight: 600,
-                    textTransform: "none",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      borderColor: "#E65100",
-                      backgroundColor: "#FFF3E0",
-                      color: "#E65100"
-                    }
-                  }}
-                >
-                  Download
-                </Button>
+                {/* Download Buttons */}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  {(() => {
+                    const allPdfs = book.pdfFiles && book.pdfFiles.length > 0 ? book.pdfFiles : (book.pdfFile ? [book.pdfFile] : []);
+                    return allPdfs.map((pdf, idx) => (
+                      <Button
+                        key={idx}
+                        variant="outlined"
+                        fullWidth
+                        startIcon={<DownloadIcon />}
+                        onClick={() => handleDownload({ pdfFile: pdf })}
+                        sx={{
+                          borderColor: "#E0E0E0",
+                          color: "#555555",
+                          borderRadius: "8px",
+                          padding: "8px 16px",
+                          fontWeight: 600,
+                          textTransform: "none",
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            borderColor: "#E65100",
+                            backgroundColor: "#FFF3E0",
+                            color: "#E65100"
+                          }
+                        }}
+                      >
+                        Download {allPdfs.length > 1 ? `Part ${idx + 1}` : ''}
+                      </Button>
+                    ));
+                  })()}
+                </Box>
               </CardContent>
             </Card>
           ))}
