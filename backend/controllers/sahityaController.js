@@ -52,6 +52,7 @@ export const createSahitya = async (req, res) => {
     await book.save();
     res.status(201).json(book);
   } catch (error) {
+    console.error('Error creating Sahitya:', error);
     res.status(400).json({ message: error.message });
   }
 };
