@@ -245,6 +245,7 @@ export default function SahityaManagement() {
                     >
                       <Delete fontSize="small" />
                     </IconButton>
+                  </Box>
                   <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
                     {(() => {
                       const allPdfs = book.pdfFiles && book.pdfFiles.length > 0 ? book.pdfFiles : (book.pdfFile ? [book.pdfFile] : []);
