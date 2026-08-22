@@ -43,7 +43,9 @@ const fileFilter = (req, file, cb) => {
 // PDF filter for books
 const pdfFilter = (req, file, cb) => {
   if (file.fieldname === 'pdfFile' || file.fieldname === 'pdfFiles') {
-    if (file.mimetype === 'application/pdf') {
+    const isPdfExt = path.extname(file.originalname).toLowerCase() === '.pdf';
+    const isPdfMime = file.mimetype === 'application/pdf' || file.mimetype === 'application/x-pdf';
+    if (isPdfExt || isPdfMime) {
       return cb(null, true);
     } else {
       cb(new Error('Only PDF files are allowed!'));
@@ -52,7 +54,7 @@ const pdfFilter = (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|gif|webp/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
-    if (mimetype && extname) {
+    if (mimetype || extname) {
       return cb(null, true);
     } else {
       cb(new Error('Only image files are allowed for cover!'));
